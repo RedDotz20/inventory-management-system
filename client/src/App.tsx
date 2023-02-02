@@ -1,7 +1,13 @@
-import React from "react";
+import Login from "./pages/Login/Login";
 
-function App() {
-	return <div className="App">Information Management System</div>;
+export default function App() {
+	return (
+		<div className="App">
+			<Login />
+		</div>
+	);
 }
 
-export default App;
+export const Loader = () => {
+	return <h1>Loading...</h1>;
+};
