@@ -8,8 +8,11 @@ export default function Login() {
 		formState: { errors },
 	} = useForm();
 
-	const onSubmit = (data: any) => console.log(data);
-	console.log(errors);
+	function onSubmit(data: any) {
+		data.Username === "admin" && data.Password === "admin"
+			? alert("login success")
+			: alert("login failed");
+	}
 
 	return (
 		<div className={styles.loginContainer}>
@@ -28,7 +31,9 @@ export default function Login() {
 					placeholder="Password"
 					{...register("Password", { required: true, maxLength: 100 })}
 				/>
-				<button type="submit">LOGIN</button>
+				<button className={styles.loginButton} type="submit">
+					LOGIN
+				</button>
 			</form>
 		</div>
 	);
