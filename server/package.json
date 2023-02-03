@@ -1,16 +1,17 @@
 {
 	"name": "server",
-	"version": "1.0.0",
+	"version": "0.0.0",
 	"description": "SAD24-IMS-System-Server",
-	"main": "index.js",
+	"main": "./src/server.ts",
 	"scripts": {
-		"start:ts": "tsc -w",
-		"start:js": "nodemon dist/server.js",
-		"server": "concurrently npm:start:*"
+		"compile": "tsc -w",
+		"start": "nodemon dist/server.js",
+		"server": "concurrently \"npm run compile\" \"npm run start\"",
+		"build": "npm run compile && npm run start"
 	},
 	"keywords": [],
 	"author": "Carlos Tabangay",
-	"license": "ISC",
+	"license": "MIT",
 	"dependencies": {
 		"body-parser": "^1.20.1",
 		"cors": "^2.8.5",

@@ -2,12 +2,16 @@
 	"name": "client",
 	"private": true,
 	"version": "0.0.0",
+	"description": "SAD24-IMS-System-Client",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
 		"preview": "vite preview"
 	},
+	"keywords": [],
+	"author": "Carlos Tabangay",
+	"license": "MIT",
 	"dependencies": {
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",

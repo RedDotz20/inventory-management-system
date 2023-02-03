@@ -14,6 +14,10 @@ app.get("/", (req, res) => {
 	res.send("Hello world");
 });
 
+app.get("/test", (req, res) => {
+	res.send("test");
+});
+
 //! Error Handling
 app.use(notFound);
 app.use(errorHandler);
