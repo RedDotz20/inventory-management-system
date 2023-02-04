@@ -16,21 +16,24 @@ export default function Login() {
 
 	return (
 		<div className={styles.loginContainer}>
-			<h1 className={styles.loginTitle}>Inventory Management System</h1>
+			{/* <h1 className={styles.loginTitle}>Inventory Management System</h1> */}
+
 			<form className={styles.loginForm} onSubmit={handleSubmit(onSubmit)}>
+				<div className={styles.logo}>LG</div>
+				<label>Username</label>
 				<input
 					id="username"
 					type="text"
-					placeholder="Username"
 					{...register("Username", { required: true, maxLength: 80 })}
 				/>
 
+				<label>Password</label>
 				<input
 					id="password"
 					type="password"
-					placeholder="Password"
 					{...register("Password", { required: true, maxLength: 100 })}
 				/>
+
 				<button className={styles.loginButton} type="submit">
 					LOGIN
 				</button>

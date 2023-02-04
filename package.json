@@ -9,6 +9,6 @@
 		"client:preview": "npm run preview --prefix client",
 		"server": "npm run server --prefix server",
 		"dev": "concurrently \"npm run server\" \"sleep 3 && npm run client:dev\"",
-		"prod": "concurrently \"npm run client:build\" \"npm run server\" \"sleep 3 && npm run client:preview\""
+		"prod": "concurrently \"npm run client:build\" \"npm run server\" \"sleep 5 && npm run client:preview\""
 	}
 }
