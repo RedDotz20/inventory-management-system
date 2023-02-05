@@ -1,14 +1,26 @@
 {
-	"dependencies": {
-		"concurrency": "^0.1.4"
-	},
+	"name": "sad24-ims-system",
+	"version": "0.0.0",
+	"main": "index.js",
 	"scripts": {
 		"setup": "npm i && cd client && npm i && cd ../server && npm i",
+		"lint": "npx eslint client/src",
 		"client:dev": "npm run dev --prefix client",
 		"client:build": "npm run build --prefix client",
 		"client:preview": "npm run preview --prefix client",
 		"server": "npm run server --prefix server",
 		"dev": "concurrently \"npm run server\" \"sleep 3 && npm run client:dev\"",
 		"prod": "concurrently \"npm run client:build\" \"npm run server\" \"sleep 5 && npm run client:preview\""
+	},
+	"dependencies": {
+		"concurrency": "^0.1.4"
+	},
+	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^5.50.0",
+		"@typescript-eslint/parser": "^5.50.0",
+		"eslint": "^8.33.0",
+		"eslint-config-prettier": "^8.6.0",
+		"eslint-plugin-react": "^7.32.2",
+		"prettier": "^2.8.3"
 	}
 }
