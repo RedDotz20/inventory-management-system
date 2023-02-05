@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { urlencoded } from "body-parser";
 import { notFound, errorHandler } from "./middleware/index";
+import { getUsers } from "./routes/users";
 
 const app = express();
 
@@ -10,12 +11,11 @@ app.use(express.json());
 app.use(urlencoded({ extended: true }));
 
 //* Routes
+
+app.use(getUsers);
+
 app.get("/", (req, res) => {
 	res.send("Hello world");
-});
-
-app.get("/test", (req, res) => {
-	res.send("test");
 });
 
 //! Error Handling

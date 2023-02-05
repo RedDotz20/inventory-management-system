@@ -16,8 +16,6 @@ export default function Login() {
 
 	return (
 		<div className={styles.loginContainer}>
-			{/* <h1 className={styles.loginTitle}>Inventory Management System</h1> */}
-
 			<form className={styles.loginForm} onSubmit={handleSubmit(onSubmit)}>
 				<div className={styles.logo}>LG</div>
 				<label>Username</label>
