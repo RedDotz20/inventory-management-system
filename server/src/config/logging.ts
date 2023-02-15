@@ -8,7 +8,7 @@ const log = (
 	console[level](object ? [prefix, object] : prefix);
 };
 
-const getTimeStamp = (): string => new Date().toISOString();
+const getTimeStamp = () => new Date().toISOString();
 
 export default {
 	info: (namespace: string, message: string, object?: any) =>
