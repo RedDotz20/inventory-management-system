@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import styles from "./login.module.scss";
 
 export default function Login() {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors }
 	} = useForm();
 
 	function onSubmit(data: any) {
