@@ -19,9 +19,7 @@ async function login(req: Request, res: Response) {
 			return res.status(404).send("Invalid username or password");
 		}
 
-		const user = rows[0],
-			passwordMatch = await bcryptjs.compare(password, user.password);
-
+		const user = rows[0];
 		bcryptjs.compare(password, user.password, (err, result) => {
 			if (err) {
 				return res
