@@ -1,19 +1,27 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styles from "./login.module.scss";
+import clientLogin from "../../api/clientLogin";
+import { useState } from "react";
 
 export default function Login() {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors }
-	} = useForm();
+	const [error, setError] = useState<null | string>(null);
+	const { register, handleSubmit } = useForm();
+	const navigate = useNavigate();
 
-	function onSubmit(data: any) {
-		data.Username === "admin" && data.Password === "admin"
-			? alert("login success")
-			: alert("login failed");
-	}
+	const onSubmit = async (data: any) => {
+		try {
+			const response = await clientLogin(data);
+			console.log(response);
+			if (response.token) {
+				navigate(response.redirectUrl);
+			} else {
+				setError("Invalid username or password");
+			}
+		} catch (error) {
+			setError("An error occured. Please try again later.");
+		}
+	};
 
 	return (
 		<div className={styles.loginContainer}>
@@ -23,14 +31,14 @@ export default function Login() {
 				<input
 					id="username"
 					type="text"
-					{...register("Username", { required: true, maxLength: 80 })}
+					{...register("username", { required: true, maxLength: 80 })}
 				/>
 
 				<label>Password</label>
 				<input
 					id="password"
 					type="password"
-					{...register("Password", { required: true, maxLength: 100 })}
+					{...register("password", { required: true, maxLength: 100 })}
 				/>
 
 				<button className={styles.loginButton} type="submit">
