@@ -31,7 +31,7 @@ async function login(req: Request, res: Response) {
 					{ id: user.id, username: user.username },
 					JWT_SECRET
 				);
-				return res.json({ token });
+				return res.json({ token, redirectUrl: "/dashboard" });
 			} else {
 				return res
 					.status(401)
@@ -39,11 +39,7 @@ async function login(req: Request, res: Response) {
 			}
 		});
 
-		//* User authenticated successfully
 		logging.info("LOGIN", "User Authenticated Successfully");
-
-		// if (!passwordMatch) return res.status(401).send("Invalid username or password");
-		// return res.json({ message: "Logged in" });
 	} catch (err) {
 		console.error(err);
 		return res.status(500).json({ error: "Server error" });
