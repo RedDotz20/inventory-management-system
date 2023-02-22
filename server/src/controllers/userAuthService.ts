@@ -1,17 +1,18 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import nodeCache from "node-cache";
 import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
 import connection from "../config/connection";
 import logging from "../config/logging";
+import dotenv from "dotenv";
+dotenv.config();
 
-//* Test Token Only
-const JWT_SECRET =
-	"f733fde34fd6bc39991a60b5b6d521cc0ca845d8cdfae0b5139e5c02668e6d33e73d4a4393bff46da658bda5fa6e53cbb4a40d087b06029ca6d1fd6127e0978e";
+const JWT_SECRET = process.env.SECRET_TOKEN;
+const tokenCache = new nodeCache({ stdTTL: 300 });
 
 async function login(req: Request, res: Response) {
 	try {
 		const { username, password } = req.body;
-
 		const query = "SELECT * FROM users WHERE username = ?",
 			[rows] = await connection.execute(query, [username]);
 
@@ -27,22 +28,42 @@ async function login(req: Request, res: Response) {
 					.json({ message: "Invalid username or password" });
 			}
 			if (result) {
-				const token = jwt.sign(
-					{ id: user.id, username: user.username },
-					JWT_SECRET
-				);
-				return res.json({ token, redirectUrl: "/dashboard" });
+				const token = jwt.sign({ id: user.id }, JWT_SECRET, {
+					expiresIn: "1h"
+				});
+				return res.json({
+					auth: true,
+					token: token
+				});
 			} else {
 				return res
 					.status(401)
 					.json({ message: "Invalid username or password" });
 			}
 		});
-
 		logging.info("LOGIN", "User Authenticated Successfully");
 	} catch (err) {
 		console.error(err);
 		return res.status(500).json({ error: "Server error" });
+	}
+}
+
+async function logout(req: Request, res: Response) {
+	const token = req.headers.authorization?.split(" ")[1];
+	if (!token) {
+		return res.status(400).json({ error: "Token NOT Found" });
+	}
+	try {
+		const decoded = jwt.verify(token, JWT_SECRET) as { user: string };
+		console.log(decoded);
+		// tokenCache.set(decoded.user, token, 60 * 60);
+		// res.clearCookie("token");
+
+		console.log(nodeCache);
+		return res.status(200).json({ message: "Logout successful" });
+	} catch (err) {
+		console.error(err);
+		res.sendStatus(500);
 	}
 }
 
@@ -67,4 +88,4 @@ async function register(req: Request, res: Response, next: NextFunction) {
 	}
 }
 
-export default { login, register };
+export default { login, logout, register };

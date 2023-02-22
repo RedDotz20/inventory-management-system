@@ -1,16 +1,17 @@
 import express, { Request, Response, NextFunction } from "express";
-const router = express.Router();
 import getUsersController from "../controllers/getAllUsers";
 import loginController from "../controllers/userAuthService";
+import verifyJWT from "../middleware/authToken";
 
-import authenticateToken from "../middleware/authToken";
+const router = express.Router();
 
 router.get("/getAllUsers", getUsersController.getAllUsers);
 router.post("/login", loginController.login);
+router.post("/logout", loginController.logout);
 router.post("/register", loginController.register);
 
-router.get("/protected", authenticateToken, (req: Request, res: Response) => {
-	res.send("You are authorized");
+router.get("/protected", verifyJWT, (req: Request, res: Response) => {
+	res.send("You are authorized and authenticated");
 });
 
 export default router;
