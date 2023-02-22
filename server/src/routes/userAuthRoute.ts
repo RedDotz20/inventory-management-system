@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response } from "express";
 import getUsersController from "../controllers/getAllUsers";
 import loginController from "../controllers/userAuthService";
 import verifyJWT from "../middleware/authToken";

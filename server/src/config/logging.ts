@@ -1,12 +1,12 @@
-const log = (
+function log(
 	level: "info" | "warn" | "error" | "debug",
 	namespace: string,
 	message: string,
 	object?: any
-) => {
+) {
 	const prefix = `[${getTimeStamp()}] [${level.toUpperCase()}] [${namespace}] ${message}`;
 	console[level](object ? [prefix, object] : prefix);
-};
+}
 
 const getTimeStamp = () => new Date().toISOString();
 

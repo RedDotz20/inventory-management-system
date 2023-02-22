@@ -4,10 +4,9 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import connection from "../config/connection";
 import logging from "../config/logging";
-import dotenv from "dotenv";
-dotenv.config();
+import config from "../config/config";
 
-const JWT_SECRET = process.env.SECRET_TOKEN;
+const JWT_SECRET = config.server.token.secret;
 const tokenCache = new nodeCache({ stdTTL: 300 });
 
 async function login(req: Request, res: Response) {

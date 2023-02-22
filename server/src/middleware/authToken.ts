@@ -1,12 +1,9 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import config from "../config/config";
+import userReq from "../interfaces/authTokenInterface";
 
-const JWT_SECRET =
-	"f733fde34fd6bc39991a60b5b6d521cc0ca845d8cdfae0b5139e5c02668e6d33e73d4a4393bff46da658bda5fa6e53cbb4a40d087b06029ca6d1fd6127e0978e";
-
-interface userReq extends Request {
-	user?: string;
-}
+const JWT_SECRET = config.server.token.secret;
 
 function verifyJWT(req: userReq, res: Response, next: NextFunction) {
 	try {

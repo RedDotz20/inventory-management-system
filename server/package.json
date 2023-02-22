@@ -5,7 +5,7 @@
 	"main": "./src/server.ts",
 	"scripts": {
 		"compile": "tsc -w",
-		"start": "nodemon dist/server.js",
+		"start": "nodemon dist/server.js -r dotenv/config app.ts",
 		"server": "concurrently \"npm run compile\" \"npm run start\"",
 		"build": "npm run compile && npm run start"
 	},
