@@ -1,5 +1,4 @@
 import axios from "axios";
-
 interface authValues {
 	username: string;
 	password: string;
@@ -8,7 +7,7 @@ interface authValues {
 const PORT = 4000;
 const URL = `http://localhost:${PORT}`;
 
-export default async function clientLogin(values: authValues) {
+async function clientLogin(values: authValues) {
 	try {
 		return await axios
 			.post(`${URL}/login`, {
@@ -17,6 +16,7 @@ export default async function clientLogin(values: authValues) {
 			})
 			.then((response) => {
 				localStorage.setItem("token", response.data.token);
+				console.log("isAuthenticated", !!localStorage.getItem("token"));
 				return response.data;
 			})
 			.catch((error) => console.error(error));
@@ -24,6 +24,8 @@ export default async function clientLogin(values: authValues) {
 		console.log(error);
 	}
 }
+
+export default clientLogin;
 
 // const { token, redirectUrl } = response.data;
 // localStorage.setItem("token", token);
