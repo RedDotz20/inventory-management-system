@@ -1,7 +1,5 @@
 import mysql from "mysql2";
 import config from "./config";
-import dotenv from "dotenv";
-dotenv.config();
 
 const connection = mysql.createPool({
 	host: config.mysql.host,
