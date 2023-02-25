@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
 	const isAuthenticated = !!localStorage.getItem("token");
@@ -22,6 +23,7 @@ export default function App() {
 					</PrivateRoute>
 				}
 			/>
+			<Route path="*" element={<NotFound />} />
 		</Routes>
 	);
 }

@@ -1,9 +1,9 @@
-import React from "react";
+import { ReactNode, Fragment } from "react";
 import jwt_decode, { JwtPayload } from "jwt-decode";
 import { Navigate } from "react-router-dom";
 
 interface PrivatteRouteProps {
-	children: React.ReactNode;
+	children: ReactNode;
 }
 
 const PrivateRoute = ({ children }: PrivatteRouteProps) => {
@@ -16,7 +16,7 @@ const PrivateRoute = ({ children }: PrivatteRouteProps) => {
 			localStorage.removeItem("token");
 			return <Navigate to="/login" replace={true} />;
 		}
-		return <>{children}</>;
+		return <Fragment>{children}</Fragment>;
 	}
 	return <Navigate to="/login" replace={true} />;
 };
