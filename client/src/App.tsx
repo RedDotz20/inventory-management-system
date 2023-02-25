@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import Login from "./pages/Login/Login";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
 
 export default function App() {
 	const isAuthenticated = !!localStorage.getItem("token");
