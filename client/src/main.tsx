@@ -45,7 +45,7 @@ const theme = extendTheme({
 		// your custom z-index scale here
 	},
 	focusBorderColor: "transparent",
-	focusBorderWidth: 0
+	focusBorderWidth: 0,
 });
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
