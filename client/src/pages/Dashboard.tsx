@@ -1,10 +1,10 @@
-import SidebarLayout from "../components/layout/SidebarLayout";
+import Sidebar from "../components/Sidebar";
 import SidebarRoutes from "../routes/SidebarRoutes";
 
 function Dashboard() {
 	return (
 		<div className="bg-[#333] flex text-white h-screen">
-			<SidebarLayout />
+			<Sidebar />
 			<SidebarRoutes />
 		</div>
 	);

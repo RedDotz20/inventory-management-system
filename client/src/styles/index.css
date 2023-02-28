@@ -37,3 +37,7 @@ video {
 	display: block;
 	max-width: 100%;
 }
+
+.active {
+	color: red;
+}

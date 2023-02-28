@@ -3,32 +3,28 @@ import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
-import SidebarLayout from "./components/layout/SidebarLayout";
 
 export default function App() {
 	const isAuthenticated = !!localStorage.getItem("token");
 	return (
-		<>
-			{/* {isAuthenticated && <SidebarLayout />} */}
-			<Routes>
-				<Route
-					path="/"
-					element={
-						<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />
-					}
-				/>
-				<Route path="/login" element={<Login />} />
-				<Route
-					path="/dashboard/*"
-					element={
-						<PrivateRoute>
-							<Dashboard />
-						</PrivateRoute>
-					}
-				/>
-				<Route path="*" element={<NotFound />} />
-			</Routes>
-		</>
+		<Routes>
+			<Route
+				path="/"
+				element={
+					<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />
+				}
+			/>
+			<Route path="/login" element={<Login />} />
+			<Route
+				path="/dashboard/*"
+				element={
+					<PrivateRoute>
+						<Dashboard />
+					</PrivateRoute>
+				}
+			/>
+			<Route path="*" element={<NotFound />} />
+		</Routes>
 	);
 }
 
