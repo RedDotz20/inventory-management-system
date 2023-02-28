@@ -9,12 +9,25 @@ import "./styles/index.css";
 const theme = extendTheme({
 	colors: {
 		// your custom colors here
+		customLightYellow: "#FEF9A7",
+		customHoverLightYellow: "#FFFCD1",
 	},
 	fonts: {
 		// your custom fonts here
 	},
 	components: {
 		// your custom component styles here
+		Button: {
+			variants: {
+				lightyellow: {
+					bg: "customLightYellow",
+					color: "black",
+					_hover: {
+						bg: "customHoverLightYellow",
+					},
+				},
+			},
+		},
 	},
 	// Set the focusBorderColor to "transparent" to disable the focus border color
 	// for all components that use the Chakra UI theme

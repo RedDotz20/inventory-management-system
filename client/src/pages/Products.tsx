@@ -1,5 +1,7 @@
-import React from "react";
-
 export default function Products() {
-	return <div className="text-3xl">Products Page</div>;
+	return (
+		<div className="w-full flex justify-center items-center align-center">
+			<h1 className="text-3xl">Products Page</h1>
+		</div>
+	);
 }

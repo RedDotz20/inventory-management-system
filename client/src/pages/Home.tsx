@@ -1,3 +1,13 @@
-export default function Home() {
-	return <div className="text-3xl">Home</div>;
+import Sidebar from "../components/Sidebar";
+import SidebarRoutes from "../routes/SidebarRoutes";
+
+function Home() {
+	return (
+		<div className="h-screen flex">
+			<Sidebar />
+			<SidebarRoutes />
+		</div>
+	);
 }
+
+export default Home;

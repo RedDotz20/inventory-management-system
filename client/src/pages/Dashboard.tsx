@@ -1,13 +1,7 @@
-import Sidebar from "../components/Sidebar";
-import SidebarRoutes from "../routes/SidebarRoutes";
-
-function Dashboard() {
+export default function Dashboard() {
 	return (
-		<div className="bg-[#333] flex text-white h-screen">
-			<Sidebar />
-			<SidebarRoutes />
+		<div className="w-full flex justify-center items-center align-center">
+			<h1 className="text-3xl">Dashboard Page</h1>
 		</div>
 	);
 }
-
-export default Dashboard;

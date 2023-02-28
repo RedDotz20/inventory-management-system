@@ -7,6 +7,8 @@ import clientLogin from "../api/clientLogin";
 import storeLogo from "../assets/mainLogo.png";
 import isAuth from "../utils/isAuth";
 
+import StoreLogoImg from "../components/StoreLogoImg";
+
 export default function Login() {
 	const [showPass, setShowPass] = useState(false);
 	const handleClick = () => setShowPass(!showPass);
@@ -15,14 +17,14 @@ export default function Login() {
 	const { register, handleSubmit } = useForm();
 	const navigate = useNavigate();
 
-	if (isAuth()) return <Navigate to="/dashboard" replace />;
+	if (isAuth()) return <Navigate to="/home/dashboard" replace />;
 
 	const onSubmit: SubmitHandler<loginTypes> = async (data) => {
 		try {
 			const response = await clientLogin(data);
 			console.log(response);
 			if (response.token) {
-				navigate("/dashboard");
+				navigate("/home/dashboard");
 			} else {
 				setError("Invalid username or password");
 			}
@@ -37,26 +39,7 @@ export default function Login() {
 				className="bg-[#d9d9d9] flex flex-col my-0 mx-auto p-7 h-[500px] w-80 rounded-xl"
 				onSubmit={handleSubmit(onSubmit)}
 			>
-				<div className="flex items-center justify-evenly mb-6">
-					<img
-						src={storeLogo}
-						className="w-[70px] h-[70px] object-cover mr-3"
-						alt="BGMlogo"
-					/>
-					<div className="flex flex-col">
-						<span className="text-black text-3xl text-center select-none font-black">
-							Brightsons
-						</span>
-						<div className="flex items-center justify-center">
-							<div className="bg-black h-[1.5px] w-4 select-none"></div>
-							<span className="text-black text-[0.65rem] text-center mx-1.5 select-none tracking-tighter font-bold">
-								GENERAL MERCHANDISE
-							</span>
-							<div className="bg-black h-[1.5px] w-4 select-none"></div>
-						</div>
-					</div>
-				</div>
-
+				<StoreLogoImg />
 				<InputGroup size="md" className="flex flex-col mb-4">
 					<label htmlFor="username" className="font-semibold">
 						Username
