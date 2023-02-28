@@ -1,6 +1,6 @@
 import { ReactNode, Fragment } from "react";
-import jwt_decode, { JwtPayload } from "jwt-decode";
 import { Navigate } from "react-router-dom";
+import jwt_decode, { JwtPayload } from "jwt-decode";
 
 interface PrivatteRouteProps {
 	children: ReactNode;

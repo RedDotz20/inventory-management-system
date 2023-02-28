@@ -1,7 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
+import { Button } from "@chakra-ui/react";
 import clientLogout from "../api/clientLogout";
 import storeLogo from "../assets/mainLogo.png";
-import { Button } from "@chakra-ui/react";
 
 export default function Sidebar() {
 	return (
