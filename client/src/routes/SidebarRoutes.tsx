@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import Loader from "../utils/Loader";
 const Home = lazy(() => import("../pages/Home"));
 const Dashboard = lazy(() => import("../pages/Dashboard"));
 const Products = lazy(() => import("../pages/Products"));
@@ -7,7 +8,7 @@ const Sales = lazy(() => import("../pages/Sales"));
 
 export default function SidebarRoutes() {
 	return (
-		<Suspense fallback={<div>Loading...</div>}>
+		<Suspense fallback={<Loader />}>
 			<Routes>
 				<Route path="home" element={<Home />} />
 				<Route path="dashboard" element={<Dashboard />} />
