@@ -1,10 +1,13 @@
-import clientLogout from "../api/clientLogout";
+import SidebarLayout from "../components/layout/SidebarLayout";
+import SidebarRoutes from "../routes/SidebarRoutes";
 
-export default function Dashboard() {
+function Dashboard() {
 	return (
-		<div className="bg-[#333] flex justify-center items-center text-white h-screen">
-			<h1>DASHBOARD</h1>
-			<button onClick={clientLogout}>LOGOUT</button>
+		<div className="bg-[#333] flex text-white h-screen">
+			<SidebarLayout />
+			<SidebarRoutes />
 		</div>
 	);
 }
+
+export default Dashboard;
