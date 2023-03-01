@@ -4,10 +4,10 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import loginTypes from "../interfaces/loginInterface";
 import clientLogin from "../api/clientLogin";
-import storeLogo from "../assets/mainLogo.png";
 import isAuth from "../utils/isAuth";
-
 import StoreLogoImg from "../components/StoreLogoImg";
+
+// import LoginMssgBox from "../components/modals/LoginMssgBox";
 
 export default function Login() {
 	const [showPass, setShowPass] = useState(false);
@@ -35,6 +35,7 @@ export default function Login() {
 
 	return (
 		<div className="bg-[#1e1e1e] h-screen grid place-items-center pt-8">
+			{/* <LoginMssgBox /> */}
 			<form
 				className="bg-[#d9d9d9] flex flex-col my-0 mx-auto p-7 h-[500px] w-80 rounded-xl"
 				onSubmit={handleSubmit(onSubmit)}
