@@ -4,6 +4,7 @@ import Loader from "../utils/Loader";
 const Home = lazy(() => import("../pages/Home"));
 const Dashboard = lazy(() => import("../pages/Dashboard"));
 const Products = lazy(() => import("../pages/Products"));
+const Order = lazy(() => import("../pages/Order"));
 const Sales = lazy(() => import("../pages/Sales"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 
@@ -13,6 +14,7 @@ export default function SidebarRoutes() {
 			<Routes>
 				<Route path="*" element={<NotFound />} />
 				<Route path="home" element={<Home />} />
+				<Route path="orders" element={<Order />} />
 				<Route path="dashboard" element={<Dashboard />} />
 				<Route path="products" element={<Products />} />
 				<Route path="sales" element={<Sales />} />

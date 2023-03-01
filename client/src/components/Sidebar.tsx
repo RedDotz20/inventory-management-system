@@ -22,6 +22,12 @@ export default function Sidebar() {
 				>
 					PRODUCTS
 				</NavLink>
+				<NavLink
+					className="text-white text-lg px-3 py-1 mb-1"
+					to="/home/orders"
+				>
+					ORDERS
+				</NavLink>
 				<NavLink className="text-white text-lg px-3 py-1 mb-1" to="/home/sales">
 					SALES
 				</NavLink>
