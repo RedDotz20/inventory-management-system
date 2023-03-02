@@ -1,15 +1,13 @@
 import axios from "axios";
 import loginTypes from "../interfaces/loginInterface";
-
-const PORT = 4000;
-const URL = `http://localhost:${PORT}`;
+import { SERVER_URL } from "../config/config";
 
 async function clientLogin(values: loginTypes) {
 	try {
 		return await axios
-			.post(`${URL}/login`, {
+			.post(`${SERVER_URL}/login`, {
 				username: values.username,
-				password: values.password
+				password: values.password,
 			})
 			.then((response) => {
 				localStorage.setItem("token", response.data.token);

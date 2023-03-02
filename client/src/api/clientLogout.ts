@@ -1,11 +1,10 @@
 import axios from "axios";
-const PORT = 4000;
-const URL = `http://localhost:${PORT}`;
+import { SERVER_URL } from "../config/config";
 
 export default function clientLogout() {
 	axios
-		.post(`${URL}/logout`, null, {
-			headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+		.post(`${SERVER_URL}/logout`, null, {
+			headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
 		})
 		.then((res) => {
 			localStorage.removeItem("token");

@@ -6,7 +6,6 @@ import loginTypes from "../interfaces/loginInterface";
 import clientLogin from "../api/clientLogin";
 import isAuth from "../utils/isAuth";
 import StoreLogoImg from "../components/StoreLogoImg";
-
 // import LoginMssgBox from "../components/modals/LoginMssgBox";
 
 export default function Login() {
