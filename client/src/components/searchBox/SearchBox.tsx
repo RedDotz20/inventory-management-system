@@ -1,7 +1,13 @@
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 
-function SearchBox() {
+interface SearchBoxInterface {
+	borderColor: string;
+	_hover: { borderColor: string };
+	focusBorderColor: string;
+}
+
+function SearchBox(props: SearchBoxInterface) {
 	return (
 		<InputGroup colorScheme="dark">
 			<InputLeftElement
@@ -11,9 +17,9 @@ function SearchBox() {
 			<Input
 				type="text"
 				placeholder="Search"
-				borderColor="black"
-				_hover={{ borderColor: "black" }}
-				focusBorderColor="tranparent"
+				borderColor={props.borderColor}
+				_hover={props._hover}
+				focusBorderColor={props.focusBorderColor}
 			/>
 		</InputGroup>
 	);
