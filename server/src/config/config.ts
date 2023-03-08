@@ -5,7 +5,7 @@ const MYSQL = {
 	host: process.env.MYSQL_HOST,
 	user: process.env.MYSQL_USER,
 	password: process.env.MYSQL_PASSWORD,
-	database: process.env.MYSQL_DATABASE
+	database: process.env.MYSQL_DATABASE,
 };
 
 const SERVER = {
@@ -14,15 +14,13 @@ const SERVER = {
 	token: {
 		secret: process.env.SECRET_TOKEN || "superencryptedsecret",
 		expireTime: process.env.SERVER_PORT || 3600,
-		issuer: process.env.ISSUER || "defaultIssuer"
-	}
+		issuer: process.env.ISSUER || "defaultIssuer",
+	},
 };
-
-console.log(SERVER);
 
 const config = {
 	mysql: MYSQL,
-	server: SERVER
+	server: SERVER,
 };
 
 export default config;

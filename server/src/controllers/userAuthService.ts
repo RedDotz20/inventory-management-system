@@ -28,11 +28,11 @@ async function login(req: Request, res: Response) {
 			}
 			if (result) {
 				const token = jwt.sign({ id: user.id }, JWT_SECRET, {
-					expiresIn: "1h"
+					expiresIn: "1h",
 				});
 				return res.json({
 					auth: true,
-					token: token
+					token: token,
 				});
 			} else {
 				return res
@@ -54,11 +54,6 @@ async function logout(req: Request, res: Response) {
 	}
 	try {
 		const decoded = jwt.verify(token, JWT_SECRET) as { user: string };
-		console.log(decoded);
-		// tokenCache.set(decoded.user, token, 60 * 60);
-		// res.clearCookie("token");
-
-		console.log(nodeCache);
 		return res.status(200).json({ message: "Logout successful" });
 	} catch (err) {
 		console.error(err);
@@ -77,7 +72,7 @@ async function register(req: Request, res: Response, next: NextFunction) {
 
 		res.status(200).json({
 			username: username,
-			password: hashedPassword
+			password: hashedPassword,
 		});
 
 		next();
