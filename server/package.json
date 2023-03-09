@@ -13,6 +13,7 @@
 	"author": "Carlos Tabangay",
 	"license": "MIT",
 	"dependencies": {
+		"@types/sequelize": "^4.28.14",
 		"bcryptjs": "^2.4.3",
 		"body-parser": "^1.20.1",
 		"cors": "^2.8.5",
@@ -20,7 +21,8 @@
 		"express": "^4.18.2",
 		"jsonwebtoken": "^9.0.0",
 		"mysql2": "^3.1.0",
-		"node-cache": "^5.1.2"
+		"node-cache": "^5.1.2",
+		"sequelize": "^6.29.1"
 	},
 	"devDependencies": {
 		"@types/bcryptjs": "^2.4.2",

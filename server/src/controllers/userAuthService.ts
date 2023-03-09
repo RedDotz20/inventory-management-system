@@ -2,9 +2,10 @@ import { Request, Response, NextFunction } from "express";
 import nodeCache from "node-cache";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import connection from "../config/connection";
 import logging from "../config/logging";
 import config from "../config/config";
+
+import Users from "../models/users";
 
 const JWT_SECRET = config.server.token.secret;
 const tokenCache = new nodeCache({ stdTTL: 300 });
@@ -12,35 +13,17 @@ const tokenCache = new nodeCache({ stdTTL: 300 });
 async function login(req: Request, res: Response) {
 	try {
 		const { username, password } = req.body;
-		const query = "SELECT * FROM users WHERE username = ?",
-			[rows] = await connection.execute(query, [username]);
+		const user = await Users.findOne({ where: { username } });
 
-		if (rows.length === 0) {
-			return res.status(404).send("Invalid username or password");
+		if (!user) return res.status(404).send("Invalid username or password");
+
+		const isPasswordValid = await bcryptjs.compare(password, user.password);
+
+		if (isPasswordValid) {
+			const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "1h" });
+			logging.info("LOGIN", "User Authenticated Successfully");
+			return res.json({ auth: true, token: token });
 		}
-
-		const user = rows[0];
-		bcryptjs.compare(password, user.password, (err, result) => {
-			if (err) {
-				return res
-					.status(401)
-					.json({ message: "Invalid username or password" });
-			}
-			if (result) {
-				const token = jwt.sign({ id: user.id }, JWT_SECRET, {
-					expiresIn: "1h",
-				});
-				return res.json({
-					auth: true,
-					token: token,
-				});
-			} else {
-				return res
-					.status(401)
-					.json({ message: "Invalid username or password" });
-			}
-		});
-		logging.info("LOGIN", "User Authenticated Successfully");
 	} catch (err) {
 		console.error(err);
 		return res.status(500).json({ error: "Server error" });
@@ -64,10 +47,10 @@ async function logout(req: Request, res: Response) {
 async function register(req: Request, res: Response, next: NextFunction) {
 	try {
 		const { username, password } = req.body,
-			hashedPassword = await bcryptjs.hash(password, 10),
-			query = "INSERT INTO users (username, password) VALUES (?,?);";
+			hashedPassword = await bcryptjs.hash(password, 10);
 
-		await connection.query(query, [username, hashedPassword]);
+		const user = await Users.create({ username, password: hashedPassword });
+
 		logging.info("REGISTER", "User Registered Successfully");
 
 		res.status(200).json({
