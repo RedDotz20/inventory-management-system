@@ -1,4 +1,4 @@
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/sidebar/Sidebar";
 import SidebarRoutes from "../routes/SidebarRoutes";
 
 function Home() {

@@ -8,7 +8,11 @@ export default function Products() {
 			<div className="flex flex-col w-full">
 				<h1 className="text-3xl mb-8">Products Page</h1>
 				<div className="flex">
-					<SearchBox />
+					<SearchBox
+						borderColor="black"
+						_hover={{ borderColor: "black" }}
+						focusBorderColor="tranparent"
+					/>
 					<Stack direction="row">
 						<Button
 							leftIcon={<AddIcon />}
