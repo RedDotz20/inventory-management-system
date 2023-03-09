@@ -1,19 +1,11 @@
-import { Model, DataTypes } from "sequelize";
+import { DataTypes } from "sequelize";
 import sequelize from "../config/connection";
-
-interface CategoryAttributes {
-	id?: number;
-	category_name: string;
-}
-
-interface CategoryInstance
-	extends Model<CategoryAttributes>,
-		CategoryAttributes {}
+import CategoryInstance from "../interfaces/productCategoryInterface";
 
 const ProductCategory = sequelize.define<CategoryInstance>(
 	"product_category",
 	{
-		id: {
+		category_id: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
 			allowNull: false,
