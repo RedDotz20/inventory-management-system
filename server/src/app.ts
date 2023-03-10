@@ -3,6 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import xss from "xss-clean";
+import hpp from "hpp";
 
 import userAuthRoute from "./routes/userAuthRoute";
 import productsRoute from "./routes/productsRoute";
@@ -19,6 +20,9 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+//* Protect against HTTP Parameter Pollution Attacks
+app.use(hpp());
 
 //? Routes
 app.use(userAuthRoute);
