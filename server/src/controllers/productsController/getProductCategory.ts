@@ -3,8 +3,8 @@ import ProductCategory from "../../models/productCategory";
 
 async function getProductCategory(req: Request, res: Response) {
 	try {
-		const units = await ProductCategory.findAll();
-		res.status(200).json({ data: units });
+		const category = await ProductCategory.findAll();
+		res.status(200).json({ data: category });
 		console.log("Product Category Loaded Successfully");
 	} catch (err) {
 		console.error(err);
