@@ -5,8 +5,12 @@ import helmet from "helmet";
 import xss from "xss-clean";
 import hpp from "hpp";
 
+import sequelize from "./config/connection";
+import { associate } from "./models/associations";
+
 import userAuthRoute from "./routes/userAuthRoute";
 import productsRoute from "./routes/productsRoute";
+import itemCodesRoute from "./routes/itemCodesRoute";
 
 const app = express();
 
@@ -24,8 +28,20 @@ app.use(bodyParser.json());
 //* Protect against HTTP Parameter Pollution Attacks
 app.use(hpp());
 
+//? Sync Table Models
+sequelize.sync();
+
+//? Execite Sequelize Associations
+associate(sequelize);
+
 //? Routes
 app.use(userAuthRoute);
 app.use(productsRoute);
+app.use(itemCodesRoute);
+
+sequelize
+	.sync()
+	.then((result) => console.log(result.models))
+	.catch((error) => console.error(error));
 
 export default app;
