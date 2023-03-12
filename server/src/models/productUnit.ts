@@ -1,18 +1,21 @@
-import { DataTypes } from "sequelize";
+import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/connection";
-import UnitInstance from "../interfaces/productUnitInterface";
 
-const ProductUnit = sequelize.define<UnitInstance>(
+interface UnitAttributes extends Model {
+	unit_id: number;
+	unit_name: string;
+}
+
+const ProductUnit = sequelize.define<UnitAttributes>(
 	"product_unit",
 	{
-		unit_id: {
+		unitId: {
 			type: DataTypes.INTEGER,
-			autoIncrement: true,
-			allowNull: false,
 			primaryKey: true,
+			autoIncrement: true,
 		},
-		unit_name: {
-			type: DataTypes.STRING(255),
+		unitName: {
+			type: DataTypes.STRING(40),
 			allowNull: false,
 		},
 	},
@@ -22,8 +25,6 @@ const ProductUnit = sequelize.define<UnitInstance>(
 	}
 );
 
-ProductUnit.sync({ alter: true })
-	.then(() => console.log("ProductUnit model synced successfully"))
-	.catch(() => console.error("Error syncing the ProductUnit model"));
+// ProductUnit.sync();
 
 export default ProductUnit;

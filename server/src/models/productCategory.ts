@@ -1,17 +1,21 @@
-import { DataTypes } from "sequelize";
+import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/connection";
-import CategoryInstance from "../interfaces/productCategoryInterface";
 
-const ProductCategory = sequelize.define<CategoryInstance>(
+interface CategoryAttributes extends Model {
+	category_id: number;
+	category_name: string;
+}
+
+const ProductCategory = sequelize.define<CategoryAttributes>(
 	"product_category",
 	{
-		category_id: {
+		categoryId: {
 			type: DataTypes.INTEGER,
-			autoIncrement: true,
-			allowNull: false,
 			primaryKey: true,
+			allowNull: false,
+			autoIncrement: true,
 		},
-		category_name: {
+		categoryName: {
 			type: DataTypes.STRING(255),
 			allowNull: false,
 		},
@@ -21,9 +25,5 @@ const ProductCategory = sequelize.define<CategoryInstance>(
 		timestamps: false,
 	}
 );
-
-ProductCategory.sync({ alter: true })
-	.then(() => console.log("ProductCategory model synced successfully"))
-	.catch(() => console.error("Error syncing the ProductCategory model"));
 
 export default ProductCategory;

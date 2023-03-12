@@ -1,22 +1,23 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/connection";
 
-interface UserAttributes {
-	id?: number;
+interface UserAttributes extends Model {
+	id: number;
 	username: string;
 	password: string;
 }
 
-interface UserInstance extends Model<UserAttributes>, UserAttributes {}
+// interface UserInstance extends Model<UserAttributes>, UserAttributes {}
 
-const Users = sequelize.define<UserInstance>(
+const Users = sequelize.define<UserAttributes>(
 	"users",
 	{
 		id: {
 			type: DataTypes.INTEGER,
+			primaryKey: true,
 			autoIncrement: true,
 			allowNull: false,
-			primaryKey: true,
+			unique: true,
 		},
 		username: {
 			type: DataTypes.STRING(255),
@@ -32,9 +33,5 @@ const Users = sequelize.define<UserInstance>(
 		timestamps: false,
 	}
 );
-
-Users.sync({ alter: true })
-	.then(() => console.log("Users model synced successfully"))
-	.catch(() => console.error("Error syncing the Users model"));
 
 export default Users;

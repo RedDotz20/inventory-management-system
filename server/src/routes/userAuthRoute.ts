@@ -5,7 +5,7 @@ import verifyJWT from "../middleware/authToken";
 
 const router = express.Router();
 
-router.get("/getAllUsers", getUsersController.getAllUsers);
+router.get("/getAllUsers", verifyJWT, getUsersController.getAllUsers);
 router.post("/login", loginController.login);
 router.post("/logout", loginController.logout);
 router.post("/register", loginController.register);
