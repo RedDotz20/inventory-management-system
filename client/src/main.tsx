@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import App from "./App";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { BrowserRouter } from "react-router-dom";
-import App from "./App";
+import ErrorBoundary from "./utils/ErrorBoundary";
 import "typeface-roboto";
 import "./styles/index.css";
 
@@ -63,10 +64,12 @@ const theme = extendTheme({
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
-		<ChakraProvider theme={theme}>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</ChakraProvider>
+		<ErrorBoundary fallback="An error has occured">
+			<ChakraProvider theme={theme}>
+				<BrowserRouter>
+					<App />
+				</BrowserRouter>
+			</ChakraProvider>
+		</ErrorBoundary>
 	</React.StrictMode>
 );
