@@ -3,7 +3,7 @@ import ProductUnit from "../../models/productUnit";
 
 async function getProductUnits(req: Request, res: Response) {
 	try {
-		const units = await ProductUnit.findAll();
+		const units = await ProductUnit.findAll({ logging: false });
 		res.status(200).json({ data: units });
 		console.log("Product Units Loaded Successfully");
 	} catch (err) {

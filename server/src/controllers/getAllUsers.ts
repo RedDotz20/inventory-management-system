@@ -3,7 +3,7 @@ import Users from "../models/users";
 
 async function getAllUsers(req: Request, res: Response) {
 	try {
-		const users = await Users.findAll();
+		const users = await Users.findAll({ logging: false });
 		res.status(200).json({ data: users });
 		console.log("Users Data Loaded Successfully");
 	} catch (err) {

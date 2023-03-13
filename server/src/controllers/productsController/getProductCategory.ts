@@ -3,7 +3,7 @@ import ProductCategory from "../../models/productCategory";
 
 async function getProductCategory(req: Request, res: Response) {
 	try {
-		const category = await ProductCategory.findAll();
+		const category = await ProductCategory.findAll({ logging: false });
 		res.status(200).json({ data: category });
 		console.log("Product Category Loaded Successfully");
 	} catch (err) {

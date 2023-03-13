@@ -3,7 +3,7 @@ import ItemCode from "../../models/itemCodes";
 
 async function getItemCodes(req: Request, res: Response) {
 	try {
-		const codes = await ItemCode.findAll();
+		const codes = await ItemCode.findAll({ logging: false });
 		res.status(200).json({ data: codes });
 		console.log("Item Codes Loaded Successfully");
 	} catch (err) {
