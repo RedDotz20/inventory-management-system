@@ -1,19 +1,11 @@
-import { Sequelize } from "sequelize";
+import mysql from "mysql2";
 import config from "./config";
 
-const sequelize: Sequelize = new Sequelize(
-	config.mysql.database || "mydatabase",
-	config.mysql.user || "root",
-	config.mysql.password || "admin",
-	{
-		host: config.mysql.host || "localhost",
-		dialect: "mysql",
-	}
-);
+const connection = mysql.createConnection({
+	host: config.mysql.host || "localhost",
+	user: config.mysql.user || "root",
+	password: config.mysql.password || "admin",
+	database: config.mysql.database || "mydatabase",
+});
 
-sequelize
-	.authenticate()
-	.then(() => console.log("Connected Successfully"))
-	.catch(() => console.error("Connection Failed"));
-
-export default sequelize;
+export default connection;

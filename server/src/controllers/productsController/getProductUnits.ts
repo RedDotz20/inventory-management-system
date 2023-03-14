@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
-import ProductUnit from "../../models/productUnit";
+import connection from "../../config/connection";
 
 async function getProductUnits(req: Request, res: Response) {
 	try {
-		const units = await ProductUnit.findAll({ logging: false });
-		res.status(200).json({ data: units });
-		console.log("Product Units Loaded Successfully");
+		const query = `SELECT * FROM product_units`;
+		await connection.execute(query, (error, result) => {
+			if (error) throw error;
+			res.status(200).json({ data: result });
+			console.log("Product Units Loaded Successfully");
+		});
 	} catch (err) {
 		console.error(err);
 		res.status(500).json({
