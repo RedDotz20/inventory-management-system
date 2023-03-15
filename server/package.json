@@ -5,8 +5,9 @@
 	"main": "./src/server.ts",
 	"scripts": {
 		"compile": "tsc -w",
+		"copy": "copyfiles src/models/**/*.sql dist/models/ --up 2",
 		"start": "nodemon dist/server.js -r dotenv/config app.ts",
-		"server": "concurrently \"npm run compile\" \"npm run start\"",
+		"server": "concurrently \"npm run compile\" \"npm run copy\" \"npm run start\"",
 		"build": "npm run compile && npm run start"
 	},
 	"keywords": [],
@@ -34,6 +35,7 @@
 		"@types/jsonwebtoken": "^9.0.1",
 		"@types/node": "^18.11.18",
 		"concurrently": "^7.6.0",
+		"copyfiles": "^2.4.1",
 		"nodemon": "^2.0.20",
 		"typescript": "^4.9.5"
 	}
