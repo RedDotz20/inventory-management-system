@@ -28,6 +28,6 @@ app.use(hpp());
 //? Routes
 app.use(userAuthRoute);
 app.use(productsRoute);
-// app.use(itemCodesRoute);
+app.use(itemCodesRoute);
 
 export default app;
