@@ -8,6 +8,7 @@ import hpp from "hpp";
 import userAuthRoute from "./routes/userAuthRoute";
 import productsRoute from "./routes/productsRoute";
 import itemCodesRoute from "./routes/itemCodesRoute";
+import stocksRoute from "./routes/stocksRoute";
 
 const app = express();
 
@@ -29,5 +30,6 @@ app.use(hpp());
 app.use(userAuthRoute);
 app.use(productsRoute);
 app.use(itemCodesRoute);
+app.use(stocksRoute);
 
 export default app;

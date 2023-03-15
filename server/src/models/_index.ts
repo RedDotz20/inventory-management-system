@@ -13,13 +13,15 @@ const createTables = async (): Promise<void> => {
 		const productUnit = createModel("productUnit.sql");
 		const productCategory = createModel("productCategory.sql");
 		const products = createModel("products.sql");
+		const stocks = createModel("stocks.sql");
 
 		await connection.execute(users);
 		await connection.execute(productUnit);
 		await connection.execute(productCategory);
 		await connection.execute(products);
+		await connection.execute(stocks);
 
-		console.log(`Tables Sucessfully Created`);
+		console.log(`Tables Sucessfully Synced`);
 	} catch (err) {
 		console.error(`Error executing SQL file:`, err);
 	}

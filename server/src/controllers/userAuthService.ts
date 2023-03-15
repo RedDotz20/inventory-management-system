@@ -66,4 +66,32 @@ async function register(req: Request, res: Response, next: NextFunction) {
 	}
 }
 
-export default { login, logout, register };
+async function createAdmin(hostName: string) {
+	try {
+		if (hostName === "localhost") {
+			const query = `INSERT INTO users (username, password)
+				SELECT ?,? WHERE NOT EXISTS
+				(SELECT * FROM users WHERE username = ?)`;
+
+			const hashedPassword = await bcryptjs.hash("admin", 10);
+
+			await connection.execute(
+				query,
+				["admin", hashedPassword, "admin"],
+				(error, result: any) => {
+					if (error) throw error;
+					if (result.affectedRows === 1) {
+						console.log("Admin Account Automatically Generated");
+					} else {
+						console.log("Admin Already Exists");
+					}
+				}
+			);
+		}
+		return;
+	} catch (error) {
+		console.error(error);
+	}
+}
+
+export default { login, logout, register, createAdmin };
