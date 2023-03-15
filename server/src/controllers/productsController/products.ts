@@ -55,4 +55,81 @@ async function insertProducts(req: Request, res: Response) {
 	}
 }
 
-export default { getProducts, insertProducts };
+async function productNameASC(req: Request, res: Response) {
+	try {
+		const query = `SELECT * FROM products ORDER BY productName ASC`;
+		await connection.execute(query, (error, result) => {
+			if (error) throw error;
+			res
+				.status(200)
+				.json({ message: "Products Sorted by Name ASC", productName: result });
+		});
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({
+			message: "An Error occurred while retrieving sorting products ASC",
+		});
+	}
+}
+
+async function productNameDESC(req: Request, res: Response) {
+	try {
+		const query = `SELECT * FROM products ORDER BY productName DESC`;
+		await connection.execute(query, (error, result) => {
+			if (error) throw error;
+			res
+				.status(200)
+				.json({ message: "Products Sorted by Name DESC", productName: result });
+		});
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({
+			message: "An Error occurred while retrieving sorting products DESC",
+		});
+	}
+}
+
+async function productBrandASC(req: Request, res: Response) {
+	try {
+		const query = `SELECT * FROM products ORDER BY brand ASC`;
+		await connection.execute(query, (error, result) => {
+			if (error) throw error;
+			res.status(200).json({
+				message: "Products Sorted by brand ASC",
+				brand: result,
+			});
+		});
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({
+			message: "An Error occurred while retrieving sorting brands ASC",
+		});
+	}
+}
+
+async function productBrandDESC(req: Request, res: Response) {
+	try {
+		const query = `SELECT * FROM products ORDER BY brand DESC`;
+		await connection.execute(query, (error, result) => {
+			if (error) throw error;
+			res.status(200).json({
+				message: "Products Sorted by brand DESC",
+				brand: result,
+			});
+		});
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({
+			message: "An Error occurred while retrieving sorting brands DESC",
+		});
+	}
+}
+
+export default {
+	getProducts,
+	insertProducts,
+	productNameASC,
+	productNameDESC,
+	productBrandASC,
+	productBrandDESC,
+};
