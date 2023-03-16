@@ -4,10 +4,13 @@ import connection from "../../config/connection";
 async function getProducts(req: Request, res: Response) {
 	try {
 		const query = `
-		SELECT p.productId, p.productName, p.brand, c.categoryName, u.unitName, p.price 
+		SELECT p.productId, p.productName, p.brand, pc.categoryName, pu.unitName,
+		GROUP_CONCAT(ic.itemCodes) as itemCodes, p.price
 		FROM products p
-		LEFT JOIN product_category c ON p.categoryId = c.categoryId
-		LEFT JOIN product_unit u ON p.unitId = u.unitId;`;
+		LEFT JOIN product_category pc ON p.categoryId = pc.categoryId
+		LEFT JOIN product_unit pu ON p.unitId = pu.unitId
+		LEFT JOIN item_codes ic ON p.productId = ic.productId
+		GROUP BY p.productId;`;
 
 		await connection.execute(query, (error, result) => {
 			if (error) throw error;
