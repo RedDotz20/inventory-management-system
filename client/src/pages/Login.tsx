@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import loginTypes from "../interfaces/loginInterface";
-import clientLogin from "../api/clientLogin";
+// import clientLogin from "../api/clientLogin";
 import isAuth from "../utils/isAuth";
 import StoreLogoImg from "../components/StoreLogoImg";
 
@@ -19,6 +19,7 @@ export default function Login() {
 
 	const onSubmit: SubmitHandler<loginTypes> = async (data) => {
 		try {
+			const { default: clientLogin } = await import("../api/clientLogin");
 			const response = await clientLogin(data);
 			console.log(response);
 			if (response.token) {
