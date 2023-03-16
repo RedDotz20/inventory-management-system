@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS `stocks` (
-  `productId` INT NOT NULL,
-  `stocksQuantity` INT NULL,
-  INDEX `productId_idx` (`productId` ASC) VISIBLE,
-  CONSTRAINT `productId`
-    FOREIGN KEY (`productId`)
-    REFERENCES `products` (`productId`)
+  `itemCodeId` INT NOT NULL,
+  `stocksQuantity` INT NOT NULL,
+  INDEX `itemCodeId_idx` (`itemCodeId` ASC) VISIBLE,
+  CONSTRAINT `itemCodeId`
+    FOREIGN KEY (`itemCodeId`)
+    REFERENCES `item_codes` (`itemCodeId`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 ) ENGINE=InnoDB;
