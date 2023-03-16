@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { AddIcon } from "@chakra-ui/icons";
 import {
 	Stack,
@@ -5,16 +6,23 @@ import {
 	Table,
 	Thead,
 	Tbody,
-	Tfoot,
 	Tr,
 	Th,
 	Td,
-	TableCaption,
 	TableContainer,
 } from "@chakra-ui/react";
 import SearchBox from "../components/searchBox/SearchBox";
+import getProducts from "../api/products";
 
 export default function Products() {
+	const { isLoading, isError, data, error } = useQuery({
+		queryKey: ["productsTable"],
+		queryFn: getProducts,
+	});
+
+	if (isLoading) return <span>Loading...</span>;
+	if (isError) return <span>An Error has occured</span>;
+
 	return (
 		<div className="w-full flex p-8 flex-col">
 			<h1 className="text-3xl mb-8">Products Page</h1>
@@ -43,14 +51,39 @@ export default function Products() {
 							<Tr>
 								<Th>ID</Th>
 								<Th>NAME</Th>
+								<Th>BRAND</Th>
 								<Th>CATEGORY</Th>
 								<Th>UNIT</Th>
-								<Th>BRAND</Th>
+								<Th>ITEM CODES</Th>
 								<Th>PRICE</Th>
 								<Th>ACTIONS</Th>
 							</Tr>
 						</Thead>
-						<Tbody></Tbody>
+						<Tbody>
+							{data.map((product: any) => {
+								const {
+									productId,
+									productName,
+									brand,
+									categoryName,
+									unitName,
+									itemCodes,
+									price,
+								} = product;
+								return (
+									<Tr key={productId}>
+										<Td>{productId}</Td>
+										<Td>{productName}</Td>
+										<Td>{brand}</Td>
+										<Td>{categoryName}</Td>
+										<Td>{unitName}</Td>
+										<Td>{itemCodes === null ? "None" : itemCodes}</Td>
+										<Td>{price}</Td>
+										<Td></Td>
+									</Tr>
+								);
+							})}
+						</Tbody>
 					</Table>
 				</TableContainer>
 			</div>

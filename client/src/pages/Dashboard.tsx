@@ -1,4 +1,4 @@
-import MainCard from "../components/cards/MainCard";
+import MainCard from "../components/Card/MainCard";
 import { useState } from "react";
 
 export default function Dashboard() {
