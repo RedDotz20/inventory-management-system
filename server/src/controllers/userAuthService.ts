@@ -13,17 +13,28 @@ async function login(req: Request, res: Response) {
 	try {
 		const { username, password } = req.body;
 		const query = `SELECT * FROM users WHERE username=?`;
-		const user = await connection.execute(query, [username]);
 
-		if (!user) return res.status(404).send("Invalid username or password");
-
-		const isPasswordValid = await bcryptjs.compare(password, user.password);
-
-		if (isPasswordValid) {
-			const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "1h" });
-			logging.info("LOGIN", "User Authenticated Successfully");
-			return res.json({ auth: true, token: token });
-		}
+		await connection.execute(query, [username], async (error, user) => {
+			if (error) throw error;
+			if (user.length === 0) {
+				logging.error("USER", "Invalid username or password");
+				return res.status(404).send("Invalid username or password");
+			}
+			const isPasswordValid = await bcryptjs.compare(
+				password,
+				user[0].password
+			);
+			if (isPasswordValid) {
+				const token = jwt.sign({ id: user[0].id }, JWT_SECRET, {
+					expiresIn: "1h",
+				});
+				logging.info("LOGIN", "User Authenticated Successfully");
+				return res.json({ auth: true, token: token });
+			} else {
+				logging.error("USER", "Invalid username or password");
+				return res.status(404).send("Invalid username or password");
+			}
+		});
 	} catch (err) {
 		console.error(err);
 		return res.status(500).json({ error: "Server error" });
