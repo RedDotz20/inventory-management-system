@@ -13,12 +13,14 @@ const createTables = async (): Promise<void> => {
 		const productUnit = createModel("productUnit.sql");
 		const productCategory = createModel("productCategory.sql");
 		const products = createModel("products.sql");
+		const itemCodes = createModel("itemCodes.sql");
 		const stocks = createModel("stocks.sql");
 
 		await connection.execute(users);
 		await connection.execute(productUnit);
 		await connection.execute(productCategory);
 		await connection.execute(products);
+		await connection.execute(itemCodes);
 		await connection.execute(stocks);
 
 		console.log(`Tables Sucessfully Synced`);
