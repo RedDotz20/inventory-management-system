@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 import NavRoutes from "./NavRoutes";
-import clientLogout from "../../api/clientLogout";
 import storeLogo from "../../assets/mainLogo.png";
 
 export default function Sidebar() {
@@ -16,7 +15,12 @@ export default function Sidebar() {
 				<Button
 					className="mt-auto mb-4 mx-4"
 					variant="lightyellow"
-					onClick={clientLogout}
+					onClick={async () => {
+						const { default: clientLogout } = await import(
+							"../../api/clientLogout"
+						);
+						clientLogout();
+					}}
 				>
 					LOGOUT
 				</Button>
