@@ -6,9 +6,15 @@ import viteTsConfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   cacheDir: '../../node_modules/.vite/client',
 
+  //? Uncomment To set base URL
+  // base: '/SAD21-IMS-SYSTEM/',
+
   server: {
     port: 4200,
     host: 'localhost',
+    watch: {
+      usePolling: true,
+    },
   },
 
   preview: {
