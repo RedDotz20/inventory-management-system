@@ -5,4 +5,14 @@ interface loginInterface extends FieldValues {
   password: string;
 }
 
-export { loginInterface };
+interface loginResponseType {
+  token?: string;
+}
+
+interface UserServiceModule {
+  login: (values: loginInterface) => Promise<loginResponseType>;
+  logout: () => Promise<void>;
+}
+
+export { UserServiceModule };
+export default loginInterface;

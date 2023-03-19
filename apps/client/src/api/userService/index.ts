@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { loginInterface } from './types';
+import loginInterface from './types';
 
 const SERVER_URL = `http://localhost:3000`;
 
@@ -22,7 +22,7 @@ class UserService {
     }
   }
 
-  async logout() {
+  async logout(): Promise<void> {
     axios
       .post(`${SERVER_URL}/logout`, null, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
