@@ -1,25 +1,32 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
-import loginTypes from '../interfaces/loginInterface';
-import isAuth from '../utils/isAuth';
-import StoreLogoImg from '../components/StoreLogoImg';
+
+import IsAuthenticated from '../../utils/IsAuthenticated';
+import StoreLogo from '../../components/StoreLogo';
+import loginInterface from './types';
+
+import {
+  Input,
+  InputGroup,
+  Button,
+  InputRightElement,
+} from './components/LoginComponents';
 
 export default function Login() {
   const [showPass, setShowPass] = useState(false);
   const handleClick = () => setShowPass(!showPass);
 
   const [error, setError] = useState<null | string>(null);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<loginInterface>();
   const navigate = useNavigate();
 
-  if (isAuth()) return <Navigate to="/home/dashboard" replace />;
+  if (IsAuthenticated()) return <Navigate to="/home/dashboard" replace />;
 
-  const onSubmit: SubmitHandler<loginTypes> = async (data) => {
+  const onSubmit: SubmitHandler<loginInterface> = async (data) => {
     try {
-      const { default: clientLogin } = await import('../api/clientLogin');
-      const response = await clientLogin(data);
+      const { default: userService } = await import('../../api/userService');
+      const response = await userService.login(data);
       console.log(response);
       if (response.token) {
         navigate('/home/dashboard');
@@ -33,12 +40,11 @@ export default function Login() {
 
   return (
     <div className="bg-[#1e1e1e] h-screen grid place-items-center pt-8">
-      {/* <LoginMssgBox /> */}
       <form
         className="bg-[#d9d9d9] flex flex-col my-0 mx-auto p-7 h-[500px] w-80 rounded-xl"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <StoreLogoImg />
+        <StoreLogo />
         <InputGroup size="md" className="flex flex-col mb-4">
           <label htmlFor="username" className="font-semibold">
             Username
@@ -49,7 +55,7 @@ export default function Login() {
             borderColor="black"
             _hover={{ borderColor: 'black' }}
             focusBorderColor="tranparent"
-            {...register('username', { required: true, maxLength: 80 })}
+            {...register('username', { required: true, maxLength: 40 })}
             pr="4.5rem"
           />
         </InputGroup>
@@ -64,7 +70,7 @@ export default function Login() {
             borderColor="black"
             _hover={{ borderColor: 'black' }}
             focusBorderColor="tranparent"
-            {...register('password', { required: true, maxLength: 100 })}
+            {...register('password', { required: true, maxLength: 8 })}
             pr="4.5rem"
           />
           <InputRightElement width="4.5rem" className="mt-6">

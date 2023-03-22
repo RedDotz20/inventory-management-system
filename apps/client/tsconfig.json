@@ -9,6 +9,7 @@
   },
   "files": [],
   "include": [],
+  "exclude": ["../../node_modules/@chakra-ui/**/*"],
   "references": [
     {
       "path": "./tsconfig.app.json"
