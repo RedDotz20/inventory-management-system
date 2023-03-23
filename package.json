@@ -4,8 +4,9 @@
   "license": "MIT",
   "scripts": {
     "start:web": "nx serve client",
-    "start:node": "nx serve server --env-file=.env --nodeArgs=\"--experimental-specifier-resolution=node\"",
-    "dev": "nx run-many --target=serve --projects=client,server --parallel"
+    "start:node": "nx serve server",
+    "dev": "nx run-many --target=serve --projects=client,server --parallel",
+    "dotenv": "dotenv-safe config --example=.env.example --path=.env node ./node_modules/@nrwl/cli/bin/nx.js"
   },
   "private": true,
   "devDependencies": {
@@ -37,6 +38,7 @@
     "@vitest/ui": "^0.29.3",
     "autoprefixer": "^10.4.14",
     "cypress": "^12.2.0",
+    "dotenv-safe": "^8.2.0",
     "esbuild": "^0.17.5",
     "eslint": "~8.36.0",
     "eslint-config-prettier": "8.7.0",

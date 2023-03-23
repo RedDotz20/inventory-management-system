@@ -1,7 +1,6 @@
 import axios from 'axios';
 import loginInterface from './types';
-
-const SERVER_URL = `http://localhost:3000`;
+import { SERVER_URL } from '../../config';
 
 class UserService {
   async login(values: loginInterface) {
