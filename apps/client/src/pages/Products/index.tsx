@@ -11,7 +11,7 @@ import {
   Th,
   Td,
   TableContainer,
-} from './components/TableComponents';
+} from '@chakra-ui/react';
 import SearchBox from '../../components/SearchBox';
 import products from '../../api/products';
 

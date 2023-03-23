@@ -1,16 +1,6 @@
+import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
-
-import {
-  Input,
-  InputGroup,
-  InputLeftElement,
-} from './components/SearchComponent';
-
-interface SearchBoxInterface {
-  borderColor: string;
-  _hover: { borderColor: string };
-  focusBorderColor: string;
-}
+import SearchBoxInterface from './types';
 
 function SearchBox(props: SearchBoxInterface) {
   return (

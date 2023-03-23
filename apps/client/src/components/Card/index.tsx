@@ -1,11 +1,5 @@
+import { Card, CardHeader, Heading, CardBody, Text } from '@chakra-ui/react';
 import CardInterface from './types';
-import {
-  Card,
-  CardHeader,
-  Heading,
-  CardBody,
-  Text,
-} from './components/CardComponent';
 
 function MainCard({ header, body, color, borderColor }: CardInterface) {
   return (

@@ -30,7 +30,7 @@ root.render(
       <ChakraProvider theme={theme}>
         <BrowserRouter>
           <App />
-          <ReactQueryDevtools initialIsOpen={true} />
+          <ReactQueryDevtools initialIsOpen={false} />
         </BrowserRouter>
       </ChakraProvider>
     </QueryClientProvider>

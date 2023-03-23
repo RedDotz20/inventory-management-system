@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { Button } from './components/SidebarComponents';
+import { Button } from '@chakra-ui/react';
 import NavRoutes from './NavRoutes';
 import storeLogo from '../../assets/mainLogo.png';
 

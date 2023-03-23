@@ -1,4 +1,4 @@
-import storeLogo from '../assets/mainLogo.png';
+import storeLogo from '../../assets/mainLogo.png';
 
 export default function StoreLogoImg() {
   return (

@@ -1,17 +1,11 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { Input, InputGroup, Button, InputRightElement } from '@chakra-ui/react';
 
 import IsAuthenticated from '../../utils/IsAuthenticated';
 import StoreLogo from '../../components/StoreLogo';
 import loginInterface from './types';
-
-import {
-  Input,
-  InputGroup,
-  Button,
-  InputRightElement,
-} from './components/LoginComponents';
 
 export default function Login() {
   const [showPass, setShowPass] = useState(false);
