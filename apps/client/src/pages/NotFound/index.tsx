@@ -2,11 +2,15 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 function NotFound() {
+  const isAuthenticated = !!localStorage.getItem('token');
   const navigate = useNavigate(),
-    redirectToLogin = () => navigate('/login', { replace: true });
+    redirectToLogin = () => navigate('/login', { replace: true }),
+    redirectToDashboard = () => navigate('/home/dashboard', { replace: true });
 
   useEffect(() => {
-    setTimeout(() => redirectToLogin(), 2000);
+    !isAuthenticated
+      ? setTimeout(() => redirectToLogin(), 2000)
+      : redirectToDashboard();
   });
 
   return (
