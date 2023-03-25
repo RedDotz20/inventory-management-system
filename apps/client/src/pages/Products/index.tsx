@@ -50,17 +50,19 @@ export default function Products() {
         <TableContainer>
           <div className="overflow-x-auto">
             <Table className="table-fixed" variant="simple" size="xs">
-              <Thead pb={4}>
+              <Thead>
                 <Tr>
-                  <Th fontSize="xs">ID</Th>
-                  <Th fontSize="xs" pl="3">
-                    NAME
+                  <Th width="5%" fontSize="xs">
+                    ID
                   </Th>
+                  <Th fontSize="xs">NAME</Th>
                   <Th fontSize="xs">BRAND</Th>
                   <Th fontSize="xs">CATEGORY</Th>
                   <Th fontSize="xs">UNIT</Th>
                   <Th fontSize="xs">ITEM CODES</Th>
-                  <Th fontSize="xs">PRICE</Th>
+                  <Th width="10%" fontSize="xs">
+                    PRICE
+                  </Th>
                   <Th fontSize="xs" textAlign="center">
                     ACTIONS
                   </Th>
@@ -83,13 +85,13 @@ export default function Products() {
 
                   return (
                     <Tr key={productId}>
-                      <Td>{productId}</Td>
-                      <Td pl="3">{productName}</Td>
+                      <Td width="5%">{productId}</Td>
+                      <Td>{productName}</Td>
                       <Td>{brand}</Td>
                       <Td>{categoryName}</Td>
                       <Td>{unitName}</Td>
                       <Td>{itemCodes === null ? 'None' : itemCodes}</Td>
-                      <Td>{FormatCurrency(parseFloat(price))}</Td>
+                      <Td width="10%">{FormatCurrency(parseFloat(price))}</Td>
                       <Td textAlign="center">
                         <Flex justify="center" align="center" gap={1}>
                           <Button

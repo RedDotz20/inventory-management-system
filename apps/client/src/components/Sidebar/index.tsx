@@ -1,7 +1,12 @@
 import { Outlet } from 'react-router-dom';
-import { Button } from '@chakra-ui/react';
+import { Button, Icon } from '@chakra-ui/react';
 import NavRoutes from './NavRoutes';
 import storeLogo from '../../assets/mainLogo.png';
+
+import { AiFillHome } from 'react-icons/ai';
+import { HiDocumentText } from 'react-icons/hi';
+import { FaWrench } from 'react-icons/fa';
+import { BsFillBarChartFill } from 'react-icons/bs';
 
 export default function Sidebar() {
   const userLogout = async () => {
@@ -13,10 +18,22 @@ export default function Sidebar() {
     <>
       <nav className="flex flex-col bg-[#F77E21] min-w-[260px]">
         <SidebarLogo />
-        <NavRoutes to="/home/dashboard">DASHBOARD</NavRoutes>
-        <NavRoutes to="/home/products">PRODUCTS</NavRoutes>
-        <NavRoutes to="/home/orders">ORDERS</NavRoutes>
-        <NavRoutes to="/home/sales">SALES</NavRoutes>
+        <NavRoutes to="/home/dashboard">
+          <Icon as={AiFillHome} className="mr-2.5" />
+          DASHBOARD
+        </NavRoutes>
+        <NavRoutes to="/home/products">
+          <Icon as={FaWrench} className="mr-2.5" />
+          PRODUCTS
+        </NavRoutes>
+        <NavRoutes to="/home/orders">
+          <Icon as={HiDocumentText} className="mr-2.5" color="white" />
+          ORDERS
+        </NavRoutes>
+        <NavRoutes to="/home/sales">
+          <Icon as={BsFillBarChartFill} className="mr-2.5" />
+          SALES
+        </NavRoutes>
         <Button
           className="mt-auto mb-4 mx-4"
           variant="lightyellow"
