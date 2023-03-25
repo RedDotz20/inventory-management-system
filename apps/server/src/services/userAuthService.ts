@@ -2,8 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 import nodeCache from 'node-cache';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+
 import connection from '../config/connection';
-import config from '../config/config';
+
+import config from '../config';
 
 const JWT_SECRET = config.server.token.secret;
 const tokenCache = new nodeCache({ stdTTL: 300 });

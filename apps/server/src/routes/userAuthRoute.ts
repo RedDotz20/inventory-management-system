@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import getUsersController from '../controllers/getAllUsers';
-import loginController from '../controllers/userAuthService';
+import loginController from '../services/userAuthService';
 import verifyJWT from '../middleware/authToken';
 
 const router = express.Router();

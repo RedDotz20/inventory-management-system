@@ -1,6 +1,6 @@
 import { Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import config from '../config/config';
+import config from '../config';
 import userReq from '../interfaces/authTokenInterface';
 
 const JWT_SECRET = config.server.token.secret;
