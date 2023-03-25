@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { AddIcon } from '@chakra-ui/icons';
+import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import ProductInterface from './type';
 import {
+  Flex,
   Stack,
   Button,
   Table,
@@ -12,6 +13,7 @@ import {
   Td,
   TableContainer,
 } from '@chakra-ui/react';
+import FormatCurrency from '../../utils/FormatCurrency';
 import SearchBox from '../../components/SearchBox';
 import products from '../../api/products';
 
@@ -46,45 +48,68 @@ export default function Products() {
         </div>
 
         <TableContainer>
-          <Table variant="simple" size="sm">
-            <Thead>
-              <Tr>
-                <Th>ID</Th>
-                <Th>NAME</Th>
-                <Th>BRAND</Th>
-                <Th>CATEGORY</Th>
-                <Th>UNIT</Th>
-                <Th>ITEM CODES</Th>
-                <Th>PRICE</Th>
-                <Th>ACTIONS</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {data.map((product: ProductInterface) => {
-                const {
-                  productId,
-                  productName,
-                  brand,
-                  categoryName,
-                  unitName,
-                  itemCodes,
-                  price,
-                } = product;
-                return (
-                  <Tr key={productId}>
-                    <Td>{productId}</Td>
-                    <Td>{productName}</Td>
-                    <Td>{brand}</Td>
-                    <Td>{categoryName}</Td>
-                    <Td>{unitName}</Td>
-                    <Td>{itemCodes === null ? 'None' : itemCodes}</Td>
-                    <Td>{price}</Td>
-                    <Td>{''}</Td>
-                  </Tr>
-                );
-              })}
-            </Tbody>
-          </Table>
+          <div className="overflow-x-auto">
+            <Table className="table-fixed" variant="simple" size="xs">
+              <Thead pb={4}>
+                <Tr>
+                  <Th fontSize="xs">ID</Th>
+                  <Th fontSize="xs" pl="3">
+                    NAME
+                  </Th>
+                  <Th fontSize="xs">BRAND</Th>
+                  <Th fontSize="xs">CATEGORY</Th>
+                  <Th fontSize="xs">UNIT</Th>
+                  <Th fontSize="xs">ITEM CODES</Th>
+                  <Th fontSize="xs">PRICE</Th>
+                  <Th fontSize="xs" textAlign="center">
+                    ACTIONS
+                  </Th>
+                </Tr>
+              </Thead>
+              <Tbody
+                maxH={data.length > 10 ? '320px' : 'unset'}
+                className="overflow-y-scroll"
+              >
+                {data.map((product: ProductInterface) => {
+                  const {
+                    productId,
+                    productName,
+                    brand,
+                    categoryName,
+                    unitName,
+                    itemCodes,
+                    price,
+                  } = product;
+
+                  return (
+                    <Tr key={productId}>
+                      <Td>{productId}</Td>
+                      <Td pl="3">{productName}</Td>
+                      <Td>{brand}</Td>
+                      <Td>{categoryName}</Td>
+                      <Td>{unitName}</Td>
+                      <Td>{itemCodes === null ? 'None' : itemCodes}</Td>
+                      <Td>{FormatCurrency(parseFloat(price))}</Td>
+                      <Td textAlign="center">
+                        <Flex justify="center" align="center" gap={1}>
+                          <Button
+                            borderRadius="full"
+                            colorScheme="orange"
+                            p="0"
+                          >
+                            <EditIcon />
+                          </Button>
+                          <Button borderRadius="full" colorScheme="red" p="0">
+                            <DeleteIcon />
+                          </Button>
+                        </Flex>
+                      </Td>
+                    </Tr>
+                  );
+                })}
+              </Tbody>
+            </Table>
+          </div>
         </TableContainer>
       </div>
     </div>

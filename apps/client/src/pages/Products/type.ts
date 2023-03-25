@@ -5,7 +5,7 @@ interface ProductInterface {
   categoryName: string;
   unitName: string;
   itemCodes: string;
-  price: GLfloat;
+  price: string;
 }
 
 export default ProductInterface;
