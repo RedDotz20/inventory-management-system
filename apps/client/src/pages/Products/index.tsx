@@ -1,29 +1,15 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import {
-  Flex,
-  Heading,
-  Box,
-  Stack,
-  Button,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
-} from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
+import { Flex, Heading, Stack, Button } from '@chakra-ui/react';
+import ProductsTable from './components/ProductsTable';
 import ProductInterface from './type';
-import FormatCurrency from '../../utils/FormatCurrency';
 import SearchBox from '../../components/SearchBox';
 import products from '../../api/products';
 
 export default function Products() {
   const [sortOrder, setSortOrder] = useState(false);
   const [columnToSort, setColumnToSort] = useState('productName');
-
   const { isLoading, isError, data } = useQuery(
     ['productsTable', sortOrder, columnToSort],
     {
@@ -82,116 +68,12 @@ export default function Products() {
           </Stack>
         </Flex>
 
-        <TableContainer>
-          <Box overflowX="auto">
-            <Table variant="simple" size="xs" className="table-fixed">
-              <Thead>
-                <Tr>
-                  <Th
-                    width="5%"
-                    fontSize="xs"
-                    userSelect="none"
-                    onClick={() => {
-                      console.log('ID Clicked');
-                    }}
-                  >
-                    ID
-                  </Th>
-                  <Th
-                    fontSize="xs"
-                    userSelect="none"
-                    onClick={() => handleSortClick('productName')}
-                  >
-                    NAME
-                  </Th>
-                  <Th
-                    fontSize="xs"
-                    userSelect="none"
-                    onClick={() => handleSortClick('brand')}
-                  >
-                    BRAND
-                  </Th>
-                  <Th
-                    fontSize="xs"
-                    userSelect="none"
-                    onClick={() => handleSortClick('categoryName')}
-                  >
-                    CATEGORY
-                  </Th>
-                  <Th
-                    fontSize="xs"
-                    userSelect="none"
-                    onClick={() => handleSortClick('unitName')}
-                  >
-                    UNIT
-                  </Th>
-                  <Th
-                    fontSize="xs"
-                    userSelect="none"
-                    onClick={() => {
-                      console.log('clicked');
-                    }}
-                  >
-                    ITEM CODES
-                  </Th>
-                  <Th
-                    width="10%"
-                    fontSize="xs"
-                    userSelect="none"
-                    onClick={() => handleSortClick('price')}
-                  >
-                    PRICE
-                  </Th>
-                  <Th fontSize="xs" textAlign="center" userSelect="none">
-                    ACTIONS
-                  </Th>
-                </Tr>
-              </Thead>
-              <Tbody
-                maxH={data.length > 10 ? '320px' : 'unset'}
-                overflowY="scroll"
-              >
-                {data.map((product: ProductInterface) => {
-                  const {
-                    productId,
-                    productName,
-                    brand,
-                    categoryName,
-                    unitName,
-                    itemCodes,
-                    price,
-                  } = product;
-
-                  return (
-                    <Tr key={productId}>
-                      <Td width="5%">{productId}</Td>
-                      <Td>{productName}</Td>
-                      <Td>{brand}</Td>
-                      <Td>{categoryName}</Td>
-                      <Td>{unitName}</Td>
-                      <Td>{itemCodes === null ? 'None' : itemCodes}</Td>
-                      <Td width="10%">{FormatCurrency(parseFloat(price))}</Td>
-                      <Td textAlign="center">
-                        <Flex justify="center" align="center" gap={1}>
-                          <Button
-                            borderRadius="full"
-                            colorScheme="orange"
-                            p="0"
-                          >
-                            <EditIcon />
-                          </Button>
-                          <Button borderRadius="full" colorScheme="red" p="0">
-                            <DeleteIcon />
-                          </Button>
-                        </Flex>
-                      </Td>
-                    </Tr>
-                  );
-                })}
-              </Tbody>
-            </Table>
-          </Box>
-        </TableContainer>
+        <ProductsTable
+          data={data}
+          sortOrder={sortOrder}
+          columnToSort={columnToSort}
+          handleSortClick={handleSortClick}
+        />
       </Flex>
     </Flex>
   );
