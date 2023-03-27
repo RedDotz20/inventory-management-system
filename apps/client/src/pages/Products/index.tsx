@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 import { AddIcon } from '@chakra-ui/icons';
 import { Flex, Heading, Stack, Button } from '@chakra-ui/react';
 import ProductsTable from './components/ProductsTable';
@@ -16,8 +17,8 @@ export default function Products() {
       queryFn: products.getProducts,
       select: (data: ProductInterface[]) => {
         return [...data].sort((a, b) => {
-          const columnA = a[columnToSort];
-          const columnB = b[columnToSort];
+          const columnA: string | number = a[columnToSort];
+          const columnB: string | number = b[columnToSort];
 
           if (typeof columnA === 'string' && typeof columnB === 'string') {
             return sortOrder
@@ -39,6 +40,8 @@ export default function Products() {
     }
   };
 
+  const MotionButton = motion(Button);
+
   if (isLoading) return <span>Loading...</span>;
   if (isError) return <span>An Error has occured</span>;
 
@@ -56,15 +59,16 @@ export default function Products() {
           />
 
           <Stack direction="row">
-            <Button
+            <MotionButton
+              whileTap={{ scale: 0.9 }}
               leftIcon={<AddIcon />}
+              colorScheme="orange"
               mt="auto"
               mb={4}
               mx={4}
-              colorScheme="orange"
             >
               Add
-            </Button>
+            </MotionButton>
           </Stack>
         </Flex>
 

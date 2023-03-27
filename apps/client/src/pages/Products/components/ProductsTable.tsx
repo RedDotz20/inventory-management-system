@@ -1,6 +1,5 @@
 import { HTMLAttributes } from 'react';
-import ProductInterface from '../type';
-import FormatCurrency from '../../../utils/FormatCurrency';
+import { motion } from 'framer-motion';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import {
   Box,
@@ -15,6 +14,8 @@ import {
   Thead,
   TableContainer,
 } from '@chakra-ui/react';
+import ProductInterface from '../type';
+import FormatCurrency from '../../../utils/FormatCurrency';
 
 interface ProductsTableInterface {
   data: ProductInterface[];
@@ -23,7 +24,7 @@ interface ProductsTableInterface {
   handleSortClick: (columnName: string) => void;
 }
 
-interface ThProps extends HTMLAttributes<HTMLTableHeaderCellElement> {
+interface ThProps extends HTMLAttributes<HTMLTableCellElement> {
   children: React.ReactNode;
   width?: string;
   onClick?: () => void;
@@ -43,6 +44,7 @@ export default function ProductsTable({
   columnToSort,
   handleSortClick,
 }: ProductsTableInterface) {
+  const MotionButton = motion(Button);
   return (
     <TableContainer>
       <Box overflowX="auto">
@@ -94,12 +96,23 @@ export default function ProductsTable({
                   <Td width="10%">{FormatCurrency(parseFloat(prod.price))}</Td>
                   <Td textAlign="center">
                     <Flex justify="center" align="center" gap={1}>
-                      <Button borderRadius="full" colorScheme="orange" p="0">
+                      <MotionButton
+                        whileTap={{ scale: 0.9 }}
+                        borderRadius="full"
+                        colorScheme="orange"
+                        p="0"
+                      >
                         <EditIcon />
-                      </Button>
-                      <Button borderRadius="full" colorScheme="red" p="0">
+                      </MotionButton>
+
+                      <MotionButton
+                        whileTap={{ scale: 0.9 }}
+                        borderRadius="full"
+                        colorScheme="red"
+                        p="0"
+                      >
                         <DeleteIcon />
-                      </Button>
+                      </MotionButton>
                     </Flex>
                   </Td>
                 </Tr>
