@@ -46,7 +46,7 @@ export default function ProductsTable({
 }: ProductsTableInterface) {
   const MotionButton = motion(Button);
   return (
-    <TableContainer>
+    <TableContainer className="min-w-[780px]">
       <Box overflowX="auto">
         <Table variant="simple" size="xs" className="table-fixed">
           <Thead>
@@ -62,20 +62,18 @@ export default function ProductsTable({
               </THeader>
 
               <THeader onClick={() => handleSortClick('categoryName')}>
-                CATEGORY
+                CATEGORY{' '}
                 {columnToSort === 'categoryName' && (sortOrder ? '▼' : '▲')}
               </THeader>
 
               <THeader onClick={() => handleSortClick('unitName')}>
-                UNIT
-                {columnToSort === 'unitName' && (sortOrder ? '▼' : '▲')}
+                UNIT {columnToSort === 'unitName' && (sortOrder ? '▼' : '▲')}
               </THeader>
 
               <THeader>ITEM CODES</THeader>
 
               <THeader width="10%" onClick={() => handleSortClick('price')}>
-                PRICE
-                {columnToSort === 'price' && (sortOrder ? '▼' : '▲')}
+                PRICE {columnToSort === 'price' && (sortOrder ? '▼' : '▲')}
               </THeader>
 
               <THeader>
@@ -86,7 +84,10 @@ export default function ProductsTable({
           <Tbody maxH={data.length > 10 ? '320px' : 'unset'} overflowY="scroll">
             {data.map((prod: ProductInterface) => {
               return (
-                <Tr key={prod.productId}>
+                <Tr
+                  key={prod.productId}
+                  className="hover:bg-gray-200 transition duration-200 ease-in-out"
+                >
                   <Td width="5%">{prod.productId}</Td>
                   <Td>{prod.productName}</Td>
                   <Td>{prod.brand}</Td>

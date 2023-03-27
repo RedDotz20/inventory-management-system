@@ -4,7 +4,7 @@ import { NavRoutesProps } from '../types';
 function NavRoutes(props: NavRoutesProps) {
   return (
     <NavLink
-      className="text-white text-lg px-3 py-1 mb-1 flex items-center"
+      className="text-white text-lg px-3 py-2.5 flex items-center hover:bg-[#FFFFFF74] transition duration-200 ease-in-out"
       to={props.to}
     >
       {props.children}
