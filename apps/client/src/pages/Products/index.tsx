@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import ProductInterface from './type';
 import {
   Flex,
+  Heading,
+  Box,
   Stack,
   Button,
   Table,
@@ -13,23 +15,54 @@ import {
   Td,
   TableContainer,
 } from '@chakra-ui/react';
+import ProductInterface from './type';
 import FormatCurrency from '../../utils/FormatCurrency';
 import SearchBox from '../../components/SearchBox';
 import products from '../../api/products';
 
 export default function Products() {
-  const { isLoading, isError, data } = useQuery(['productsTable'], {
-    queryFn: products.getProducts,
-  });
+  const [sortOrder, setSortOrder] = useState(false);
+  const [columnToSort, setColumnToSort] = useState('productName');
+
+  const { isLoading, isError, data } = useQuery(
+    ['productsTable', sortOrder, columnToSort],
+    {
+      queryFn: products.getProducts,
+      select: (data: ProductInterface[]) => {
+        return [...data].sort((a, b) => {
+          const columnA = a[columnToSort];
+          const columnB = b[columnToSort];
+
+          if (typeof columnA === 'string' && typeof columnB === 'string') {
+            return sortOrder
+              ? columnA.localeCompare(columnB)
+              : columnB.localeCompare(columnA);
+          }
+          return sortOrder ? 1 : -1;
+        });
+      },
+    }
+  );
+
+  const handleSortClick = (columnName: string) => {
+    if (columnName === columnToSort) {
+      setSortOrder((prevSortOrder) => !prevSortOrder);
+    } else {
+      setColumnToSort(columnName);
+      setSortOrder(false);
+    }
+  };
 
   if (isLoading) return <span>Loading...</span>;
   if (isError) return <span>An Error has occured</span>;
 
   return (
-    <div className="w-full flex p-8 flex-col">
-      <h1 className="text-3xl mb-8">Products Page</h1>
-      <div className="flex flex-col">
-        <div className="flex">
+    <Flex width="full" direction="column" p={8}>
+      <Heading as="h1" size="lg" mb={8}>
+        Products Page
+      </Heading>
+      <Flex direction="column">
+        <Flex>
           <SearchBox
             borderColor="black"
             _hover={{ borderColor: 'black' }}
@@ -39,38 +72,84 @@ export default function Products() {
           <Stack direction="row">
             <Button
               leftIcon={<AddIcon />}
-              className="mt-auto mb-4 mx-4"
+              mt="auto"
+              mb={4}
+              mx={4}
               colorScheme="orange"
             >
               Add
             </Button>
           </Stack>
-        </div>
+        </Flex>
 
         <TableContainer>
-          <div className="overflow-x-auto">
-            <Table className="table-fixed" variant="simple" size="xs">
+          <Box overflowX="auto">
+            <Table variant="simple" size="xs" className="table-fixed">
               <Thead>
                 <Tr>
-                  <Th width="5%" fontSize="xs">
+                  <Th
+                    width="5%"
+                    fontSize="xs"
+                    userSelect="none"
+                    onClick={() => {
+                      console.log('ID Clicked');
+                    }}
+                  >
                     ID
                   </Th>
-                  <Th fontSize="xs">NAME</Th>
-                  <Th fontSize="xs">BRAND</Th>
-                  <Th fontSize="xs">CATEGORY</Th>
-                  <Th fontSize="xs">UNIT</Th>
-                  <Th fontSize="xs">ITEM CODES</Th>
-                  <Th width="10%" fontSize="xs">
+                  <Th
+                    fontSize="xs"
+                    userSelect="none"
+                    onClick={() => handleSortClick('productName')}
+                  >
+                    NAME
+                  </Th>
+                  <Th
+                    fontSize="xs"
+                    userSelect="none"
+                    onClick={() => handleSortClick('brand')}
+                  >
+                    BRAND
+                  </Th>
+                  <Th
+                    fontSize="xs"
+                    userSelect="none"
+                    onClick={() => handleSortClick('categoryName')}
+                  >
+                    CATEGORY
+                  </Th>
+                  <Th
+                    fontSize="xs"
+                    userSelect="none"
+                    onClick={() => handleSortClick('unitName')}
+                  >
+                    UNIT
+                  </Th>
+                  <Th
+                    fontSize="xs"
+                    userSelect="none"
+                    onClick={() => {
+                      console.log('clicked');
+                    }}
+                  >
+                    ITEM CODES
+                  </Th>
+                  <Th
+                    width="10%"
+                    fontSize="xs"
+                    userSelect="none"
+                    onClick={() => handleSortClick('price')}
+                  >
                     PRICE
                   </Th>
-                  <Th fontSize="xs" textAlign="center">
+                  <Th fontSize="xs" textAlign="center" userSelect="none">
                     ACTIONS
                   </Th>
                 </Tr>
               </Thead>
               <Tbody
                 maxH={data.length > 10 ? '320px' : 'unset'}
-                className="overflow-y-scroll"
+                overflowY="scroll"
               >
                 {data.map((product: ProductInterface) => {
                   const {
@@ -111,9 +190,9 @@ export default function Products() {
                 })}
               </Tbody>
             </Table>
-          </div>
+          </Box>
         </TableContainer>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 }

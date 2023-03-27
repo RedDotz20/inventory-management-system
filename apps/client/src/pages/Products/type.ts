@@ -6,6 +6,7 @@ interface ProductInterface {
   unitName: string;
   itemCodes: string;
   price: string;
+  [key: string]: number | string;
 }
 
 export default ProductInterface;

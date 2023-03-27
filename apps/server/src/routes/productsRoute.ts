@@ -8,6 +8,8 @@ const router = express.Router();
 //* Products Routes
 router.get('/getproducts', products.getProducts);
 router.post('/insertproduct', products.insertProducts);
+// router.delete('/deleteproduct/', products.deleteProducts);
+
 router.get('/productnameASC', products.productNameASC);
 router.get('/productnameDESC', products.productNameDESC);
 router.get('/brandASC', products.productBrandASC);
