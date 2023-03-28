@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
-import { AddIcon } from '@chakra-ui/icons';
-import { Flex, Heading, Stack, Button } from '@chakra-ui/react';
-import ProductsTable from './components/ProductsTable';
-import ProductInterface from './type';
-import SearchBox from '../../components/SearchBox';
+import { Flex, Heading } from '@chakra-ui/react';
 import products from '../../api/products';
+import ProductInterface from './type';
+
+import ProductsTable from './components/ProductsTable';
+import AddProduct from './components/AddProduct';
+import SearchProduct from './components/SearchProduct';
 
 export default function Products() {
   const [sortOrder, setSortOrder] = useState(false);
@@ -40,8 +40,6 @@ export default function Products() {
     }
   };
 
-  const MotionButton = motion(Button);
-
   if (isLoading) return <span>Loading...</span>;
   if (isError) return <span>An Error has occured</span>;
 
@@ -52,24 +50,8 @@ export default function Products() {
       </Heading>
       <Flex direction="column">
         <Flex>
-          <SearchBox
-            borderColor="black"
-            _hover={{ borderColor: 'black' }}
-            focusBorderColor="tranparent"
-          />
-
-          <Stack direction="row">
-            <MotionButton
-              whileTap={{ scale: 0.9 }}
-              leftIcon={<AddIcon />}
-              colorScheme="orange"
-              mt="auto"
-              mb={4}
-              mx={4}
-            >
-              Add
-            </MotionButton>
-          </Stack>
+          <SearchProduct />
+          <AddProduct />
         </Flex>
 
         <ProductsTable
