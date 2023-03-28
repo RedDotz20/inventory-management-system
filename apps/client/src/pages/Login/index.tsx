@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Input, InputGroup, Button, InputRightElement } from '@chakra-ui/react';
+import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 
 import IsAuthenticated from '../../utils/IsAuthenticated';
 import StoreLogo from '../../components/StoreLogo';
@@ -65,11 +66,10 @@ export default function Login() {
             _hover={{ borderColor: 'black' }}
             focusBorderColor="tranparent"
             {...register('password', { required: true, maxLength: 8 })}
-            pr="4.5rem"
           />
-          <InputRightElement width="4.5rem" className="mt-6">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
-              {showPass ? 'Hide' : 'Show'}
+          <InputRightElement width="3.75rem" className="mt-6">
+            <Button h="1.75rem" size="md" onClick={handleClick}>
+              {showPass ? <AiFillEye /> : <AiFillEyeInvisible />}
             </Button>
           </InputRightElement>
         </InputGroup>
