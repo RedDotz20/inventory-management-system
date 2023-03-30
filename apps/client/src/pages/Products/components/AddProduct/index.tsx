@@ -15,7 +15,7 @@ export default function AddProduct() {
         {isOpen && <AddProductModal closeModal={closeModal} />}
       </AnimatePresence>
 
-      <Suspense fallback={<div className="absolute">Loading...</div>}>
+      <Suspense fallback={<div className="absolute">Loadingssss...</div>}>
         <Stack direction="row">
           <MotionButton
             onClick={() => openModal()}

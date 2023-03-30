@@ -38,13 +38,12 @@ const THeader = ({ children, ...rest }: ThProps) => {
   );
 };
 
-export default function ProductsTable({
+function ProductsTable({
   data,
   sortOrder,
   columnToSort,
   handleSortClick,
 }: ProductsTableInterface) {
-  const MotionButton = motion(Button);
   return (
     <TableContainer className="min-w-[780px]">
       <Box overflowX="auto">
@@ -81,47 +80,56 @@ export default function ProductsTable({
               </THeader>
             </Tr>
           </Thead>
-          <Tbody maxH={data.length > 10 ? '320px' : 'unset'} overflowY="scroll">
-            {data.map((prod: ProductInterface) => {
-              return (
-                <Tr
-                  key={prod.productId}
-                  className="hover:bg-gray-200 transition duration-200 ease-in-out"
-                >
-                  <Td width="5%">{prod.productId}</Td>
-                  <Td>{prod.productName}</Td>
-                  <Td>{prod.brand}</Td>
-                  <Td>{prod.categoryName}</Td>
-                  <Td>{prod.unitName}</Td>
-                  <Td>{prod.itemCodes === null ? 'None' : prod.itemCodes}</Td>
-                  <Td width="10%">{FormatCurrency(parseFloat(prod.price))}</Td>
-                  <Td textAlign="center">
-                    <Flex justify="center" align="center" gap={1}>
-                      <MotionButton
-                        whileTap={{ scale: 0.9 }}
-                        borderRadius="full"
-                        colorScheme="orange"
-                        p="0"
-                      >
-                        <EditIcon />
-                      </MotionButton>
-
-                      <MotionButton
-                        whileTap={{ scale: 0.9 }}
-                        borderRadius="full"
-                        colorScheme="red"
-                        p="0"
-                      >
-                        <DeleteIcon />
-                      </MotionButton>
-                    </Flex>
-                  </Td>
-                </Tr>
-              );
-            })}
-          </Tbody>
+          <BodyTable data={data} />
         </Table>
       </Box>
     </TableContainer>
   );
 }
+
+function BodyTable({ data }: { data: ProductInterface[] }) {
+  const MotionButton = motion(Button);
+  return (
+    <Tbody maxH={data.length > 10 ? '320px' : 'unset'} overflowY="scroll">
+      {data.map((prod: ProductInterface) => {
+        return (
+          <Tr
+            key={prod.productId}
+            className="hover:bg-gray-200 transition duration-200 ease-in-out"
+          >
+            <Td width="5%">{prod.productId}</Td>
+            <Td>{prod.productName}</Td>
+            <Td>{prod.brand}</Td>
+            <Td>{prod.categoryName}</Td>
+            <Td>{prod.unitName}</Td>
+            <Td>{prod.itemCodes === null ? 'None' : prod.itemCodes}</Td>
+            <Td width="10%">{FormatCurrency(parseFloat(prod.price))}</Td>
+            <Td textAlign="center">
+              <Flex justify="center" align="center" gap={1}>
+                <MotionButton
+                  whileTap={{ scale: 0.9 }}
+                  borderRadius="full"
+                  colorScheme="orange"
+                  p="0"
+                >
+                  <EditIcon />
+                </MotionButton>
+
+                <MotionButton
+                  whileTap={{ scale: 0.9 }}
+                  borderRadius="full"
+                  colorScheme="red"
+                  p="0"
+                >
+                  <DeleteIcon />
+                </MotionButton>
+              </Flex>
+            </Td>
+          </Tr>
+        );
+      })}
+    </Tbody>
+  );
+}
+
+export default ProductsTable;
