@@ -1,10 +1,12 @@
 import { UseQueryResult } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
 import { Button, Flex, Thead, Tbody, Td, Tr } from '@chakra-ui/react';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import ProductInterface from '../../type';
-import FormatCurrency from '../../../../utils/FormatCurrency';
+import { motion } from 'framer-motion';
 import { THeader } from './Header';
+import ProductInterface from '../../type';
+
+import FormatCurrency from '../../../../utils/FormatCurrency';
+import TableLoader from '../../../../components/Loader/TableLoader';
 
 type QueryProps = { productsQuery: UseQueryResult<ProductInterface[]> };
 
@@ -12,14 +14,7 @@ function BodyTable({ productsQuery }: QueryProps) {
   const { isLoading, isError, data } = productsQuery;
   const MotionButton = motion(Button);
 
-  if (isLoading)
-    return (
-      <Thead>
-        <Tr>
-          <THeader width="100%">LOADING ...</THeader>
-        </Tr>
-      </Thead>
-    );
+  if (isLoading) return <TableLoader />;
 
   if (isError)
     return (

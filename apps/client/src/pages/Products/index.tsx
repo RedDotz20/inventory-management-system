@@ -1,4 +1,5 @@
 import { Flex, Heading } from '@chakra-ui/react';
+
 import ProductsTable from './components/ProductsTable';
 import AddProduct from './components/AddProduct';
 import SearchProduct from './components/SearchProduct';
