@@ -1,33 +1,40 @@
+import { useMemo } from 'react';
 import { UseQueryResult } from '@tanstack/react-query';
-import { Button, Flex, Thead, Tbody, Td, Tr } from '@chakra-ui/react';
+import { Button, Flex, Tbody, Td, Tr } from '@chakra-ui/react';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { motion } from 'framer-motion';
-import { THeader } from './Header';
+import useSearchProduct from '../../store/SearchProductStore';
 import ProductInterface from '../../type';
 
 import FormatCurrency from '../../../../utils/FormatCurrency';
 import TableLoader from '../../../../components/Loader/TableLoader';
+import TableError from '../../../../components/ErrorInfo/TableError';
 
 type QueryProps = { productsQuery: UseQueryResult<ProductInterface[]> };
 
 function BodyTable({ productsQuery }: QueryProps) {
   const { isLoading, isError, data } = productsQuery;
+  const { query } = useSearchProduct();
+
+  const filteredProducts = useMemo(() => {
+    return data?.filter((prod) => {
+      const item = prod.productName.toLowerCase();
+      return item.includes(query.toLowerCase());
+    });
+  }, [data, query]);
+
+  const productsRow = query.length > 0 ? filteredProducts ?? [] : data ?? [];
   const MotionButton = motion(Button);
 
   if (isLoading) return <TableLoader />;
-
-  if (isError)
-    return (
-      <Thead>
-        <Tr>
-          <THeader width="100%">An Error Has Occured</THeader>
-        </Tr>
-      </Thead>
-    );
+  if (isError) return <TableError />;
 
   return (
-    <Tbody maxH={data.length > 10 ? '320px' : 'unset'} overflowY="scroll">
-      {data.map((prod: ProductInterface) => {
+    <Tbody
+      maxH={productsRow.length > 10 ? '320px' : 'unset'}
+      overflowY="scroll"
+    >
+      {productsRow.map((prod: ProductInterface) => {
         return (
           <Tr
             key={prod.productId}

@@ -1,8 +1,9 @@
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
-import SearchBoxInterface from './types';
+import useSearchProduct from '../../store/SearchProductStore';
 
-function SearchBox(props: SearchBoxInterface) {
+export default function SearchProduct() {
+  const { query, setQuery } = useSearchProduct();
   return (
     <InputGroup colorScheme="dark">
       <InputLeftElement
@@ -10,14 +11,14 @@ function SearchBox(props: SearchBoxInterface) {
         children={<SearchIcon color="black" />}
       />
       <Input
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
         type="search"
         placeholder="Search"
-        borderColor={props.borderColor}
-        _hover={props._hover}
-        focusBorderColor={props.focusBorderColor}
+        borderColor="black"
+        _hover={{ borderColor: 'black' }}
+        focusBorderColor="tranparent"
       />
     </InputGroup>
   );
 }
-
-export default SearchBox;
