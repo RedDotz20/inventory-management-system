@@ -24,7 +24,6 @@ function BodyTable({ productsQuery }: QueryProps) {
   }, [data, query]);
 
   const productsRow = query.length > 0 ? filteredProducts ?? [] : data ?? [];
-  const MotionButton = motion(Button);
 
   if (isLoading) return <TableLoader />;
   if (isError) return <TableError />;
@@ -49,23 +48,8 @@ function BodyTable({ productsQuery }: QueryProps) {
             <Td width="10%">{FormatCurrency(parseFloat(prod.price))}</Td>
             <Td textAlign="center">
               <Flex justify="center" align="center" gap={1}>
-                <MotionButton
-                  whileTap={{ scale: 0.9 }}
-                  borderRadius="full"
-                  colorScheme="orange"
-                  p="0"
-                >
-                  <EditIcon />
-                </MotionButton>
-
-                <MotionButton
-                  whileTap={{ scale: 0.9 }}
-                  borderRadius="full"
-                  colorScheme="red"
-                  p="0"
-                >
-                  <DeleteIcon />
-                </MotionButton>
+                <RowButton type="edit" />
+                <RowButton type="delete" />
               </Flex>
             </Td>
           </Tr>
@@ -74,5 +58,19 @@ function BodyTable({ productsQuery }: QueryProps) {
     </Tbody>
   );
 }
+
+const RowButton = ({ type }: { type: string }) => {
+  const MotionButton = motion(Button);
+  return (
+    <MotionButton
+      whileTap={{ scale: 0.9 }}
+      borderRadius="full"
+      colorScheme={type === 'edit' ? 'orange' : 'red'}
+      p="0"
+    >
+      {type === 'edit' ? <EditIcon /> : <DeleteIcon />}
+    </MotionButton>
+  );
+};
 
 export default BodyTable;
