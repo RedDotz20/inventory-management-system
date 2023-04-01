@@ -1,35 +1,33 @@
-import { lazy, Suspense } from 'react';
+import { lazy } from 'react';
 import { Stack, Button } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { motion, AnimatePresence } from 'framer-motion';
-import useAddModalStore from '../../store/AddProductStore';
+import useAddProductStore from '../../store/AddProductStore';
 
 const AddProductModal = lazy(() => import('./AddProductModal'));
 
 export default function AddProduct() {
-  const { isOpen, openModal, closeModal } = useAddModalStore();
+  const { addIsOpen, openAddModal, closeAddModal } = useAddProductStore();
   const MotionButton = motion(Button);
   return (
     <>
       <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
-        {isOpen && <AddProductModal closeModal={closeModal} />}
+        {addIsOpen && <AddProductModal closeModal={closeAddModal} />}
       </AnimatePresence>
 
-      <Suspense fallback={<div className="absolute">Loadingssss...</div>}>
-        <Stack direction="row">
-          <MotionButton
-            onClick={() => openModal()}
-            whileTap={{ scale: 0.9 }}
-            leftIcon={<AddIcon />}
-            colorScheme="orange"
-            mt="auto"
-            mb={4}
-            mx={4}
-          >
-            Add
-          </MotionButton>
-        </Stack>
-      </Suspense>
+      <Stack direction="row">
+        <MotionButton
+          onClick={() => openAddModal()}
+          whileTap={{ scale: 0.9 }}
+          leftIcon={<AddIcon />}
+          colorScheme="orange"
+          mt="auto"
+          mb={4}
+          mx={4}
+        >
+          Add
+        </MotionButton>
+      </Stack>
     </>
   );
 }

@@ -6,9 +6,13 @@ import { motion } from 'framer-motion';
 import useSearchProduct from '../../store/SearchProductStore';
 import ProductInterface from '../../type';
 
+// import DeleteProductModal from '../DeleteProduct';
+
 import FormatCurrency from '../../../../utils/FormatCurrency';
 import TableLoader from '../../../../components/Loader/TableLoader';
 import TableError from '../../../../components/ErrorInfo/TableError';
+
+import DeleteProduct from '../DeleteProduct';
 
 type QueryProps = { productsQuery: UseQueryResult<ProductInterface[]> };
 
@@ -49,7 +53,9 @@ function BodyTable({ productsQuery }: QueryProps) {
             <Td textAlign="center">
               <Flex justify="center" align="center" gap={1}>
                 <RowButton type="edit" />
-                <RowButton type="delete" />
+                <DeleteProduct />
+                {/* <RowButton type="delete" /> */}
+                {/* <DeleteProductModal /> */}
               </Flex>
             </Td>
           </Tr>
@@ -59,10 +65,11 @@ function BodyTable({ productsQuery }: QueryProps) {
   );
 }
 
-const RowButton = ({ type }: { type: string }) => {
+const RowButton = ({ type, ...rest }: { type: string }) => {
   const MotionButton = motion(Button);
   return (
     <MotionButton
+      {...rest}
       whileTap={{ scale: 0.9 }}
       borderRadius="full"
       colorScheme={type === 'edit' ? 'orange' : 'red'}
