@@ -1,13 +1,32 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Heading, Button, Flex } from '@chakra-ui/react';
 import { IoCloseSharp } from 'react-icons/io5';
-import Modal from '../../../../components/Modal';
+import ProductsAPI from '../../../../api/products';
 import Backdrop from '../../../../components/Backdrop';
+import Modal from '../../../../components/Modal';
 
-type ModalProps = { closeModal: () => void; isOpen?: boolean };
+interface ModalProps {
+  closeModal: () => void;
+  productId: number;
+  isOpen?: boolean;
+}
 
-function DeleteProductContent({ closeModal }: ModalProps) {
+function DeleteProductContent({ closeModal, productId }: ModalProps) {
+  const queryClient = useQueryClient();
+  const { mutate, isLoading } = useMutation(
+    (id: number) => ProductsAPI.deleteProducts(id),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['productsTable']);
+        closeModal();
+      },
+    }
+  );
+
+  const handleDelete = () => mutate(productId);
   const MotionButton = motion(Button);
+
   return (
     <>
       <IoCloseSharp
@@ -28,15 +47,17 @@ function DeleteProductContent({ closeModal }: ModalProps) {
           onClick={closeModal}
           colorScheme="orange"
           whileTap={{ scale: 0.9 }}
+          disabled={isLoading}
         >
           CANCEL
         </MotionButton>
 
         <MotionButton
           width="100%"
-          onClick={closeModal}
+          onClick={() => handleDelete}
           colorScheme="red"
           whileTap={{ scale: 0.9 }}
+          disabled={isLoading}
         >
           DELETE
         </MotionButton>
@@ -45,7 +66,7 @@ function DeleteProductContent({ closeModal }: ModalProps) {
   );
 }
 
-function DeleteProductModal({ closeModal }: ModalProps) {
+function DeleteProductModal({ closeModal, productId }: ModalProps) {
   return (
     <Backdrop
       onClick={closeModal}
@@ -55,7 +76,7 @@ function DeleteProductModal({ closeModal }: ModalProps) {
         handleClose={closeModal}
         className="relative h-[12rem] w-[24rem] bg-white p-8 rounded-lg flex flex-col items-center justify-center"
       >
-        <DeleteProductContent closeModal={closeModal} />
+        <DeleteProductContent productId={productId} closeModal={closeModal} />
       </Modal>
     </Backdrop>
   );

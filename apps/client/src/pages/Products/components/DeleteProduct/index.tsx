@@ -6,14 +6,19 @@ import useDeleteProductStore from '../../store/DeleteProductStore';
 
 const DeleteProductModal = lazy(() => import('./DeleteProductModal'));
 
-export default function AddProduct() {
+function DeleteProduct({ productId }: { productId: number }) {
   const { deleteIsOpen, openDeleteModal, closeDeleteModal } =
     useDeleteProductStore();
   const MotionButton = motion(Button);
   return (
     <>
       <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
-        {deleteIsOpen && <DeleteProductModal closeModal={closeDeleteModal} />}
+        {deleteIsOpen && (
+          <DeleteProductModal
+            productId={productId}
+            closeModal={closeDeleteModal}
+          />
+        )}
       </AnimatePresence>
 
       <MotionButton
@@ -28,3 +33,5 @@ export default function AddProduct() {
     </>
   );
 }
+
+export default DeleteProduct;
