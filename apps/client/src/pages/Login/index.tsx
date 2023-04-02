@@ -41,32 +41,31 @@ export default function Login() {
       >
         <StoreLogo />
         <InputGroup size="md" className="flex flex-col mb-4">
-          <label htmlFor="username" className="font-semibold">
+          <label className="font-semibold select-none">
             Username
+            <Input
+              id="username"
+              type="text"
+              borderColor="black"
+              _hover={{ borderColor: 'black' }}
+              focusBorderColor="tranparent"
+              {...register('username', { required: true, maxLength: 40 })}
+            />
           </label>
-          <Input
-            id="username"
-            type="text"
-            borderColor="black"
-            _hover={{ borderColor: 'black' }}
-            focusBorderColor="tranparent"
-            {...register('username', { required: true, maxLength: 40 })}
-            pr="4.5rem"
-          />
         </InputGroup>
 
         <InputGroup size="md" className="flex flex-col mb-4">
-          <label htmlFor="password" className="font-semibold">
+          <label className="font-semibold select-none">
             Password
+            <Input
+              id="password"
+              type={showPass ? 'text' : 'password'}
+              borderColor="black"
+              _hover={{ borderColor: 'black' }}
+              focusBorderColor="tranparent"
+              {...register('password', { required: true, maxLength: 8 })}
+            />
           </label>
-          <Input
-            id="password"
-            type={showPass ? 'text' : 'password'}
-            borderColor="black"
-            _hover={{ borderColor: 'black' }}
-            focusBorderColor="tranparent"
-            {...register('password', { required: true, maxLength: 8 })}
-          />
           <InputRightElement width="3.75rem" className="mt-6">
             <Button h="1.75rem" size="md" onClick={handleClick}>
               {showPass ? <AiFillEye /> : <AiFillEyeInvisible />}
