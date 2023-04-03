@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import xss from 'xss-clean';
 import hpp from 'hpp';
+import morgan from 'morgan';
 
 import userAuthRoute from './routes/userAuthRoute';
 import productsRoute from './routes/productsRoute';
@@ -12,19 +13,17 @@ import stocksRoute from './routes/stocksRoute';
 
 const app = express();
 
-//* Secure Header HTTP
-app.use(helmet());
+app.use(morgan('dev')); //* HTTP Request Logger
 
-//* Data Sanitation against site script XSS
-app.use(xss());
+app.use(helmet()); //* Secure Header HTTP
+app.use(xss()); //* Data Sanitation against site script XSS
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//* Protect against HTTP Parameter Pollution Attacks
-app.use(hpp());
+app.use(hpp()); //* Protect against HTTP Parameter Pollution Attacks
 
 //? Routes
 app.use(userAuthRoute);

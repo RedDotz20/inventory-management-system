@@ -11,8 +11,3 @@ app.listen(config.server.port, async () => {
     `[ ready ] http://${config.server.hostname}:${config.server.port}`
   );
 });
-
-// import express from 'express';
-// const host = process.env.HOST ?? 'localhost';
-// const port = process.env.PORT ? Number(process.env.PORT) : 3000;
-// const app = express();

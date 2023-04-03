@@ -27,7 +27,7 @@ async function login(req: Request, res: Response) {
       );
       if (isPasswordValid) {
         const token = jwt.sign({ id: user[0].id }, JWT_SECRET, {
-          expiresIn: '1h',
+          expiresIn: '1h'
         });
         console.log('User Authenticated Sucessfully');
         return res.json({ auth: true, token: token });
@@ -56,7 +56,7 @@ async function logout(req: Request, res: Response) {
   }
 }
 
-async function register(req: Request, res: Response, next: NextFunction) {
+async function register(req: Request, res: Response) {
   try {
     const { username, password } = req.body,
       hashedPassword = await bcryptjs.hash(password, 10);
