@@ -3,14 +3,12 @@ import { UseQueryResult } from '@tanstack/react-query';
 import { Button, Flex, Tbody, Td, Tr } from '@chakra-ui/react';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { motion } from 'framer-motion';
-import useSearchProduct from '../../store/SearchProductStore';
-import ProductInterface from '../../type';
-
-// import DeleteProductModal from '../DeleteProduct';
+import { ProductInterface } from '@root/shared/interfaces';
 
 import FormatCurrency from '../../../../utils/FormatCurrency';
 import TableLoader from '../../../../components/Loader/TableLoader';
 import TableError from '../../../../components/ErrorInfo/TableError';
+import useSearchProduct from '../../store/SearchProductStore';
 
 import DeleteProduct from '../DeleteProduct';
 
@@ -53,9 +51,8 @@ function BodyTable({ productsQuery }: QueryProps) {
             <Td textAlign="center">
               <Flex justify="center" align="center" gap={1}>
                 <RowButton type="edit" />
-                <DeleteProduct />
+                <DeleteProduct productId={prod.productId} />
                 {/* <RowButton type="delete" /> */}
-                {/* <DeleteProductModal /> */}
               </Flex>
             </Td>
           </Tr>

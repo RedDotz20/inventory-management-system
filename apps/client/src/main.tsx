@@ -1,6 +1,5 @@
-import { StrictMode } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -15,9 +14,9 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       refetchOnMount: false,
-      staleTime: Infinity,
-    },
-  },
+      staleTime: Infinity
+    }
+  }
 });
 
 const root = ReactDOM.createRoot(
@@ -25,7 +24,7 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <StrictMode>
+  <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
         <BrowserRouter>
@@ -34,5 +33,5 @@ root.render(
         </BrowserRouter>
       </ChakraProvider>
     </QueryClientProvider>
-  </StrictMode>
+  </React.StrictMode>
 );

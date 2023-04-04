@@ -14,7 +14,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {},
+    "paths": {
+      "@root/shared/interfaces": ["libs/shared/interfaces/src/index.ts"],
+      "@root/shared/my-shared-interfaces": [
+        "libs/shared/my-shared-interfaces/src/index.ts"
+      ]
+    },
     "typeRoots": ["./global.d.ts"]
   },
   "include": ["./global.d.ts"],
