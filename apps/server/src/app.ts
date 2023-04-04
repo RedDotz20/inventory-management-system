@@ -6,10 +6,7 @@ import xss from 'xss-clean';
 import hpp from 'hpp';
 import morgan from 'morgan';
 
-import userAuthRoute from './routes/userAuthRoute';
-import productsRoute from './routes/productsRoute';
-import itemCodesRoute from './routes/itemCodesRoute';
-import stocksRoute from './routes/stocksRoute';
+import { ItemCodes, Products, Stocks, UserAuth } from './routes';
 
 const app = express();
 
@@ -26,9 +23,9 @@ app.use(bodyParser.json());
 app.use(hpp()); //* Protect against HTTP Parameter Pollution Attacks
 
 //? Routes
-app.use(userAuthRoute);
-app.use(productsRoute);
-app.use(itemCodesRoute);
-app.use(stocksRoute);
+app.use(UserAuth);
+app.use(Products);
+app.use(ItemCodes);
+app.use(Stocks);
 
 export default app;
