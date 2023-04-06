@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { NavRoutesProps } from '../types';
+import { NavRoutesProps } from './types';
 
 function NavRoutes(props: NavRoutesProps) {
   return (
