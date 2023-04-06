@@ -1,2 +1,2 @@
 export * from './lib/shared-interfaces';
-export * from './lib/ProductsInterface';
+export * from './lib/ProductInterface';
