@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start:web": "nx serve client",
-    "start:node": "nx serve server",
+    "client": "nx serve client",
+    "server": "nx serve server",
     "preview:client:dev": "nx preview client --configuration=development",
     "preview:client:prod": "nx preview client --configuration=production",
     "preview:server:dev": "nx serve server --configuration=development",

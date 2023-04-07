@@ -4,13 +4,18 @@ import connection from '../../config/connection';
 async function getProducts(req: Request, res: Response) {
   try {
     const query = `
-		SELECT p.productId, p.productName, p.brand, pc.categoryName, pu.unitName,
-		GROUP_CONCAT(ic.itemCodes) as itemCodes, p.price
-		FROM products p
-		LEFT JOIN product_category pc ON p.categoryId = pc.categoryId
-		LEFT JOIN product_unit pu ON p.unitId = pu.unitId
-		LEFT JOIN item_codes ic ON p.productId = ic.productId
-		GROUP BY p.productId;`;
+    SELECT 
+      ic.item_code_id, 
+      CONCAT(p.productName, ' ', ic.variant) AS productName,
+      ic.item_code,
+      pc.categoryName, 
+      pu.unitName, 
+      ic.price
+    FROM 
+      Item_codes ic
+      LEFT JOIN products p ON ic.productId = p.productId
+      LEFT JOIN product_category pc ON p.category_id = pc.category_id
+      LEFT JOIN product_unit pu ON p.unit_id = pu.unit_id;`;
 
     await connection.execute(query, (error, result) => {
       if (error) throw error;
@@ -22,7 +27,7 @@ async function getProducts(req: Request, res: Response) {
   } catch (err) {
     console.error(err);
     res.status(500).json({
-      message: 'An Error occurred while retrieving Products',
+      message: 'An Error occurred while retrieving Products'
     });
   }
 }
@@ -32,8 +37,8 @@ async function insertProducts(req: Request, res: Response) {
     const { productName, brand, categoryId, unitId, price } = req.body;
     const requests = [productName, brand, categoryId, unitId, price];
 
-    const query = `INSERT INTO products (productName, brand, categoryId, unitId, price)
-		SELECT ?,?,?,?,? WHERE NOT EXISTS (SELECT * FROM products WHERE productName = ?)`;
+    const query = `INSERT INTO products (productName, brand, categoryId, unitId)
+		SELECT ?,?,?,? WHERE NOT EXISTS (SELECT * FROM products WHERE productName = ?)`;
 
     await connection.execute(
       query,
@@ -53,86 +58,12 @@ async function insertProducts(req: Request, res: Response) {
   } catch (err) {
     console.error(err);
     res.status(500).json({
-      message: 'An Error occurred while retrieving Products',
-    });
-  }
-}
-
-async function productNameASC(req: Request, res: Response) {
-  try {
-    const query = `SELECT * FROM products ORDER BY productName ASC`;
-    await connection.execute(query, (error, result) => {
-      if (error) throw error;
-      res
-        .status(200)
-        .json({ message: 'Products Sorted by Name ASC', productName: result });
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      message: 'An Error occurred while retrieving sorting products ASC',
-    });
-  }
-}
-
-async function productNameDESC(req: Request, res: Response) {
-  try {
-    const query = `SELECT * FROM products ORDER BY productName DESC`;
-    await connection.execute(query, (error, result) => {
-      if (error) throw error;
-      res
-        .status(200)
-        .json({ message: 'Products Sorted by Name DESC', productName: result });
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      message: 'An Error occurred while retrieving sorting products DESC',
-    });
-  }
-}
-
-async function productBrandASC(req: Request, res: Response) {
-  try {
-    const query = `SELECT * FROM products ORDER BY brand ASC`;
-    await connection.execute(query, (error, result) => {
-      if (error) throw error;
-      res.status(200).json({
-        message: 'Products Sorted by brand ASC',
-        brand: result,
-      });
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      message: 'An Error occurred while retrieving sorting brands ASC',
-    });
-  }
-}
-
-async function productBrandDESC(req: Request, res: Response) {
-  try {
-    const query = `SELECT * FROM products ORDER BY brand DESC`;
-    await connection.execute(query, (error, result) => {
-      if (error) throw error;
-      res.status(200).json({
-        message: 'Products Sorted by brand DESC',
-        brand: result,
-      });
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      message: 'An Error occurred while retrieving sorting brands DESC',
+      message: 'An Error occurred while retrieving Products'
     });
   }
 }
 
 export default {
   getProducts,
-  insertProducts,
-  productNameASC,
-  productNameDESC,
-  productBrandASC,
-  productBrandDESC,
+  insertProducts
 };

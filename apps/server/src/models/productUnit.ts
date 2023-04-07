@@ -1,9 +1,9 @@
 const productUnit: string =
-  'CREATE TABLE IF NOT EXISTS `product_unit` (\n' +
-  '  `unitId` INT NOT NULL AUTO_INCREMENT,\n' +
-  '  `unitName` VARCHAR(45) NOT NULL,\n' +
-  '  PRIMARY KEY (`unitId`),\n' +
-  '  UNIQUE INDEX `idnew_table_UNIQUE` (`unitId` ASC) VISIBLE\n' +
+  'CREATE TABLE IF NOT EXISTS `product_unit` (' +
+  '  `unit_id` INT NOT NULL AUTO_INCREMENT,' +
+  '  `unitName` VARCHAR(255) NOT NULL,' +
+  '  PRIMARY KEY (`unit_id`),' +
+  '  UNIQUE INDEX `unit_id_UNIQUE` (`unit_id` ASC) VISIBLE' +
   ') ENGINE=InnoDB;';
 
 export default productUnit;

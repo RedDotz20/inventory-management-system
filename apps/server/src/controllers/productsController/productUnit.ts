@@ -12,19 +12,18 @@ async function getProductUnits(req: Request, res: Response) {
   } catch (err) {
     console.error(err);
     res.status(500).json({
-      message: 'An Error occurred while retrieving Product Units',
+      message: 'An Error occurred while retrieving Product Units'
     });
   }
 }
 
 async function insertProductUnit(req: Request, res: Response) {
   try {
-    const { unitName } = req.body;
     const query =
       'INSERT INTO product_unit (unitName) SELECT ? WHERE NOT EXISTS (SELECT * FROM product_unit WHERE unitName = ?);';
     await connection.execute(
       query,
-      [unitName, unitName],
+      [req.body.unitName, req.body.unitName],
       (error, result: any) => {
         if (error) throw error;
         if (result.affectedRows === 1) {
@@ -39,7 +38,7 @@ async function insertProductUnit(req: Request, res: Response) {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: 'An Error occurred while inserting Product Units',
+      message: 'An Error occurred while inserting Product Units'
     });
   }
 }

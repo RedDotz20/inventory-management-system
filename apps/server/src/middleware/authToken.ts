@@ -1,7 +1,10 @@
-import { Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
-import userReq from '../interfaces/authTokenInterface';
+
+interface userReq extends Request {
+  user?: string;
+}
 
 const JWT_SECRET = config.server.token.secret;
 

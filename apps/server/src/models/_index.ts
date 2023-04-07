@@ -3,7 +3,7 @@ import itemCodesModel from './itemCodes';
 import productCategoryModel from './productCategory';
 import productsModel from './products';
 import productUnitModel from './productUnit';
-import stocksModel from './stocks';
+
 import usersModel from './users';
 
 const createTables = async (): Promise<void> => {
@@ -13,8 +13,7 @@ const createTables = async (): Promise<void> => {
       productUnitModel,
       productCategoryModel,
       productsModel,
-      itemCodesModel,
-      stocksModel,
+      itemCodesModel
     ];
 
     models.forEach(async (model) => {
