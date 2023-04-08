@@ -1,6 +1,6 @@
 import { HTMLAttributes } from 'react';
 import { Thead, Th, Tr, Center } from '@chakra-ui/react';
-import useSortProduct from '../../store/SortProductStore';
+import useSortItem from '../../store/SortItemStore';
 
 interface ThProps extends HTMLAttributes<HTMLTableCellElement> {
   children: React.ReactNode;
@@ -30,7 +30,7 @@ export const THeader = ({ children, ...rest }: ThProps) => {
 
 export default function Header() {
   const { sortOrder, columnToSort, setSortOrder, setColumnToSort } =
-    useSortProduct();
+    useSortItem();
 
   const handleSortClick = (columnName: string) => {
     if (columnName === columnToSort) {
@@ -44,16 +44,20 @@ export default function Header() {
   return (
     <Thead>
       <Tr>
-        <THeader width="5%" onClick={() => handleSortClick('rowNumber')}>
-          # {getArrowSymbol(columnToSort, 'rowNumber', sortOrder)}
+        <THeader width="5%" onClick={() => handleSortClick('item_code_id')}>
+          ID {getArrowSymbol(columnToSort, 'item_code_id', sortOrder)}
         </THeader>
 
         <THeader onClick={() => handleSortClick('productName')}>
           PRODUCT NAME {getArrowSymbol(columnToSort, 'productName', sortOrder)}
         </THeader>
 
-        <THeader onClick={() => handleSortClick('inventory')}>
-          INVENTORY {getArrowSymbol(columnToSort, 'inventory', sortOrder)}
+        <THeader onClick={() => handleSortClick('variant')}>
+          VARIANT {getArrowSymbol(columnToSort, 'variant', sortOrder)}
+        </THeader>
+
+        <THeader onClick={() => handleSortClick('item_code')}>
+          ITEM CODE {getArrowSymbol(columnToSort, 'item_code', sortOrder)}
         </THeader>
 
         <THeader onClick={() => handleSortClick('brand')}>

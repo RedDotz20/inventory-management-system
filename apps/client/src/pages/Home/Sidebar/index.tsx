@@ -8,6 +8,7 @@ import { HiDocumentText } from 'react-icons/hi';
 import { FaWrench } from 'react-icons/fa';
 import { BsFillBarChartFill } from 'react-icons/bs';
 import { MdOutlineProductionQuantityLimits } from 'react-icons/md';
+import { HiTemplate } from 'react-icons/hi';
 
 export default function Sidebar() {
   const userLogout = async () => {
@@ -22,9 +23,13 @@ export default function Sidebar() {
         <Icon as={AiFillHome} mr={2.5} />
         DASHBOARD
       </NavRoutes>
+      <NavRoutes to="/home/items">
+        <Icon as={HiTemplate} mr={2.5} />
+        ITEMS LIST
+      </NavRoutes>
       <NavRoutes to="/home/products">
         <Icon as={FaWrench} mr={2.5} />
-        PRODUCTS
+        PRODUCTS LIST
       </NavRoutes>
       <NavRoutes to="/home/stocks">
         <Icon as={MdOutlineProductionQuantityLimits} mr={2.5} />

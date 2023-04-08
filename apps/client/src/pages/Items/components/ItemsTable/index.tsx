@@ -1,19 +1,19 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Box, Table, TableContainer } from '@chakra-ui/react';
-import useSortProduct from '../../store/SortProductStore';
-import products from '../../../../api/products';
-import { ProductInterface } from '@root/shared/interfaces';
+import items from '../../../../api/items';
+import { ItemsInterface } from '@root/shared/interfaces';
 
 import Header from './Header';
 import BodyTable from './Body';
+import useSortItem from '../../store/SortItemStore';
 
-export default function ProductsTable() {
-  const { sortOrder, columnToSort } = useSortProduct();
+export default function ItemsTable() {
+  const { sortOrder, columnToSort } = useSortItem();
 
-  const productsQuery = useQuery({
-    queryKey: ['productsTable', sortOrder, columnToSort],
-    queryFn: products.getProducts,
-    select: (data: ProductInterface[]) => {
+  const itemsQuery = useQuery({
+    queryKey: ['itemsTable', sortOrder, columnToSort],
+    queryFn: items.getItems,
+    select: (data: ItemsInterface[]) => {
       return [...data].sort((a, b) => {
         const columnA = a[columnToSort];
         const columnB = b[columnToSort];
@@ -30,14 +30,14 @@ export default function ProductsTable() {
   });
 
   const queryClient = useQueryClient();
-  queryClient.setQueryData(['productsTable'], productsQuery.data);
+  queryClient.setQueryData(['itemsTable'], itemsQuery.data);
 
   return (
     <TableContainer className="min-w-[780px]">
       <Box overflowX="auto">
         <Table variant="simple" size="xs" className="table-fixed">
           <Header />
-          <BodyTable productsQuery={productsQuery} />
+          <BodyTable itemsQuery={itemsQuery} />
         </Table>
       </Box>
     </TableContainer>

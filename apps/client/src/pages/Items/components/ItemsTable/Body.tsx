@@ -3,20 +3,20 @@ import { UseQueryResult } from '@tanstack/react-query';
 import { Button, Flex, Tbody, Td, Tr } from '@chakra-ui/react';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { motion } from 'framer-motion';
-import { ProductInterface } from '@root/shared/interfaces';
+import { ItemsInterface } from '@root/shared/interfaces';
 
 // import FormatCurrency from '../../../../utils/FormatCurrency';
 import TableLoader from '../../../../components/Loader/TableLoader';
 import TableError from '../../../../components/ErrorInfo/TableError';
-import useSearchProduct from '../../store/SearchProductStore';
+import useSearchItem from '../../store/SearchItemStore';
 
 // import DeleteProduct from '../DeleteProduct';
 
-type QueryProps = { productsQuery: UseQueryResult<ProductInterface[]> };
+type QueryProps = { itemsQuery: UseQueryResult<ItemsInterface[]> };
 
-function BodyTable({ productsQuery }: QueryProps) {
-  const { isLoading, isError, data } = productsQuery;
-  const { query } = useSearchProduct();
+function BodyTable({ itemsQuery }: QueryProps) {
+  const { isLoading, isError, data } = itemsQuery;
+  const { query } = useSearchItem();
 
   const filteredProducts = useMemo(() => {
     return data?.filter((prod) => {
@@ -25,33 +25,26 @@ function BodyTable({ productsQuery }: QueryProps) {
     });
   }, [data, query]);
 
-  const productsRow = query.length > 0 ? filteredProducts ?? [] : data ?? [];
+  const itemsRow = query.length > 0 ? filteredProducts ?? [] : data ?? [];
 
   if (isLoading) return <TableLoader />;
   if (isError) return <TableError />;
 
   return (
-    <Tbody
-      maxH={productsRow.length > 10 ? '320px' : 'unset'}
-      overflowY="scroll"
-    >
-      {productsRow.map((prod: ProductInterface) => {
+    <Tbody maxH={itemsRow.length > 10 ? '320px' : 'unset'} overflowY="scroll">
+      {itemsRow.map((item: ItemsInterface) => {
         return (
           <Tr
-            key={prod.rowNumber}
+            key={item.item_code_id}
             className="hover:bg-gray-200 transition duration-200 ease-in-out"
           >
-            <Td width="5%">{prod.rowNumber}</Td>
-            <Td>{prod.productName}</Td>
-            <Td>{prod.inventory === null ? 'None' : prod.inventory}</Td>
-            <Td maxW="10px" overflowWrap="break-word">
-              {prod.brand}
-            </Td>
-            <Td maxW="10px" overflowWrap="break-word">
-              {prod.categoryName}
-            </Td>
-            <Td>{prod.unitName}</Td>
-            {/* <Td width="10%">{FormatCurrency(parseFloat(prod.price))}</Td> */}
+            <Td width="5%">{item.item_code_id}</Td>
+            <Td>{item.productName}</Td>
+            <Td width="5%">{item.variant}</Td>
+            <Td>{item.item_code === null ? 'None' : item.item_code}</Td>
+            <Td>{item.brand}</Td>
+            <Td>{item.categoryName}</Td>
+            <Td>{item.unitName}</Td>
             <Td textAlign="center">
               <Flex justify="center" align="center" gap={1}>
                 <RowButton type="edit" />

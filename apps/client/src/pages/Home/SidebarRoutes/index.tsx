@@ -1,8 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-// import Loader from '../utils/Loader';
 
 const Dashboard = lazy(() => import('../../Dashboard'));
+const Items = lazy(() => import('../../Items'));
 const Products = lazy(() => import('../../Products'));
 const Stocks = lazy(() => import('../../Stocks'));
 const Order = lazy(() => import('../../Order'));
@@ -15,6 +15,7 @@ export default function SidebarRoutes() {
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="items" element={<Items />} />
         <Route path="products" element={<Products />} />
         <Route path="stocks" element={<Stocks />} />
         <Route path="orders" element={<Order />} />

@@ -1,10 +1,8 @@
 import express from 'express';
-// import itemCodes from "../controllers/itemCodeController/getItemCodes";
-// import productItemCodes from "../controllers/itemCodeController/getProductItemCode";
+import itemCodes from '../controllers/itemCodeController/itemCodes';
 
 const router = express.Router();
 
-// router.get("/getItemCodes", itemCodes.getItemCodes);
-// router.get("/getProductItemCodes", productItemCodes.getProductItemCode);
+router.get('/getItemCodes', itemCodes.getItemCodes);
 
 export default router;
