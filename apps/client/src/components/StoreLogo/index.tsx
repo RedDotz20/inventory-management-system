@@ -2,7 +2,7 @@ import storeLogo from '../../assets/mainLogo.png';
 
 export default function StoreLogoImg() {
   return (
-    <div className="flex items-center justify-evenly mb-6">
+    <div className="flex items-center justify-evenly mb-4">
       <img
         src={storeLogo}
         className="w-[70px] h-[70px] object-cover mr-3"

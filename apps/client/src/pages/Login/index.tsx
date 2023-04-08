@@ -1,7 +1,13 @@
 import { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Input, InputGroup, Button, InputRightElement } from '@chakra-ui/react';
+import {
+  Input,
+  InputGroup,
+  Button,
+  InputRightElement,
+  FormLabel
+} from '@chakra-ui/react';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 
 import IsAuthenticated from '../../utils/IsAuthenticated';
@@ -9,27 +15,31 @@ import StoreLogo from '../../components/StoreLogo';
 import loginInterface from './types';
 
 export default function Login() {
-  const [showPass, setShowPass] = useState(false);
-  const handleClick = () => setShowPass(!showPass);
+  const [showPass, setShowPass] = useState(false),
+    handleClick = () => setShowPass(!showPass);
 
-  const [error, setError] = useState<null | string>(null);
-  const { register, handleSubmit } = useForm<loginInterface>();
+  const {
+    control,
+    trigger,
+    handleSubmit,
+    formState: { isValid, errors }
+  } = useForm<loginInterface>();
+
+  console.log(isValid);
+  console.log(!!errors.password);
+
   const navigate = useNavigate();
-
   if (IsAuthenticated()) return <Navigate to="/home/dashboard" replace />;
 
   const onSubmit: SubmitHandler<loginInterface> = async (data) => {
     try {
       const { default: userService } = await import('../../api/userService');
       const response = await userService.login(data);
-      console.log(response);
-      if (response.token) {
-        navigate('/home/dashboard');
-      } else {
-        setError('Invalid username or password');
-      }
+      response.token
+        ? navigate('/home/dashboard')
+        : alert('Invalid username or password');
     } catch (error) {
-      setError('An error occured. Please try again later.');
+      alert('An error occured. Please try again later.');
     }
   };
 
@@ -40,41 +50,97 @@ export default function Login() {
         onSubmit={handleSubmit(onSubmit)}
       >
         <StoreLogo />
-        <InputGroup size="md" className="flex flex-col mb-4">
-          <label className="font-semibold select-none">
-            Username
-            <Input
-              id="username"
-              type="text"
-              borderColor="black"
-              _hover={{ borderColor: 'black' }}
-              focusBorderColor="tranparent"
-              {...register('username', { required: true, maxLength: 40 })}
-            />
-          </label>
-        </InputGroup>
 
-        <InputGroup size="md" className="flex flex-col mb-4">
-          <label className="font-semibold select-none">
-            Password
-            <Input
-              id="password"
-              type={showPass ? 'text' : 'password'}
-              borderColor="black"
-              _hover={{ borderColor: 'black' }}
-              focusBorderColor="tranparent"
-              {...register('password', { required: true, maxLength: 8 })}
-            />
-          </label>
-          <InputRightElement width="3.75rem" className="mt-6">
-            <Button h="1.75rem" size="md" onClick={handleClick}>
-              {showPass ? <AiFillEye /> : <AiFillEyeInvisible />}
-            </Button>
-          </InputRightElement>
-        </InputGroup>
+        <Controller
+          name="username"
+          control={control}
+          defaultValue=""
+          rules={{ required: true }}
+          render={({ field }) => {
+            const isInvalid = !isValid && !!errors.username;
+            const isRequired = errors.username?.type === 'required';
 
-        <Button colorScheme="orange" type="submit" className="mt-auto">
-          LOGIN
+            return (
+              <InputGroup size="md" className="flex flex-col mb-2">
+                <FormLabel
+                  className="font-semibold selec-none"
+                  htmlFor="username"
+                >
+                  Username
+                </FormLabel>
+                <Input
+                  {...field}
+                  onChange={(e) => {
+                    field.onChange(e);
+                    trigger('username');
+                  }}
+                  id="username"
+                  type="text"
+                  bg="white"
+                  isInvalid={isInvalid}
+                  errorBorderColor="red.500"
+                />
+                {isRequired && (
+                  <span className="text-red-600">*Username is required</span>
+                )}
+              </InputGroup>
+            );
+          }}
+        />
+
+        <Controller
+          name="password"
+          control={control}
+          defaultValue=""
+          rules={{ required: true, maxLength: 8 }}
+          render={({ field }) => {
+            const inputType = showPass ? 'text' : 'password',
+              isInvalid = !isValid && !!errors.password,
+              isRequired = errors.password?.type === 'required',
+              isMaxLength = errors.password?.type === 'maxLength';
+
+            return (
+              <InputGroup size="md" className="flex flex-col mb-4">
+                <FormLabel
+                  className="font-semibold select-none"
+                  htmlFor="password"
+                >
+                  Password
+                </FormLabel>
+                <Input
+                  {...field}
+                  onChange={(e) => {
+                    field.onChange(e);
+                    trigger('password');
+                  }}
+                  id="password"
+                  type={inputType}
+                  bg="white"
+                  isInvalid={isInvalid}
+                  errorBorderColor="red.500"
+                />
+                <InputRightElement width="3.75rem" mt={8}>
+                  <Button h="1.75rem" size="md" onClick={handleClick}>
+                    {showPass ? <AiFillEye /> : <AiFillEyeInvisible />}
+                  </Button>
+                </InputRightElement>
+
+                {isRequired && (
+                  <span className="text-red-600">*Password is required</span>
+                )}
+
+                {isMaxLength && (
+                  <span className="text-red-600">
+                    Password should not be more than 8 characters
+                  </span>
+                )}
+              </InputGroup>
+            );
+          }}
+        />
+
+        <Button type="submit" colorScheme="orange" mt="auto">
+          SIGN IN
         </Button>
       </form>
     </div>
