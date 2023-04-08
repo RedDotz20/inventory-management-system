@@ -41,30 +41,39 @@ async function getProducts(req: Request, res: Response) {
 async function insertProducts(req: Request, res: Response) {
   try {
     const { productName, brand, categoryId, unitId, price } = req.body;
-    const requests = [productName, brand, categoryId, unitId, price];
+    const productDetails = [productName, brand, categoryId, unitId, price];
 
     const query = `INSERT INTO products (productName, brand, categoryId, unitId)
-		SELECT ?,?,?,? WHERE NOT EXISTS (SELECT * FROM products WHERE productName = ?)`;
+    SELECT ?,?,?,? WHERE NOT EXISTS (SELECT * FROM products WHERE productName = ?)`;
 
     await connection.execute(
       query,
-      [...requests, productName],
-      (error, result: any) => {
-        if (error) throw error;
-        if (result.affectedRows === 1) {
-          res
-            .status(201)
-            .json({ message: 'New Product Inserted', insertedProduct: result });
+      [...productDetails, productName],
+      (error, rows) => {
+        if (error) {
+          console.error(error);
+          res.status(500).json({
+            message: 'An error occurred while inserting the product'
+          });
+          return;
+        }
+
+        if (rows.length >= 1) {
+          res.status(201).json({
+            message: 'New product inserted',
+            insertedProduct: rows[0]
+          });
         } else {
-          res.status(409).send('Query Failed: Product already exists');
-          console.log('Query Failed: Product already exists');
+          const errorMessage = 'The product already exists';
+          console.error(errorMessage);
+          res.status(409).send(errorMessage);
         }
       }
     );
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
     res.status(500).json({
-      message: 'An Error occurred while retrieving Products'
+      message: 'An error occurred while inserting the product'
     });
   }
 }

@@ -8,14 +8,14 @@ async function getProductCategory(req: Request, res: Response) {
       if (error) throw error;
       res.status(201).json({
         message: 'Product Category Loaded Successfully',
-        category: result,
+        category: result
       });
       console.log('Product Category Loaded Successfully');
     });
   } catch (err) {
     console.error(err);
     res.status(500).json({
-      message: 'An Error occurred while retrieving Product Category',
+      message: 'An Error occurred while retrieving Product Category'
     });
   }
 }
@@ -29,20 +29,31 @@ async function insertProductCategory(req: Request, res: Response) {
     await connection.execute(
       query,
       [categoryName, categoryName],
-      (error, result: any) => {
-        if (error) throw error;
-        if (result.affectedRows === 1) {
-          res.status(201).json({ message: 'New Category Inserted', result });
+      (error, rows) => {
+        if (error) {
+          console.error(error);
+          res.status(500).json({
+            message: 'An error occurred while inserting the product'
+          });
+          return;
+        }
+
+        if (rows.length >= 1) {
+          res.status(201).json({
+            message: 'New product category inserted',
+            insertedCategory: rows[0]
+          });
         } else {
-          res.status(409).send('Query Failed: Category already exists');
-          console.log('Query Failed: Category already exists');
+          const errorMessage = 'The category already exists';
+          console.error(errorMessage);
+          res.status(409).send(errorMessage);
         }
       }
     );
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: 'An Error occurred while retrieving Product Category',
+      message: 'An Error occurred while inserting Product Category'
     });
   }
 }

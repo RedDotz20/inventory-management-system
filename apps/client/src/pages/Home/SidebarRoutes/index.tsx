@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
+import ComponentLoader from '../../../components/Loader/ComponentLoader';
 
 const Dashboard = lazy(() => import('../../Dashboard'));
 const Items = lazy(() => import('../../Items'));
@@ -11,7 +12,7 @@ const NotFound = lazy(() => import('../../NotFound'));
 
 export default function SidebarRoutes() {
   return (
-    <Suspense fallback={'loading ...'}>
+    <Suspense fallback={<ComponentLoader />}>
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="dashboard" element={<Dashboard />} />

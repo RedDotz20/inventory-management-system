@@ -1,6 +1,6 @@
 import { Spinner, Th, Thead, Tr, Flex, Heading } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { fadeInOut } from '../variants';
+import { fadeInOut } from './variants';
 
 function TableLoader() {
   const MotionFlex = motion(Flex);
@@ -23,10 +23,10 @@ function TableLoader() {
             exit="exit"
           >
             <Spinner
-              thickness="4px"
-              speed="0.65s"
+              thickness="3.5px"
+              speed="0.6s"
               emptyColor="gray.200"
-              color="blue.500"
+              color="orange"
               size="md"
               mr={4}
             />

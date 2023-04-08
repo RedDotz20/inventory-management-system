@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import connection from '../config/connection';
+import connection from '../../config/connection';
 
 async function getAllUsers(req: Request, res: Response) {
   try {
@@ -12,7 +12,7 @@ async function getAllUsers(req: Request, res: Response) {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: 'An Error occurred while retrieving users',
+      message: 'An Error occurred while retrieving users'
     });
   }
 }

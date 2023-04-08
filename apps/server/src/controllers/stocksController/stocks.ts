@@ -17,7 +17,7 @@ async function getStocks(req: Request, res: Response) {
   } catch (err) {
     console.error(err);
     res.status(500).json({
-      message: 'An Error occurred while retrieving stocks',
+      message: 'An Error occurred while retrieving stocks'
     });
   }
 }

@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import getUsersController from '../controllers/getAllUsers';
+import getUsersController from '../controllers/serviceController/getAllUsers';
 import loginController from '../services/userAuthService';
 import verifyJWT from '../middleware/authToken';
 
