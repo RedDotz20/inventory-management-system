@@ -11,7 +11,7 @@ export default function Items() {
       </Heading>
 
       <Flex direction="column">
-        <Flex>
+        <Flex gap={4}>
           <SearchItem />
           <AddItem />
         </Flex>

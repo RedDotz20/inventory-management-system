@@ -12,7 +12,7 @@ export default function Products() {
       </Heading>
 
       <Flex direction="column">
-        <Flex gap={4} mb={4}>
+        <Flex gap={4}>
           <SearchProduct />
           <AddProduct />
         </Flex>

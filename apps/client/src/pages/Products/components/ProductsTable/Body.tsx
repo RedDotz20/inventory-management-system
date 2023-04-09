@@ -41,7 +41,9 @@ function BodyTable({ productsQuery }: QueryProps) {
             key={prod.rowNumber}
             className="hover:bg-gray-200 transition duration-200 ease-in-out"
           >
-            <Td width="5%">{prod.rowNumber}</Td>
+            <Td width="5%" textAlign="center">
+              {prod.rowNumber}
+            </Td>
             <Td>{prod.productName}</Td>
             <Td>{prod.inventory === null ? 'None' : prod.inventory}</Td>
             <Td maxW="10px" overflowWrap="break-word">

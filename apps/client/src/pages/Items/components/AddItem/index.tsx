@@ -22,8 +22,6 @@ export default function AddItem() {
           leftIcon={<AddIcon />}
           colorScheme="orange"
           mt="auto"
-          mb={4}
-          mx={4}
         >
           Add
         </MotionButton>

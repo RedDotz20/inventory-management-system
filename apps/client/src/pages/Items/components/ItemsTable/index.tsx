@@ -35,7 +35,7 @@ export default function ItemsTable() {
   return (
     <TableContainer className="min-w-[780px]">
       <Box overflowX="auto">
-        <Table variant="simple" size="xs" className="table-fixed">
+        <Table variant="striped" size="sm" className="table-fixed">
           <Header />
           <BodyTable itemsQuery={itemsQuery} />
         </Table>

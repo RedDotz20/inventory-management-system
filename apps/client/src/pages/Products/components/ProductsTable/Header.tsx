@@ -44,9 +44,16 @@ export default function Header() {
   return (
     <Thead>
       <Tr>
-        <THeader width="5%" onClick={() => handleSortClick('rowNumber')}>
+        <Th
+          p={4}
+          onClick={() => handleSortClick('rowNumber')}
+          width="5%"
+          fontSize="xs"
+          userSelect="none"
+          textAlign="center"
+        >
           # {getArrowSymbol(columnToSort, 'rowNumber', sortOrder)}
-        </THeader>
+        </Th>
 
         <THeader onClick={() => handleSortClick('productName')}>
           PRODUCT NAME {getArrowSymbol(columnToSort, 'productName', sortOrder)}
