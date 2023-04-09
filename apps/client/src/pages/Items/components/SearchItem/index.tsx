@@ -1,4 +1,10 @@
-import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
+import {
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  CloseButton
+} from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import useItemStore from '../../store/SearchItemStore';
 
@@ -19,6 +25,13 @@ export default function SearchItem() {
         _hover={{ borderColor: 'black' }}
         focusBorderColor="tranparent"
       />
+      {query.length > 0 && (
+        <InputRightElement
+          onClick={() => setQuery('')}
+          pointerEvents="auto"
+          children={<CloseButton />}
+        />
+      )}
     </InputGroup>
   );
 }
