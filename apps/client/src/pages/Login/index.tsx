@@ -11,6 +11,7 @@ import {
   Checkbox
 } from '@chakra-ui/react';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
+import useLoginSuccessAlert from '../../store/LoginSuccessStore';
 
 import IsAuthenticated from '../../utils/IsAuthenticated';
 import StoreLogo from '../../components/StoreLogo';
@@ -18,6 +19,7 @@ import loginInterface from './types';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
+  const { isLoginSuccessful, openAlert, closeAlert } = useLoginSuccessAlert();
 
   const rememberUsername = !!localStorage.getItem('savedUsername'),
     [isRemember, setIsRemember] = useState(rememberUsername);
@@ -38,6 +40,7 @@ export default function Login() {
   const onSubmit: SubmitHandler<loginInterface> = async (data) => {
     try {
       setIsLoading(true);
+
       const { default: userService } = await import('../../api/userService'),
         delay = new Promise((resolve) => setTimeout(resolve, 800)),
         responseData = await userService.login(data);
@@ -45,7 +48,9 @@ export default function Login() {
       const [response] = await Promise.all([responseData, delay]);
 
       if (response.token) {
-        navigate('/home/dashboard');
+        openAlert();
+        setTimeout(() => closeAlert(), 5000);
+        setTimeout(() => navigate('/home/dashboard'), 1000);
         isRemember
           ? localStorage.setItem('savedUsername', data.username)
           : localStorage.removeItem('savedUsername');
@@ -172,7 +177,7 @@ export default function Login() {
         </Checkbox>
 
         <Button
-          isLoading={isLoading}
+          isLoading={isLoading || isLoginSuccessful}
           type="submit"
           colorScheme="orange"
           mt="auto"

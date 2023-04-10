@@ -6,30 +6,35 @@ import NotFound from './pages/NotFound';
 import Home from './pages/Home';
 import './styles.css';
 
+import Alerts from './components/Alerts';
+
 export function App() {
   const isAuthenticated = !!localStorage.getItem('token');
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <Navigate
-            to={isAuthenticated ? '/home/dashboard' : '/login'}
-            replace
-          />
-        }
-      />
-      <Route path="/login" element={<Login />} />
-      <Route
-        path="/home/*"
-        element={
-          <PrivateRoute>
-            <Home />
-          </PrivateRoute>
-        }
-      />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <div className="relative">
+      <Alerts />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Navigate
+              to={isAuthenticated ? '/home/dashboard' : '/login'}
+              replace
+            />
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/home/*"
+          element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          }
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </div>
   );
 }
 
