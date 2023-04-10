@@ -33,7 +33,9 @@ async function login(req: Request, res: Response) {
         return res.json({ auth: true, token: token });
       } else {
         console.log('Invalid username or password');
-        return res.status(404).send('Invalid username or password');
+        return res
+          .status(404)
+          .json({ message: 'Invalid username or password' });
       }
     });
   } catch (err) {

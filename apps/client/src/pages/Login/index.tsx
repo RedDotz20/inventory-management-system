@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { isAxiosError } from 'axios';
 import {
   Input,
   InputGroup,
@@ -16,9 +17,16 @@ import StoreLogo from '../../components/StoreLogo';
 import loginInterface from './types';
 
 export default function Login() {
-  const [isRemember, setIsRemember] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const rememberUsername = !!localStorage.getItem('savedUsername'),
+    [isRemember, setIsRemember] = useState(rememberUsername);
+
   const [showPass, setShowPass] = useState(false),
     handleClick = () => setShowPass(!showPass);
+
+  const navigate = useNavigate();
+  IsAuthenticated() && <Navigate to="/home/dashboard" replace />;
 
   const {
     control,
@@ -27,21 +35,34 @@ export default function Login() {
     formState: { isValid, errors }
   } = useForm<loginInterface>();
 
-  const navigate = useNavigate();
-  if (IsAuthenticated()) return <Navigate to="/home/dashboard" replace />;
-
   const onSubmit: SubmitHandler<loginInterface> = async (data) => {
     try {
-      const { default: userService } = await import('../../api/userService');
-      const response = await userService.login(data);
-      response.token
-        ? navigate('/home/dashboard')
-        : alert('Invalid username or password');
-      isRemember
-        ? localStorage.setItem('savedUsername', data.username)
-        : localStorage.removeItem('savedUsername');
+      setIsLoading(true);
+      const { default: userService } = await import('../../api/userService'),
+        delay = new Promise((resolve) => setTimeout(resolve, 800)),
+        responseData = await userService.login(data);
+
+      const [response] = await Promise.all([responseData, delay]);
+
+      if (response.token) {
+        navigate('/home/dashboard');
+        isRemember
+          ? localStorage.setItem('savedUsername', data.username)
+          : localStorage.removeItem('savedUsername');
+      } else {
+        alert('Invalid username or password');
+      }
     } catch (error) {
-      alert('An error occured. Please try again later.');
+      if (isAxiosError(error)) {
+        const response = error.response;
+        if (response && response.status === 404) {
+          alert(`User not found: ${response.data.message}`);
+        } else {
+          alert('An error occured. Please try again later.');
+        }
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -150,7 +171,12 @@ export default function Login() {
           Remember Me
         </Checkbox>
 
-        <Button type="submit" colorScheme="orange" mt="auto">
+        <Button
+          isLoading={isLoading}
+          type="submit"
+          colorScheme="orange"
+          mt="auto"
+        >
           SIGN IN
         </Button>
       </form>
