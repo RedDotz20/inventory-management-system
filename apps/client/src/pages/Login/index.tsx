@@ -16,10 +16,13 @@ import useLoginSuccessAlert from '../../store/LoginSuccessStore';
 import IsAuthenticated from '../../utils/IsAuthenticated';
 import StoreLogo from '../../components/StoreLogo';
 import loginInterface from './types';
+import useLoginFailedAlert from '../../store/LoginFailedStore';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
-  const { isLoginSuccessful, openAlert, closeAlert } = useLoginSuccessAlert();
+  const { isLoginSuccessful, openLoginSuccess, closeLoginSuccess } =
+    useLoginSuccessAlert();
+  const { openLoginFailed, closeLoginFailed } = useLoginFailedAlert();
 
   const rememberUsername = !!localStorage.getItem('savedUsername'),
     [isRemember, setIsRemember] = useState(rememberUsername);
@@ -48,8 +51,8 @@ export default function Login() {
       const [response] = await Promise.all([responseData, delay]);
 
       if (response.token) {
-        openAlert();
-        setTimeout(() => closeAlert(), 5000);
+        openLoginSuccess();
+        setTimeout(() => closeLoginSuccess(), 5000);
         setTimeout(() => navigate('/home/dashboard'), 1000);
         isRemember
           ? localStorage.setItem('savedUsername', data.username)
@@ -61,7 +64,9 @@ export default function Login() {
       if (isAxiosError(error)) {
         const response = error.response;
         if (response && response.status === 404) {
-          alert(`User not found: ${response.data.message}`);
+          openLoginFailed();
+          setTimeout(() => closeLoginFailed(), 5000);
+          // alert(`User not found: ${response.data.message}`);
         } else {
           alert('An error occured. Please try again later.');
         }

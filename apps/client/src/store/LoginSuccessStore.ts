@@ -2,14 +2,14 @@ import { create } from 'zustand';
 
 interface LoginSuccessAlertType {
   isLoginSuccessful: boolean;
-  openAlert: () => void;
-  closeAlert: () => void;
+  openLoginSuccess: () => void;
+  closeLoginSuccess: () => void;
 }
 
 const useLoginSuccessAlert = create<LoginSuccessAlertType>((set) => ({
   isLoginSuccessful: false,
-  openAlert: () => set({ isLoginSuccessful: true }),
-  closeAlert: () => set({ isLoginSuccessful: false })
+  openLoginSuccess: () => set({ isLoginSuccessful: true }),
+  closeLoginSuccess: () => set({ isLoginSuccessful: false })
 }));
 
 export default useLoginSuccessAlert;
