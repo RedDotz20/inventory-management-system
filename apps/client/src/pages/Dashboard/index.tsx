@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Heading } from '@chakra-ui/react';
+import { Heading, Flex, Stack, Text } from '@chakra-ui/react';
 import Card from '../../components/Card';
 
 export default function Dashboard() {
@@ -7,11 +7,17 @@ export default function Dashboard() {
   const [salesCount, setSalesCount] = useState('100');
 
   return (
-    <div className="flex flex-col w-full p-8">
-      <Heading as="h1" size="lg" mb={8}>
-        Dashboard
-      </Heading>
-      <div className="flex w-full gap-4">
+    <Flex width="full" direction="column" p={4}>
+      <Stack py={4} mb={6} spacing={0}>
+        <Text size="sm" color="white">
+          home/dashboard
+        </Text>
+        <Heading as="h1" size="lg" color="white" mt="0">
+          Dashboard
+        </Heading>
+      </Stack>
+
+      <Flex width="full" gap={4}>
         <Card
           header="Total Products"
           body={productCount.toString()}
@@ -24,7 +30,7 @@ export default function Dashboard() {
           color="text-green-500"
           borderColor="border-black"
         />
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 }

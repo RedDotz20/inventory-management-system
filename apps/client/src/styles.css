@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,7 +11,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font: inherit;
+  font-family: 'Roboto', sans-serif;
 }
 
 html,
@@ -29,10 +31,11 @@ input,
 textarea,
 button,
 select {
-  font: inherit;
+  font-family: inherit;
 }
 
 .active {
-  background-color: rgba(255, 255, 255, 0.45);
+  border-radius: 8px;
+  background-color: rgba(247, 126, 33);
   font-weight: 700;
 }

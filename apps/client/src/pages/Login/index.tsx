@@ -6,7 +6,8 @@ import {
   InputGroup,
   Button,
   InputRightElement,
-  FormLabel
+  FormLabel,
+  Checkbox
 } from '@chakra-ui/react';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 
@@ -15,6 +16,7 @@ import StoreLogo from '../../components/StoreLogo';
 import loginInterface from './types';
 
 export default function Login() {
+  const [isRemember, setIsRemember] = useState(false);
   const [showPass, setShowPass] = useState(false),
     handleClick = () => setShowPass(!showPass);
 
@@ -24,9 +26,6 @@ export default function Login() {
     handleSubmit,
     formState: { isValid, errors }
   } = useForm<loginInterface>();
-
-  console.log(isValid);
-  console.log(!!errors.password);
 
   const navigate = useNavigate();
   if (IsAuthenticated()) return <Navigate to="/home/dashboard" replace />;
@@ -38,6 +37,9 @@ export default function Login() {
       response.token
         ? navigate('/home/dashboard')
         : alert('Invalid username or password');
+      isRemember
+        ? localStorage.setItem('savedUsername', data.username)
+        : localStorage.removeItem('savedUsername');
     } catch (error) {
       alert('An error occured. Please try again later.');
     }
@@ -54,7 +56,7 @@ export default function Login() {
         <Controller
           name="username"
           control={control}
-          defaultValue=""
+          defaultValue={localStorage.getItem('savedUsername') || ''}
           rules={{ required: true }}
           render={({ field }) => {
             const isInvalid = !isValid && !!errors.username;
@@ -138,6 +140,15 @@ export default function Login() {
             );
           }}
         />
+
+        <Checkbox
+          size="sm"
+          colorScheme="orange"
+          isChecked={isRemember}
+          onChange={(e) => setIsRemember(e.target.checked)}
+        >
+          Remember Me
+        </Checkbox>
 
         <Button type="submit" colorScheme="orange" mt="auto">
           SIGN IN

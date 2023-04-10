@@ -1,23 +1,22 @@
-import storeLogo from '../../assets/mainLogo.png';
+// import storeLogo from '../../assets/mainLogo.png';
+import { MdInventory } from 'react-icons/md';
 
 export default function StoreLogoImg() {
   return (
     <div className="flex items-center justify-evenly mb-4">
-      <img
-        src={storeLogo}
-        className="w-[70px] h-[70px] object-cover mr-3"
-        alt="BGMlogo"
-      />
+      <div className="bg-[#F77E21] p-4 rounded-full">
+        <MdInventory
+          style={{ width: '32px', height: '32px', color: '#ffffff' }}
+        />
+      </div>
       <div className="flex flex-col">
-        <span className="text-black text-3xl text-center select-none font-black">
+        <span className="text-black text-3xl text-center select-none tracking-wide font-black">
           Brightsons
         </span>
-        <div className="flex items-center justify-center">
-          <div className="bg-black h-[1.5px] w-4 select-none"></div>
-          <span className="text-black text-[0.65rem] text-center mx-1.5 select-none tracking-tighter font-bold">
+        <div className="flex items-center ">
+          <span className="text-black text-[0.75rem]  select-none tracking-wide font-bold">
             GENERAL MERCHANDISE
           </span>
-          <div className="bg-black h-[1.5px] w-4 select-none"></div>
         </div>
       </div>
     </div>
