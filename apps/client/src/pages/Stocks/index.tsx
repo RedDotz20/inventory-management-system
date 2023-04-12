@@ -1,7 +1,16 @@
+import { Heading, Flex, Stack, Text } from '@chakra-ui/react';
+
 export default function Stocks() {
   return (
-    <div className="w-full flex justify-center items-center align-center">
-      <h1 className="text-3xl">Stocks Page</h1>
-    </div>
+    <Flex width="full" direction="column" p={4}>
+      <Stack py={4} mb={6} spacing={0}>
+        <Text size="sm" color="white">
+          home/stocks
+        </Text>
+        <Heading as="h1" size="lg" color="white" mt="0">
+          Stocks
+        </Heading>
+      </Stack>
+    </Flex>
   );
 }

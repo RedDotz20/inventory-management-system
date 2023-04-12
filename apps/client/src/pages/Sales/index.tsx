@@ -1,7 +1,16 @@
+import { Heading, Flex, Stack, Text } from '@chakra-ui/react';
+
 export default function Sales() {
-	return (
-		<div className="w-full flex justify-center items-center align-center">
-			<h1 className="text-3xl">Sales page</h1>
-		</div>
-	);
+  return (
+    <Flex width="full" direction="column" p={4}>
+      <Stack py={4} mb={6} spacing={0}>
+        <Text size="sm" color="white">
+          home/sales
+        </Text>
+        <Heading as="h1" size="lg" color="white" mt="0">
+          Sales
+        </Heading>
+      </Stack>
+    </Flex>
+  );
 }
