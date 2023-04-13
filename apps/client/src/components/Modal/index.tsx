@@ -15,6 +15,15 @@ const Modal = ({ children, ...rest }: ModalProps) => {
       initial="hidden"
       animate="visible"
       exit="exit"
+      style={{
+        position: 'relative',
+        backgroundColor: '#fff',
+        padding: '2rem',
+        margin: '0rem 2rem',
+        borderRadius: '0.5rem',
+        display: 'flex',
+        flexDirection: 'column'
+      }}
       {...rest}
     >
       {children}

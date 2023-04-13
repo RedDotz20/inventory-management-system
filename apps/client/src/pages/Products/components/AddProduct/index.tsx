@@ -1,5 +1,5 @@
 import { useState, lazy, Suspense } from 'react';
-import { Stack, Button, Spinner } from '@chakra-ui/react';
+import { Stack, Button } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import useAddProductStore from '../../store/AddProductStore';
@@ -20,23 +20,28 @@ export default function AddProduct() {
 
   return (
     <>
-      <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
-        {addIsOpen && <AddProductModal closeModal={closeAddModal} />}
-      </AnimatePresence>
-
       <Stack direction="row">
-        <Suspense fallback={null}>
-          <MotionButton
-            onClick={() => handleClick()}
-            whileTap={{ scale: 0.9 }}
-            leftIcon={!isloading && <AddIcon />}
-            colorScheme="orange"
-            mt="auto"
-            isDisabled={isloading}
-          >
-            {isloading ? <Spinner size="sm" mx={2} /> : 'Add'}
-          </MotionButton>
-        </Suspense>
+        <AnimatePresence
+          initial={false}
+          mode="wait"
+          onExitComplete={() => null}
+        >
+          {addIsOpen && (
+            <Suspense>
+              <AddProductModal closeModal={closeAddModal} />
+            </Suspense>
+          )}
+        </AnimatePresence>
+        <MotionButton
+          onClick={() => handleClick()}
+          whileTap={{ scale: 0.9 }}
+          leftIcon={<AddIcon />}
+          colorScheme="orange"
+          isLoading={isloading}
+          mt="auto"
+        >
+          Add
+        </MotionButton>
       </Stack>
     </>
   );
