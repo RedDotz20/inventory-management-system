@@ -1,37 +1,11 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Box, Table, TableContainer } from '@chakra-ui/react';
-import useSortProduct from '../../store/SortProductStore';
-import products from '../../../../api/products';
-import { ProductInterface } from '@root/shared/interfaces';
+import { useProductsQuery } from '../../../../hooks/useProductsQuery';
 
-import Header from './Header';
 import BodyTable from './Body';
+import Header from './Header';
 
-export default function ProductsTable() {
-  const { sortOrder, columnToSort } = useSortProduct();
-
-  const productsQuery = useQuery({
-    queryKey: ['productsTable', sortOrder, columnToSort],
-    queryFn: products.getProducts,
-    select: (data: ProductInterface[]) => {
-      return [...data].sort((a, b) => {
-        const columnA = a[columnToSort];
-        const columnB = b[columnToSort];
-
-        if (typeof columnA === 'string' && typeof columnB === 'string') {
-          return sortOrder
-            ? columnA.localeCompare(columnB)
-            : columnB.localeCompare(columnA);
-        }
-
-        return sortOrder ? 1 : -1;
-      });
-    }
-  });
-
-  const queryClient = useQueryClient();
-  queryClient.setQueryData(['productsTable'], productsQuery.data);
-
+function ProductsTable() {
+  const productsQuery = useProductsQuery();
   return (
     <TableContainer className="min-w-[780px]">
       <Box overflowX="auto">
@@ -43,3 +17,5 @@ export default function ProductsTable() {
     </TableContainer>
   );
 }
+
+export default ProductsTable;

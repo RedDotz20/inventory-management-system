@@ -1,32 +1,57 @@
-import { useMemo } from 'react';
-import { UseQueryResult } from '@tanstack/react-query';
-import { Button, Flex, Tbody, Td, Tr } from '@chakra-ui/react';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import { motion } from 'framer-motion';
+import { Button, Flex, Tbody, Td, Tr } from '@chakra-ui/react';
 import { ProductInterface } from '@root/shared/interfaces';
+import { UseQueryResult } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import { useEffect, useMemo, useState } from 'react';
 
-// import FormatCurrency from '../../../../utils/FormatCurrency';
-import TableLoader from '../../../../components/Loader/TableLoader';
 import TableError from '../../../../components/ErrorInfo/TableError';
+import TableLoader from '../../../../components/Loader/TableLoader';
 import useSearchProduct from '../../store/SearchProductStore';
-
-// import DeleteProduct from '../DeleteProduct';
+import useSortProduct from '../../store/SortProductStore';
 
 type QueryProps = { productsQuery: UseQueryResult<ProductInterface[]> };
 
 function BodyTable({ productsQuery }: QueryProps) {
   const { isLoading, isError, data } = productsQuery;
+  const [products, setProducts] = useState<ProductInterface[]>(data ?? []);
+  const { sortOrder, columnToSort } = useSortProduct();
   const { query } = useSearchProduct();
 
+  useEffect(() => setProducts(data ?? []), [data]);
+
   const filteredProducts = useMemo(() => {
-    return data?.filter((prod) => {
-      const item = prod.productName.toLowerCase();
-      return item.includes(query.toLowerCase());
+    return (
+      [...products]?.filter((prod) => {
+        const item = prod.productName.toLowerCase();
+        return item.includes(query.toLowerCase());
+      }) ?? []
+    );
+  }, [products, query]);
+
+  const sortedProducts = useMemo(() => {
+    return [...products].sort((a, b) => {
+      const columnA: string | number = a[columnToSort];
+      const columnB: string | number = b[columnToSort];
+      if (typeof columnA === 'string' && typeof columnB === 'string') {
+        return sortOrder
+          ? columnA.localeCompare(columnB)
+          : columnB.localeCompare(columnA);
+      }
+      return sortOrder ? 1 : -1;
     });
-  }, [data, query]);
+  }, [products, columnToSort, sortOrder]);
 
-  const productsRow = query.length > 0 ? filteredProducts ?? [] : data ?? [];
-
+  const productsRow = () => {
+    if (query.length > 0) {
+      return filteredProducts;
+    } else if (sortOrder && columnToSort) {
+      return sortedProducts;
+    }
+    return products;
+  };
+  // const productsRow = query.length > 0 ? sortedProducts : products;
+  // const productsRow = query.length > 0 ? filteredProducts ?? [] : data ?? [];
   if (isLoading) return <TableLoader />;
   if (isError) return <TableError />;
 
@@ -35,7 +60,7 @@ function BodyTable({ productsQuery }: QueryProps) {
       maxH={productsRow.length > 10 ? '320px' : 'unset'}
       overflowY="scroll"
     >
-      {productsRow.map((prod: ProductInterface) => {
+      {productsRow().map((prod: ProductInterface) => {
         return (
           <Tr
             key={prod.rowNumber}
@@ -53,7 +78,6 @@ function BodyTable({ productsQuery }: QueryProps) {
               {prod.categoryName}
             </Td>
             <Td>{prod.unitName}</Td>
-            {/* <Td width="10%">{FormatCurrency(parseFloat(prod.price))}</Td> */}
             <Td textAlign="center">
               <Flex justify="center" align="center" gap={1}>
                 <RowButton type="edit" />
