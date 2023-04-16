@@ -1,16 +1,17 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { ProductInterface } from '@root/shared/interfaces';
-import { motion } from 'framer-motion';
-import {
-  Flex,
-  InputGroup,
-  Input,
-  Select,
-  Heading,
-  Button
-} from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-import { IoCloseSharp } from 'react-icons/io5';
+import {
+  Button,
+  CloseButton,
+  Flex,
+  FormLabel,
+  Heading,
+  Input,
+  InputGroup,
+  Select
+} from '@chakra-ui/react';
+import { ProductInterface } from '@root/shared/interfaces';
+import { useQueryClient } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 import Backdrop from '../../../../components/Backdrop';
 import Modal from '../../../../components/Modal';
 
@@ -19,6 +20,8 @@ type ModalProps = { closeModal: () => void; isOpen?: boolean };
 function AddProductModal({ closeModal }: ModalProps) {
   const queryClient = useQueryClient(),
     data = queryClient.getQueryData<ProductInterface>(['productsTable']);
+
+  // console.log(data);
 
   // const [priceValue, setPriceValue] = useState('0.00'),
   //   parse = (val: string) => val.replace(/^\$/, ''),
@@ -34,10 +37,10 @@ function AddProductModal({ closeModal }: ModalProps) {
   return (
     <Backdrop onClick={closeModal}>
       <Modal handleClose={closeModal} className="h-[32rem] w-[25rem]">
-        <IoCloseSharp
-          className="absolute top-8 right-8 cursor-pointer"
+        <CloseButton
+          size="lg"
           color="red"
-          size={25}
+          className="absolute top-6 right-6"
           onClick={closeModal}
         />
 
@@ -45,18 +48,14 @@ function AddProductModal({ closeModal }: ModalProps) {
           ADD PRODUCT
         </Heading>
 
-        <InputGroup size="md" mb={4}>
-          <label className="w-full">
-            Product Name
-            <Input variant="filled" id="productName" type="text" />
-          </label>
+        <InputGroup size="md" mb={4} className="flex flex-col">
+          <FormLabel htmlFor="productName">Product Name</FormLabel>
+          <Input variant="filled" id="productName" type="text" />
         </InputGroup>
 
-        <InputGroup size="md" mb={8}>
-          <label className="w-full">
-            Brand Name
-            <Input variant="filled" id="brandName" type="text" />
-          </label>
+        <InputGroup size="md" mb={8} className="flex flex-col">
+          <FormLabel htmlFor="brandName">Brand Name</FormLabel>
+          <Input variant="filled" id="brandName" type="text" />
         </InputGroup>
 
         <Select variant="filled" size="md" mb={4} placeholder="Select Category">
