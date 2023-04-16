@@ -1,18 +1,33 @@
-import { Outlet } from 'react-router-dom';
 import { Button, Icon } from '@chakra-ui/react';
-import { FaWrench } from 'react-icons/fa';
-import { HiTemplate } from 'react-icons/hi';
+import { useState } from 'react';
 import { AiFillHome } from 'react-icons/ai';
-import { MdInventory } from 'react-icons/md';
-import { HiDocumentText } from 'react-icons/hi';
 import { BsFillBarChartFill } from 'react-icons/bs';
-import { MdOutlineProductionQuantityLimits } from 'react-icons/md';
+import { FaWrench } from 'react-icons/fa';
+import { HiDocumentText, HiTemplate } from 'react-icons/hi';
+import { MdInventory, MdOutlineProductionQuantityLimits } from 'react-icons/md';
+import { Outlet, useNavigate } from 'react-router-dom';
 import NavRoutes from './NavRoutes';
 
 export default function Sidebar() {
+  const [isLoading, setIsLoading] = useState(false);
+  console.log('on mount ', isLoading);
+  const navigate = useNavigate();
   const userLogout = async () => {
-    const { default: userService } = await import('../../../api/userService');
-    userService.logout();
+    setIsLoading(true);
+    try {
+      const { default: userService } = await import('../../../api/userService'),
+        delay = new Promise((resolve) => setTimeout(resolve, 1200)),
+        processLogout = await userService.logout(),
+        [response] = await Promise.all([processLogout, delay]);
+
+      response?.status === 200
+        ? navigate('/login')
+        : console.log('An Error has occurred');
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -44,7 +59,14 @@ export default function Sidebar() {
         <Icon as={BsFillBarChartFill} mr={2.5} />
         Sales
       </NavRoutes>
-      <Button className="mt-auto" colorScheme="orange" onClick={userLogout}>
+      <Button
+        isLoading={isLoading}
+        className="mt-auto"
+        colorScheme="orange"
+        onClick={() => {
+          userLogout();
+        }}
+      >
         SIGN OUT
       </Button>
       <Outlet />
