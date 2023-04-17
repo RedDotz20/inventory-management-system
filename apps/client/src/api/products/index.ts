@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SERVER_URL } from '../../config';
+import { SERVER_URL } from '../config';
 
 class ProductsAPI {
   async getProducts() {
@@ -22,7 +22,7 @@ class ProductsAPI {
         brand: brand,
         categoryId: categoryId,
         unitId: unitId,
-        price: price,
+        price: price
       })
       .catch((err) => console.error(err));
   }

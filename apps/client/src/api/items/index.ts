@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SERVER_URL } from '../../config';
+import { SERVER_URL } from '../config';
 
 class ItemsAPI {
   async getItems() {
