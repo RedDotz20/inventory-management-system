@@ -1,10 +1,9 @@
-import axios from 'axios';
-import { SERVER_URL } from '../config';
+import { axiosInstance } from '../axios';
 
 class ProductsAPI {
   async getProducts() {
-    return await axios
-      .get(`${SERVER_URL}/getproducts`)
+    return await axiosInstance
+      .get(`/getproducts`)
       .then((res) => res.data.product)
       .catch((err) => console.error(err));
   }
@@ -16,8 +15,8 @@ class ProductsAPI {
     unitId: number,
     price: number
   ) {
-    return await axios
-      .post(`${SERVER_URL}/insertproduct`, {
+    return await axiosInstance
+      .post(`/insertproduct`, {
         productName: productName,
         brand: brand,
         categoryId: categoryId,
@@ -28,8 +27,8 @@ class ProductsAPI {
   }
 
   async deleteProducts(id: number) {
-    return await axios
-      .delete(`${SERVER_URL}/deleteproduct/?id=${id}`)
+    return await axiosInstance
+      .delete(`/deleteproduct/?id=${id}`)
       .catch((err) => console.error(err));
   }
 }

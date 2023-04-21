@@ -1,10 +1,9 @@
-import axios from 'axios';
-import { SERVER_URL } from '../config';
+import { axiosInstance } from '../axios';
 
 class ItemsAPI {
   async getItems() {
-    return await axios
-      .get(`${SERVER_URL}/getItemCodes`)
+    return await axiosInstance
+      .get(`/getItemCodes`)
       .then((res) => res.data.product)
       .catch((err) => console.error(err));
   }

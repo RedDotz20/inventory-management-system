@@ -1,28 +1,20 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Routes, Route, Navigate } from 'react-router-dom';
-import Login from './pages/Login';
-import PrivateRoute from './utils/PrivateRoute';
-import NotFound from './pages/NotFound';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import Alerts from './components/Alerts';
 import Home from './pages/Home';
+import Login from './pages/Login';
+import NotFound from './pages/NotFound';
+import PrivateRoute from './utils/PrivateRoute';
+
 import './styles.css';
 
-import Alerts from './components/Alerts';
-
-export function App() {
-  const isAuthenticated = !!localStorage.getItem('token');
+export default function App() {
+  //TODO: If Access Token is Valid/Exists Redirect to home/dashboard
   return (
     <div className="relative">
       <Alerts />
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Navigate
-              to={isAuthenticated ? '/home/dashboard' : '/login'}
-              replace
-            />
-          }
-        />
+        <Route path="/" element={<Navigate to={'/login'} replace />} />
         <Route path="/login" element={<Login />} />
         <Route
           path="/home/*"
@@ -37,5 +29,3 @@ export function App() {
     </div>
   );
 }
-
-export default App;
