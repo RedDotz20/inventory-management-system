@@ -18,9 +18,15 @@ const SERVER = {
   }
 };
 
+const CLIENT = {
+  hostname: process.env.VITE_SERVER_HOSTNAME || 'localhost',
+  port: process.env.VITE_SERVER_PORT || 4200
+};
+
 const config = {
   mysql: MYSQL,
-  server: SERVER
+  server: SERVER,
+  client: CLIENT
 };
 
 export default config;

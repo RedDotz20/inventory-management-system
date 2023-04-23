@@ -8,6 +8,8 @@ import connection from '../config/connection';
 const JWT_SECRET = config.server.token.secret;
 
 async function login(req: Request, res: Response) {
+  console.log(config.client.hostname);
+  console.log(config.client.port);
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty())
