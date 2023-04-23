@@ -44,15 +44,22 @@ async function login(req: Request, res: Response) {
         expiresIn: '7d'
       });
 
+      const expirationTime =
+        new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).getTime() / 1000; //* 7days
+
       //? Store Refresh Token inside of Cookie as httpOnly
       res.cookie('refreshToken', refreshToken, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 1000 * 60 * 60 * 24 * 7 //* 7 days
+        httpOnly: false,
+        secure: false, //TODO: Set to "TRUE" if deploying to production
+        maxAge: expirationTime
       });
 
       //? Send Access Token as Response to store in Local storage
-      res.status(200).json({ accessToken, redirectURL: '/home/dashboard' });
+      res.status(200).json({
+        accessToken,
+        redirectURL: '/home/dashboard',
+        refreshToken: refreshToken
+      });
       console.log('User Authenticated Sucessfully');
     });
   } catch (err) {
