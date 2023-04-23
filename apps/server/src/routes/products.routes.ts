@@ -1,7 +1,7 @@
 import express from 'express';
-import productUnits from '../controllers/productsController/productUnit';
 import productCategory from '../controllers/productsController/productCategory';
 import products from '../controllers/productsController/products';
+import productUnits from '../controllers/productsController/productUnit';
 
 const router = express.Router();
 

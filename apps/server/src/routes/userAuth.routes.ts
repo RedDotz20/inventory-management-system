@@ -1,16 +1,21 @@
 import express, { Request, Response } from 'express';
 import getUsersController from '../controllers/serviceController/getAllUsers';
-import loginController from '../services/userAuthService';
-import verifyJWT from '../middleware/authToken';
+import verifyAccessToken from '../middleware/authToken';
+import loginController from '../services/login';
+import logoutController from '../services/logout';
+import authController from '../services/userAuthService';
+// import verifyRefreshToken from '../tests/verifyRefreshToken';
 
 const router = express.Router();
 
-router.get('/getAllUsers', verifyJWT, getUsersController.getAllUsers);
+router.get('/getAllUsers', verifyAccessToken, getUsersController.getAllUsers);
 router.post('/login', loginController.login);
-router.post('/logout', loginController.logout);
-router.post('/register', loginController.register);
+router.post('/logout', logoutController.logout);
+router.post('/register', authController.register);
 
-router.get('/protected', verifyJWT, (req: Request, res: Response) => {
+//* protected routes
+// router.get('/verifyToken', verifyRefreshToken);
+router.get('/protected', verifyAccessToken, (req: Request, res: Response) => {
   res.send('You are authorized and authenticated');
 });
 

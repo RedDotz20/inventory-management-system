@@ -5,6 +5,7 @@ async function getProducts(req: Request, res: Response) {
   try {
     const query = `
     SELECT 
+      p.productId,
       ROW_NUMBER() OVER () AS rowNumber,
       p.productName,
       COUNT(ic.item_code) AS inventory,

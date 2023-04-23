@@ -1,22 +1,31 @@
-import express from 'express';
-import cors from 'cors';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express from 'express';
 import helmet from 'helmet';
-import xss from 'xss-clean';
 import hpp from 'hpp';
 import morgan from 'morgan';
-
+import xss from 'xss-clean';
+import config from './config';
 import { ItemCodes, Products, Stocks, UserAuth } from './routes';
 
 const app = express();
 
-app.use(morgan('dev')); //* HTTP Request Logger
+app.use(cookieParser());
 
+app.use(morgan('dev')); //* HTTP Request Logger
 app.use(helmet()); //* Secure Header HTTP
 app.use(xss()); //* Data Sanitation against site script XSS
 
-app.use(cors());
+app.use(
+  cors({
+    origin: `http://${config.server.hostname}:${config.server.port}`,
+    credentials: true
+  })
+);
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

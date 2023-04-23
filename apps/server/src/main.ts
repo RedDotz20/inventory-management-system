@@ -1,6 +1,6 @@
 import app from './app';
 import config from './config';
-import createTables from './models/_index';
+import createTables from './models/index';
 import userAuth from './services/userAuthService';
 
 app.listen(config.server.port, async () => {
