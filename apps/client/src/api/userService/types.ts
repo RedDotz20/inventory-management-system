@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { FieldValues } from 'react-hook-form';
 
 interface loginInterface extends FieldValues {
@@ -14,5 +15,8 @@ interface UserServiceModule {
   logout: () => Promise<void>;
 }
 
-export { UserServiceModule };
-export default loginInterface;
+interface CustomAxiosError extends AxiosError {
+  isAxiosError: boolean;
+}
+
+export { loginInterface, CustomAxiosError, UserServiceModule };

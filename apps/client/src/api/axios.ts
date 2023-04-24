@@ -1,12 +1,20 @@
 import axios from 'axios';
 import { BASE_URL } from './config';
+import { CustomAxiosError } from './userService/types';
 const accessToken = localStorage.getItem('accessToken');
 
-export default axios.create({
-  baseURL: BASE_URL
-});
+const axiosInstance = axios.create({ baseURL: BASE_URL });
 
-export const axiosInstance = axios.create({
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const customError: CustomAxiosError = error;
+    customError.isAxiosError = true;
+    return Promise.reject(customError);
+  }
+);
+
+const authAxiosInstance = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
   headers: {
@@ -15,15 +23,13 @@ export const axiosInstance = axios.create({
   }
 });
 
-axiosInstance.interceptors.request.use((config) => {
+authAxiosInstance.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem('accessToken');
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
+  if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
   return config;
 });
 
-axiosInstance.interceptors.response.use(
+authAxiosInstance.interceptors.response.use(
   (response) => {
     const newAccessToken = response.headers['accessToken'];
     if (newAccessToken) {
@@ -38,3 +44,5 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export { axiosInstance, authAxiosInstance };
