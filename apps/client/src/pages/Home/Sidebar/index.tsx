@@ -15,9 +15,9 @@ export default function Sidebar() {
   const userLogout = async () => {
     setIsLoading(true);
     try {
-      const { default: userService } = await import('../../../api/userService'),
+      const { logoutService } = await import('../../../api/userService'),
         delay = new Promise((resolve) => setTimeout(resolve, 1200)),
-        processLogout = await userService.logout(),
+        processLogout = await logoutService(),
         [response] = await Promise.all([processLogout, delay]);
 
       response?.status === 200
@@ -76,14 +76,14 @@ export default function Sidebar() {
 
 const SidebarLogo = () => {
   return (
-    <div className="flex items-center justify-evenly mt-2 mb-5">
+    <div className="flex items-center mt-2 mb-5 justify-evenly">
       <div className="bg-[#F77E21] p-3 rounded-full mr-1">
         <MdInventory
           style={{ width: '28px', height: '28px', color: '#ffffff' }}
         />
       </div>
       <div className="flex flex-col">
-        <span className="text-white text-2xl text-center select-none tracking-wide font-black">
+        <span className="text-2xl font-black tracking-wide text-center text-white select-none">
           Brightsons
         </span>
         <div className="flex items-center ">

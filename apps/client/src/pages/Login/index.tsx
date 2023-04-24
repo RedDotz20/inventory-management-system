@@ -1,22 +1,22 @@
-import { useState } from 'react';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { isAxiosError } from 'axios';
 import {
+  Button,
+  Checkbox,
+  FormLabel,
   Input,
   InputGroup,
-  Button,
-  InputRightElement,
-  FormLabel,
-  Checkbox
+  InputRightElement
 } from '@chakra-ui/react';
-import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
+import { isAxiosError } from 'axios';
+import { useState } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { Navigate, useNavigate } from 'react-router-dom';
 import useLoginSuccessAlert from '../../store/LoginSuccessStore';
 
-import IsAuthenticated from '../../utils/IsAuthenticated';
 import StoreLogo from '../../components/StoreLogo';
-import loginInterface from './types';
 import useLoginFailedAlert from '../../store/LoginFailedStore';
+import IsAuthenticated from '../../utils/IsAuthenticated';
+import loginInterface from './types';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -44,13 +44,13 @@ export default function Login() {
     try {
       setIsLoading(true);
 
-      const { default: userService } = await import('../../api/userService'),
+      const { loginService } = await import('../../api/userService'),
         delay = new Promise((resolve) => setTimeout(resolve, 800)),
-        responseData = await userService.login(data);
+        responseData = await loginService(data);
 
       const [response] = await Promise.all([responseData, delay]);
 
-      if (response.token) {
+      if (response) {
         openLoginSuccess();
         setTimeout(() => closeLoginSuccess(), 5000);
         setTimeout(() => navigate('/home/dashboard'), 1000);
