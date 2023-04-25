@@ -1,6 +1,6 @@
 import cookieParser from 'cookie-parser';
 import express, { NextFunction, Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 
 const app = express();
@@ -9,7 +9,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 interface userReq extends Request {
-  user: string;
+  user: string | JwtPayload;
 }
 
 const JWT_SECRET = config.server.token.secret;
@@ -52,7 +52,10 @@ const verifyAccessToken = async (
     }
 
     //* check if the refresh token is expired
-    if (decodedRefreshToken.exp <= Date.now() / 1000) {
+    if (
+      typeof decodedRefreshToken === 'string' ||
+      (decodedRefreshToken.exp && decodedRefreshToken.exp <= Date.now() / 1000)
+    ) {
       return res
         .status(401)
         .json({ message: 'Refresh Token Expired', redirectURL: '/login' });
@@ -78,21 +81,3 @@ const verifyAccessToken = async (
 };
 
 export default verifyAccessToken;
-
-// jwt.verify(accessToken, JWT_SECRET, (err, user) => {
-//   if (err) {
-//     //? Returns 401 Unauthorized
-//     if (err.name === 'TokenExpiredError') {
-//       const payload = jwt.decode(accessToken, { complete: true }).payload;
-//       const newAccessToken = jwt.sign(payload, JWT_SECRET, {
-//         expiresIn: '10m'
-//       });
-//       res.setHeader('Authorization', `Bearer ${newAccessToken}`);
-//       res.setHeader('accessToken', newAccessToken);
-//       // return res.status(401).send({ message: 'Access token has expired' });
-//     }
-//     return res.status(403).send({ message: 'Access token is invalid' });
-//   }
-//   req.user = user;
-//   next();
-// });
