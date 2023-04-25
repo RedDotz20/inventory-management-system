@@ -1,6 +1,6 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
 import viteTsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
@@ -21,12 +21,7 @@ export default defineConfig({
     host: 'localhost'
   },
 
-  plugins: [
-    react(),
-    viteTsConfigPaths({
-      root: '../../'
-    })
-  ],
+  plugins: [react(), viteTsConfigPaths({ root: '../../' })],
 
   test: {
     globals: true,
@@ -39,15 +34,15 @@ export default defineConfig({
 
   optimizeDeps: {
     include: ['@tanstack/react-query']
-    // exclude: [
-    //   // add the module paths here
-    //   '/@tanstack/react-query-devtools/',
-    //   '/@tanstack/react-query/'
-    // ]
+  },
+
+  esbuild: {
+    target: 'esnext', // set the target to a version that supports import.meta
+    format: 'esm' // set the format to "esm"
   },
 
   build: {
-    // ...
+    target: 'esnext',
     rollupOptions: {
       external: [
         // Add the package names that are causing the error here

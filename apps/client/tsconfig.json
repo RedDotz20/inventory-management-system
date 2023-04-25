@@ -2,6 +2,8 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "allowJs": false,
+    "target": "esnext",
+    "module": "esnext", // set the module target to "es2015" or higher
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
