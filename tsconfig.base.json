@@ -22,6 +22,7 @@
     },
     "typeRoots": ["./global.d.ts"]
   },
+  "files": ["./global.d.ts"],
   "include": ["./global.d.ts"],
   "exclude": ["node_modules", "tmp", "node_modules/@chakra-ui/**/*"]
 }

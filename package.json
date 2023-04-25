@@ -29,11 +29,13 @@
     "@nrwl/workspace": "^15.8.7",
     "@tanstack/react-query-devtools": "^4.28.0",
     "@testing-library/react": "14.0.0",
+    "@types/bcryptjs": "^2.4.2",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/hpp": "^0.2.2",
     "@types/jest": "^29.5.0",
+    "@types/jsonwebtoken": "^9.0.1",
     "@types/minimist": "^1.2.2",
     "@types/morgan": "^1.9.4",
     "@types/node": "18.15.11",
@@ -103,7 +105,6 @@
     "tslib": "^2.3.0",
     "typeface-roboto": "^1.1.13",
     "typescript": "~4.9.5",
-    "xss-clean": "^0.1.1",
     "zustand": "^4.3.6"
   }
 }
