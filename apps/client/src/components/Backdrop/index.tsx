@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 
 interface BackdropProps {
   children: React.ReactNode;
+  style?: { backgroundColor: string };
   onClick: () => void;
 }
 

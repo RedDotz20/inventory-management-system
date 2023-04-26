@@ -1,7 +1,7 @@
 import { Flex, Heading, Stack, Text } from '@chakra-ui/react';
 
-import ProductsTable from './components/ProductsTable';
 import AddProduct from './components/AddProduct';
+import ProductsTable from './components/ProductsTable';
 import SearchProduct from './components/SearchProduct';
 
 export default function Products() {

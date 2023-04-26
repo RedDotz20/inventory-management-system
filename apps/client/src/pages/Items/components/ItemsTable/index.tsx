@@ -1,11 +1,11 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Box, Table, TableContainer } from '@chakra-ui/react';
-import items from '../../../../api/items';
 import { ItemsInterface } from '@root/shared/interfaces';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import items from '../../../../api/items';
 
-import Header from './Header';
-import BodyTable from './Body';
 import useSortItem from '../../store/SortItemStore';
+import BodyTable from './Body';
+import Header from './Header';
 
 export default function ItemsTable() {
   const { sortOrder, columnToSort } = useSortItem();

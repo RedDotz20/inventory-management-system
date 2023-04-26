@@ -1,13 +1,13 @@
-import { useMemo } from 'react';
-import { UseQueryResult } from '@tanstack/react-query';
-import { Button, Flex, Tbody, Td, Tr } from '@chakra-ui/react';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import { motion } from 'framer-motion';
+import { Button, Flex, Tbody, Td, Tr } from '@chakra-ui/react';
 import { ItemsInterface } from '@root/shared/interfaces';
+import { UseQueryResult } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import { useMemo } from 'react';
 
 // import FormatCurrency from '../../../../utils/FormatCurrency';
-import TableLoader from '../../../../components/Loader/TableLoader';
 import TableError from '../../../../components/ErrorInfo/TableError';
+import TableLoader from '../../../../components/Loader/TableLoader';
 import useSearchItem from '../../store/SearchItemStore';
 
 // import DeleteProduct from '../DeleteProduct';
@@ -36,7 +36,7 @@ function BodyTable({ itemsQuery }: QueryProps) {
         return (
           <Tr
             key={item.item_code_id}
-            className="hover:bg-gray-200 transition duration-200 ease-in-out"
+            className="transition duration-200 ease-in-out hover:bg-gray-200"
           >
             <Td width="5%">{item.item_code_id}</Td>
             <Td>{item.productName}</Td>

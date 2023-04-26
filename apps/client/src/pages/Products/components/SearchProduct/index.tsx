@@ -1,11 +1,11 @@
+import { SearchIcon } from '@chakra-ui/icons';
 import {
+  CloseButton,
   Input,
   InputGroup,
   InputLeftElement,
-  InputRightElement,
-  CloseButton
+  InputRightElement
 } from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
 import useSearchProduct from '../../store/SearchProductStore';
 
 export default function SearchProduct() {

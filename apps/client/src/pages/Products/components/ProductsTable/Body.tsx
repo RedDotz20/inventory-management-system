@@ -64,7 +64,7 @@ function BodyTable({ productsQuery }: QueryProps) {
         return (
           <Tr
             key={prod.rowNumber}
-            className="hover:bg-gray-200 transition duration-200 ease-in-out"
+            className="transition duration-200 ease-in-out hover:bg-gray-200"
           >
             <Td width="5%" textAlign="center">
               {prod.rowNumber}

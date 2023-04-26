@@ -1,11 +1,11 @@
+import { Button, Flex, Heading } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Heading, Button, Flex } from '@chakra-ui/react';
 import { IoCloseSharp } from 'react-icons/io5';
-import ProductsAPI from '../../../../api/products';
 import Backdrop from '../../../../components/Backdrop';
 import Modal from '../../../../components/Modal';
 
+import { deleteProducts } from '../../../../api/products';
 interface ModalProps {
   closeModal: () => void;
   productId: number;
@@ -15,12 +15,12 @@ interface ModalProps {
 function DeleteProductContent({ closeModal, productId }: ModalProps) {
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(
-    (id: number) => ProductsAPI.deleteProducts(id),
+    (id: number) => deleteProducts(id),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['productsTable']);
         closeModal();
-      },
+      }
     }
   );
 
@@ -30,7 +30,7 @@ function DeleteProductContent({ closeModal, productId }: ModalProps) {
   return (
     <>
       <IoCloseSharp
-        className="absolute top-4 right-4 cursor-pointer"
+        className="absolute cursor-pointer top-4 right-4"
         color="red"
         size={24}
         onClick={closeModal}

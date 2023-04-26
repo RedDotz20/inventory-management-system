@@ -1,5 +1,5 @@
+import { Center, Th, Thead, Tr } from '@chakra-ui/react';
 import { HTMLAttributes } from 'react';
-import { Thead, Th, Tr, Center } from '@chakra-ui/react';
 import useSortItem from '../../store/SortItemStore';
 
 interface ThProps extends HTMLAttributes<HTMLTableCellElement> {

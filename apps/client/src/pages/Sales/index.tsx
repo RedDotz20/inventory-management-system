@@ -1,4 +1,4 @@
-import { Heading, Flex, Stack, Text } from '@chakra-ui/react';
+import { Flex, Heading, Stack, Text } from '@chakra-ui/react';
 
 export default function Sales() {
   return (

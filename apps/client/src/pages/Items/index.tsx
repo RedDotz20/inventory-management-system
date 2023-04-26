@@ -1,7 +1,7 @@
 import { Flex, Heading, Stack, Text } from '@chakra-ui/react';
+import AddItem from './components/AddItem/index';
 import ItemsTable from './components/ItemsTable';
 import SearchItem from './components/SearchItem';
-import AddItem from './components/AddItem/index';
 
 export default function Items() {
   return (
