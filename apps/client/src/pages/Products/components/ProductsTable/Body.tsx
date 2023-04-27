@@ -10,6 +10,8 @@ import TableLoader from '../../../../components/Loader/TableLoader';
 import useSearchProduct from '../../store/SearchProductStore';
 import useSortProduct from '../../store/SortProductStore';
 
+import DeleteProduct from '../DeleteProduct';
+
 type QueryProps = { productsQuery: UseQueryResult<ProductInterface[]> };
 
 function BodyTable({ productsQuery }: QueryProps) {
@@ -81,7 +83,8 @@ function BodyTable({ productsQuery }: QueryProps) {
             <Td textAlign="center">
               <Flex justify="center" align="center" gap={1}>
                 <RowButton type="edit" />
-                <RowButton type="delete" />
+                <DeleteProduct productId={prod.productId} />
+                {/* <RowButton type="delete" /> */}
                 {/* <DeleteProduct productId={prod.productId} /> */}
                 {/* <RowButton type="delete" /> */}
               </Flex>
