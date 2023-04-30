@@ -2,7 +2,7 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import { Button } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { lazy } from 'react';
-import useDeleteProductStore from '../../store/DeleteProductStore';
+import useDeleteProductStore from './DeleteProductStore';
 
 const DeleteProductModal = lazy(() => import('./DeleteProductModal'));
 

@@ -7,8 +7,8 @@ import { useEffect, useMemo, useState } from 'react';
 
 import TableError from '../../../../components/ErrorInfo/TableError';
 import TableLoader from '../../../../components/Loader/TableLoader';
-import useSearchProduct from '../../store/SearchProductStore';
-import useSortProduct from '../../store/SortProductStore';
+import useSearchProduct from '../SearchProduct/SearchProductStore';
+import useSortProduct from './SortProductStore';
 
 import DeleteProduct from '../DeleteProduct';
 

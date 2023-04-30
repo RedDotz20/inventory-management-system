@@ -1,9 +1,9 @@
 import { AddIcon } from '@chakra-ui/icons';
 import { Button, Stack } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { lazy, Suspense, useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 
-import useAddProductStore from '../../store/AddProductStore';
+import useAddProductStore from './AddProductStore';
 
 const AddProductModal = lazy(() => import('./AddProductModal'));
 

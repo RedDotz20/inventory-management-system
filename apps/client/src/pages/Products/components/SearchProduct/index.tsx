@@ -6,7 +6,7 @@ import {
   InputLeftElement,
   InputRightElement
 } from '@chakra-ui/react';
-import useSearchProduct from '../../store/SearchProductStore';
+import useSearchProduct from './SearchProductStore';
 
 export default function SearchProduct() {
   const { query, setQuery } = useSearchProduct();

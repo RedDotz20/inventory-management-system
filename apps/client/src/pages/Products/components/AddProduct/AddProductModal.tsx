@@ -21,8 +21,6 @@ function AddProductModal({ closeModal }: ModalProps) {
   const queryClient = useQueryClient(),
     data = queryClient.getQueryData<ProductInterface>(['productsTable']);
 
-  // console.log(data);
-
   // const [priceValue, setPriceValue] = useState('0.00'),
   //   parse = (val: string) => val.replace(/^\$/, ''),
   //   format = (val: string) => `₱${val}`;
