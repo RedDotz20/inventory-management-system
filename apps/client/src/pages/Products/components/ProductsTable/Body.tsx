@@ -1,8 +1,6 @@
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import { Button, Flex, Tbody, Td, Tr } from '@chakra-ui/react';
+import { Flex, Tbody, Td, Tr } from '@chakra-ui/react';
 import { ProductInterface } from '@root/shared/interfaces';
 import { UseQueryResult } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
 
 import TableError from '../../../../components/ErrorInfo/TableError';
@@ -11,6 +9,7 @@ import useSearchProduct from '../SearchProduct/SearchProductStore';
 import useSortProduct from './SortProductStore';
 
 import DeleteProduct from '../DeleteProduct';
+import EditProduct from '../EditProduct';
 
 type QueryProps = { productsQuery: UseQueryResult<ProductInterface[]> };
 
@@ -52,8 +51,7 @@ function BodyTable({ productsQuery }: QueryProps) {
     }
     return products;
   };
-  // const productsRow = query.length > 0 ? sortedProducts : products;
-  // const productsRow = query.length > 0 ? filteredProducts ?? [] : data ?? [];
+
   if (isLoading) return <TableLoader />;
   if (isError) return <TableError />;
 
@@ -80,13 +78,10 @@ function BodyTable({ productsQuery }: QueryProps) {
               {prod.categoryName}
             </Td>
             <Td>{prod.unitName}</Td>
-            <Td textAlign="center">
+            <Td>
               <Flex justify="center" align="center" gap={1}>
-                <RowButton type="edit" />
+                <EditProduct prod={prod} />
                 <DeleteProduct productId={prod.productId} />
-                {/* <RowButton type="delete" /> */}
-                {/* <DeleteProduct productId={prod.productId} /> */}
-                {/* <RowButton type="delete" /> */}
               </Flex>
             </Td>
           </Tr>
@@ -96,19 +91,19 @@ function BodyTable({ productsQuery }: QueryProps) {
   );
 }
 
-const RowButton = ({ type, ...rest }: { type: string }) => {
-  const MotionButton = motion(Button);
-  return (
-    <MotionButton
-      {...rest}
-      whileTap={{ scale: 0.9 }}
-      borderRadius="full"
-      colorScheme={type === 'edit' ? 'orange' : 'red'}
-      p="0"
-    >
-      {type === 'edit' ? <EditIcon /> : <DeleteIcon />}
-    </MotionButton>
-  );
-};
+// const RowButton = ({ type, ...rest }: { type: string }) => {
+//   const MotionButton = motion(Button);
+//   return (
+//     <MotionButton
+//       {...rest}
+//       whileTap={{ scale: 0.9 }}
+//       borderRadius="full"
+//       colorScheme={type === 'edit' ? 'orange' : 'red'}
+//       p="0"
+//     >
+//       {type === 'edit' ? <EditIcon /> : <DeleteIcon />}
+//     </MotionButton>
+//   );
+// };
 
 export default BodyTable;
