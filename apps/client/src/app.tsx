@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import PrivateRoute from './utils/PrivateRoute';
 
+import 'react-toastify/dist/ReactToastify.css';
 import './styles.css';
 
 export default function App() {

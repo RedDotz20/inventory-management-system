@@ -11,24 +11,17 @@ import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { Navigate, useNavigate } from 'react-router-dom';
-
-// import useLoginSuccessAlert from '../../components/Alerts/LoginSuccessStore';
-// import useLoginFailedAlert from '../../components/Alerts/LoginFailedStore';
+import {
+  errorAlert,
+  successAlert
+} from '../../components/Alerts/AlertVariants';
 
 import StoreLogo from '../../components/StoreLogo';
 import IsAuthenticated from '../../utils/IsAuthenticated';
 import loginInterface from './types';
 
-import { errorLogin, successLogin } from '../../components/Alerts';
-
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
-  // const { isLoginSuccessful, openLoginSuccess, closeLoginSuccess } =
-  //   useLoginSuccessAlert();
-  // const { openLoginFailed, closeLoginFailed } = useLoginFailedAlert();
-
-  // const { alerts, addAlert } = useAlertStore();
-
   const rememberUsername = !!localStorage.getItem('savedUsername'),
     [isRemember, setIsRemember] = useState(rememberUsername);
 
@@ -56,7 +49,7 @@ export default function Login() {
       const [response] = await Promise.all([responseData, delay]);
 
       if (response) {
-        successLogin();
+        successAlert('Login Successful');
         setTimeout(() => navigate('/home/dashboard'), 1000);
         isRemember
           ? localStorage.setItem('savedUsername', data.username)
@@ -65,7 +58,8 @@ export default function Login() {
     } catch (error) {
       if (isAxiosError(error)) {
         const response = error.response;
-        if (response && response.status === 404) errorLogin();
+        if (response && response.status === 404)
+          errorAlert('Invalid Username or Password');
       }
     } finally {
       setIsLoading(false);
