@@ -1,23 +1,59 @@
-import { AnimatePresence } from 'framer-motion';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import LoginSuccessAlert from './LoginSuccessAlert';
-import useLoginSuccessAlert from '../../store/LoginSuccessStore';
+export const successLogin = () =>
+  toast.success('Login Successful', {
+    position: 'top-right',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored'
+  });
 
-import LoginFailureAlert from './LoginFailedAlert';
-import useLoginFailureAlert from '../../store/LoginFailedStore';
+export const errorLogin = () =>
+  toast.error('Invalid Username or Password', {
+    position: 'top-right',
+    autoClose: 4000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored'
+  });
+
+export const successLogout = () => {
+  toast.info('Logout Successful', {
+    position: 'top-right',
+    autoClose: 4000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: 'colored'
+  });
+};
 
 function Alerts() {
-  const { isLoginSuccessful, closeLoginSuccess } = useLoginSuccessAlert();
-  const { isLoginFailed, closeLoginFailed } = useLoginFailureAlert();
   return (
-    <div className="flex flex-col absolute gap-1 top-4 right-4 overflow-hidden">
-      <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
-        {isLoginSuccessful && (
-          <LoginSuccessAlert closeAlert={closeLoginSuccess} />
-        )}
-        {isLoginFailed && <LoginFailureAlert closeAlert={closeLoginFailed} />}
-      </AnimatePresence>
-    </div>
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+    </>
   );
 }
 

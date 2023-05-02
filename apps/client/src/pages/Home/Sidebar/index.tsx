@@ -6,6 +6,7 @@ import { FaWrench } from 'react-icons/fa';
 import { HiDocumentText, HiTemplate } from 'react-icons/hi';
 import { MdInventory, MdOutlineProductionQuantityLimits } from 'react-icons/md';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { successLogout } from '../../../components/Alerts';
 import NavRoutes from './NavRoutes';
 
 export default function Sidebar() {
@@ -20,9 +21,12 @@ export default function Sidebar() {
         processLogout = await logoutService(),
         [response] = await Promise.all([processLogout, delay]);
 
-      response?.status === 200
-        ? navigate('/login')
-        : console.log('An Error has occurred');
+      if (response?.status === 200) {
+        successLogout();
+        setTimeout(() => navigate('/login'), 1500);
+      } else {
+        console.log('An Error has occurred');
+      }
     } catch (err) {
       console.error(err);
     } finally {

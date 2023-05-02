@@ -11,18 +11,23 @@ import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { Navigate, useNavigate } from 'react-router-dom';
-import useLoginSuccessAlert from '../../store/LoginSuccessStore';
+
+// import useLoginSuccessAlert from '../../components/Alerts/LoginSuccessStore';
+// import useLoginFailedAlert from '../../components/Alerts/LoginFailedStore';
 
 import StoreLogo from '../../components/StoreLogo';
-import useLoginFailedAlert from '../../store/LoginFailedStore';
 import IsAuthenticated from '../../utils/IsAuthenticated';
 import loginInterface from './types';
 
+import { errorLogin, successLogin } from '../../components/Alerts';
+
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
-  const { isLoginSuccessful, openLoginSuccess, closeLoginSuccess } =
-    useLoginSuccessAlert();
-  const { openLoginFailed, closeLoginFailed } = useLoginFailedAlert();
+  // const { isLoginSuccessful, openLoginSuccess, closeLoginSuccess } =
+  //   useLoginSuccessAlert();
+  // const { openLoginFailed, closeLoginFailed } = useLoginFailedAlert();
+
+  // const { alerts, addAlert } = useAlertStore();
 
   const rememberUsername = !!localStorage.getItem('savedUsername'),
     [isRemember, setIsRemember] = useState(rememberUsername);
@@ -51,25 +56,16 @@ export default function Login() {
       const [response] = await Promise.all([responseData, delay]);
 
       if (response) {
-        openLoginSuccess();
-        setTimeout(() => closeLoginSuccess(), 5000);
+        successLogin();
         setTimeout(() => navigate('/home/dashboard'), 1000);
         isRemember
           ? localStorage.setItem('savedUsername', data.username)
           : localStorage.removeItem('savedUsername');
-      } else {
-        alert('Invalid username or password');
       }
     } catch (error) {
       if (isAxiosError(error)) {
         const response = error.response;
-        if (response && response.status === 404) {
-          openLoginFailed();
-          setTimeout(() => closeLoginFailed(), 5000);
-          // alert(`User not found: ${response.data.message}`);
-        } else {
-          alert('An error occured. Please try again later.');
-        }
+        if (response && response.status === 404) errorLogin();
       }
     } finally {
       setIsLoading(false);
@@ -182,7 +178,7 @@ export default function Login() {
         </Checkbox>
 
         <Button
-          isLoading={isLoading || isLoginSuccessful}
+          isLoading={isLoading}
           type="submit"
           colorScheme="orange"
           mt="auto"

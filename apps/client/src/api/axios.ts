@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { BASE_URL } from './config';
-import { CustomAxiosError } from './userService/types';
 const accessToken = localStorage.getItem('accessToken');
 
 const axiosInstance = axios.create({ baseURL: BASE_URL });
@@ -8,9 +7,9 @@ const axiosInstance = axios.create({ baseURL: BASE_URL });
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    const customError: CustomAxiosError = error;
-    customError.isAxiosError = true;
-    return Promise.reject(customError);
+    // const customError: CustomAxiosError = error;
+    // customError.isAxiosError = true;
+    return Promise.reject(error);
   }
 );
 

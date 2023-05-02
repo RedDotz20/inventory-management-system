@@ -99,6 +99,7 @@
     "react-hook-form": "^7.43.7",
     "react-icons": "^4.8.0",
     "react-router-dom": "6.11.0",
+    "react-toastify": "^9.1.2",
     "redis": "^4.6.5",
     "tslib": "^2.3.0",
     "typeface-roboto": "^1.1.13",
