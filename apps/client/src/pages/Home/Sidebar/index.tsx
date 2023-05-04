@@ -7,12 +7,13 @@ import { HiDocumentText, HiTemplate } from 'react-icons/hi';
 import { MdInventory, MdOutlineProductionQuantityLimits } from 'react-icons/md';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { infoAlert } from '../../../components/Alerts/AlertVariants';
+
 import NavRoutes from './NavRoutes';
 
 export default function Sidebar() {
   const [isLoading, setIsLoading] = useState(false);
-  console.log('on mount ', isLoading);
   const navigate = useNavigate();
+
   const userLogout = async () => {
     setIsLoading(true);
     try {

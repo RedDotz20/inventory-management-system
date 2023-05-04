@@ -12,14 +12,35 @@ import {
 import { ProductInterface } from '@root/shared/interfaces';
 import { useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Backdrop from '../../../../components/Backdrop';
 import Modal from '../../../../components/Modal';
 
 type ModalProps = { closeModal: () => void; isOpen?: boolean };
 
+interface AddProductinterface {
+  productName: string;
+  brandName: string;
+  categoryName: string;
+  unitName: string;
+}
+
 function AddProductModal({ closeModal }: ModalProps) {
   const queryClient = useQueryClient(),
     data = queryClient.getQueryData<ProductInterface>(['productsTable']);
+
+  const {
+    control,
+    trigger,
+    handleSubmit
+    // TODO: Handle Error Response Messages
+    // formState: { isValid, errors }
+  } = useForm<AddProductinterface>();
+
+  const onSubmit: SubmitHandler<AddProductinterface> = async (data) => {
+    //TODO: handle POST request
+    console.table(data);
+  };
 
   // const [priceValue, setPriceValue] = useState('0.00'),
   //   parse = (val: string) => val.replace(/^\$/, ''),
@@ -42,66 +63,144 @@ function AddProductModal({ closeModal }: ModalProps) {
           onClick={closeModal}
         />
 
-        <Heading as="h3" size="md" mb="4">
-          ADD PRODUCT
-        </Heading>
+        <form onSubmit={handleSubmit(onSubmit)} className="relative h-full">
+          <Heading as="h3" size="md" mb="4">
+            ADD PRODUCT
+          </Heading>
 
-        <InputGroup size="md" mb={4} className="flex flex-col">
-          <FormLabel htmlFor="productName">Product Name</FormLabel>
-          <Input variant="filled" id="productName" type="text" />
-        </InputGroup>
+          <Controller
+            name="productName"
+            defaultValue=""
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => {
+              return (
+                <InputGroup size="md" mb={4} className="flex flex-col">
+                  <FormLabel htmlFor="productName">Product Name</FormLabel>
+                  <Input
+                    {...field}
+                    onChangeCapture={(e) => {
+                      field.onChange(e);
+                      trigger('productName');
+                    }}
+                    variant="filled"
+                    id="productName"
+                    type="text"
+                  />
+                </InputGroup>
+              );
+            }}
+          />
 
-        <InputGroup size="md" mb={8} className="flex flex-col">
-          <FormLabel htmlFor="brandName">Brand Name</FormLabel>
-          <Input variant="filled" id="brandName" type="text" />
-        </InputGroup>
+          <Controller
+            name="brandName"
+            defaultValue=""
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => {
+              return (
+                <InputGroup size="md" mb={8} className="flex flex-col">
+                  <FormLabel htmlFor="brandName">Brand Name</FormLabel>
+                  <Input
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      trigger('brandName');
+                    }}
+                    variant="filled"
+                    id="brandName"
+                    type="text"
+                  />
+                </InputGroup>
+              );
+            }}
+          />
 
-        <Select variant="filled" size="md" mb={4} placeholder="Select Category">
-          {selectOptions('categoryName').map((category, index) => {
-            return (
-              <option key={index} value={category}>
-                {`${index + 1}. ${category}`}
-              </option>
-            );
-          })}
-          <option value="newCategory">New Category</option>
-        </Select>
+          <Controller
+            name="categoryName"
+            defaultValue=""
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => {
+              return (
+                <Select
+                  {...field}
+                  onChange={(e) => {
+                    field.onChange(e);
+                    trigger('categoryName');
+                  }}
+                  variant="filled"
+                  size="md"
+                  mb={4}
+                  placeholder="Select Category"
+                  id="categoryName"
+                >
+                  {selectOptions('categoryName').map((category, index) => {
+                    return (
+                      <option key={index} value={category}>
+                        {`${index + 1}. ${category}`}
+                      </option>
+                    );
+                  })}
+                  <option value="newCategory">New Category</option>
+                </Select>
+              );
+            }}
+          />
 
-        <Select
-          variant="filled"
-          size="md"
-          mb={4}
-          placeholder="Select Product Unit"
-        >
-          {selectOptions('unitName').map((category, index) => {
-            return (
-              <option key={index} value={category}>
-                {`${index + 1}. ${category}`}
-              </option>
-            );
-          })}
-          <option value="newUnit">New Product Unit</option>
-        </Select>
+          <Controller
+            name="unitName"
+            defaultValue=""
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => {
+              return (
+                <Select
+                  {...field}
+                  onChange={(e) => {
+                    field.onChange(e);
+                    trigger('unitName');
+                  }}
+                  variant="filled"
+                  size="md"
+                  mb={4}
+                  placeholder="Select Product Unit"
+                  id="unitName"
+                >
+                  {selectOptions('unitName').map((category, index) => {
+                    return (
+                      <option key={index} value={category}>
+                        {`${index + 1}. ${category}`}
+                      </option>
+                    );
+                  })}
+                  <option value="newUnit">New Product Unit</option>
+                </Select>
+              );
+            }}
+          />
 
-        <Flex mt="auto" gap="2">
-          <MotionButton
-            width="full"
-            onClick={() => closeModal()}
-            whileTap={{ scale: 0.9 }}
-            variant="outline"
-            colorScheme="orange"
-          >
-            CANCEL
-          </MotionButton>
-          <MotionButton
-            width="full"
-            whileTap={{ scale: 0.9 }}
-            leftIcon={<AddIcon />}
-            colorScheme="orange"
-          >
-            ADD
-          </MotionButton>
-        </Flex>
+          <Flex gap="2" className="absolute bottom-0 w-full">
+            <MotionButton
+              width="full"
+              onClick={() => closeModal()}
+              whileTap={{ scale: 0.9 }}
+              variant="outline"
+              colorScheme="orange"
+            >
+              CANCEL
+            </MotionButton>
+            <MotionButton
+              width="full"
+              whileTap={{ scale: 0.9 }}
+              leftIcon={<AddIcon />}
+              colorScheme="orange"
+              type="submit"
+            >
+              ADD
+            </MotionButton>
+          </Flex>
+        </form>
       </Modal>
     </Backdrop>
   );
