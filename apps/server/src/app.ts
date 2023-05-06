@@ -5,7 +5,7 @@ import express from 'express';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import morgan from 'morgan';
-import { ItemCodes, Products, Stocks, UserAuth } from './routes';
+import { ItemCodes, Orders, Products, Stocks, UserAuth } from './routes';
 
 const app = express();
 
@@ -27,5 +27,6 @@ app.use(UserAuth);
 app.use(Products);
 app.use(ItemCodes);
 app.use(Stocks);
+app.use(Orders);
 
 export default app;
