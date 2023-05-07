@@ -1,11 +1,8 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { Heading, Flex, Stack, Text } from '@chakra-ui/react';
+import { Flex, Heading, Stack, Text } from '@chakra-ui/react';
+import ProductCards from './components/ProductCards';
+import SearchCard from './components/SearchOrder/SearchCard';
 
-function Order() {
-  const queryClient = useQueryClient();
-  const data = queryClient.getQueryData(['productsTable']);
-  console.log(data);
-
+export default function Order() {
   return (
     <Flex width="full" direction="column" p={4}>
       <Stack py={4} mb={6} spacing={0}>
@@ -16,8 +13,14 @@ function Order() {
           Orders
         </Heading>
       </Stack>
+
+      <Flex mb={4}>
+        <SearchCard />
+      </Flex>
+
+      <Flex>
+        <ProductCards />
+      </Flex>
     </Flex>
   );
 }
-
-export default Order;
