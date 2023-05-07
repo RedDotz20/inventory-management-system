@@ -60,10 +60,13 @@ function AddProductModal({ closeModal }: ModalProps) {
           size="lg"
           color="red"
           className="absolute top-6 right-6"
-          onClick={closeModal}
+          onClick={() => closeModal()}
         />
 
-        <form onSubmit={handleSubmit(onSubmit)} className="relative h-full">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col h-full"
+        >
           <Heading as="h3" size="md" mb="4">
             ADD PRODUCT
           </Heading>
@@ -180,7 +183,7 @@ function AddProductModal({ closeModal }: ModalProps) {
             }}
           />
 
-          <Flex gap="2" className="absolute bottom-0 w-full">
+          <Flex gap="2" mt="auto">
             <MotionButton
               width="full"
               onClick={() => closeModal()}

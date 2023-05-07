@@ -1,7 +1,6 @@
-import { Button, Flex, Heading } from '@chakra-ui/react';
+import { Button, CloseButton, Flex, Heading } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { IoCloseSharp } from 'react-icons/io5';
 import Backdrop from '../../../../components/Backdrop';
 import Modal from '../../../../components/Modal';
 
@@ -29,11 +28,11 @@ function DeleteProductContent({ closeModal, productId }: ModalProps) {
 
   return (
     <>
-      <IoCloseSharp
-        className="absolute cursor-pointer top-4 right-4"
+      <CloseButton
+        size="md"
         color="red"
-        size={24}
-        onClick={closeModal}
+        className="absolute top-5 right-6"
+        onClick={() => closeModal()}
       />
 
       <Heading as="h3" size="md" mt="1.5rem">

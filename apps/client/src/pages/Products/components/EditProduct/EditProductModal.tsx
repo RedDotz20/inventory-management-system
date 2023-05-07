@@ -2,12 +2,12 @@ import { Button } from '@chakra-ui/button';
 import { FormLabel } from '@chakra-ui/form-control';
 import { Input, InputGroup } from '@chakra-ui/input';
 import { Flex, Heading } from '@chakra-ui/layout';
+import { CloseButton } from '@chakra-ui/react';
 import { Select } from '@chakra-ui/select';
 import { ProductInterface } from '@root/shared/interfaces';
 import { useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { IoCloseSharp } from 'react-icons/io5';
 import Backdrop from '../../../../components/Backdrop';
 import Modal from '../../../../components/Modal';
 import { EditFieldInterface, InputProps, ModalProps } from './types';
@@ -44,12 +44,15 @@ function EditProductModal({ closeModal, prod }: ModalProps) {
   return (
     <Backdrop onClick={closeModal}>
       <Modal handleClose={closeModal} className="h-[32rem] w-[25rem]">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <IoCloseSharp
-            className="absolute cursor-pointer top-4 right-4"
+        <form
+          className="flex flex-col h-full"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <CloseButton
+            size="lg"
             color="red"
-            size={24}
-            onClick={closeModal}
+            className="absolute top-6 right-6"
+            onClick={() => closeModal()}
           />
 
           <Heading as="h3" size="md" mb="4">
