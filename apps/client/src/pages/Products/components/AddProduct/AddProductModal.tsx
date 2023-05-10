@@ -12,6 +12,7 @@ import {
 import { ProductInterface } from '@root/shared/interfaces';
 import { useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Backdrop from '../../../../components/Backdrop';
 import Modal from '../../../../components/Modal';
@@ -26,6 +27,9 @@ interface AddProductinterface {
 }
 
 function AddProductModal({ closeModal }: ModalProps) {
+  const [isNewCategory, setIsNewCategory] = useState(false);
+  const [isNewUnit, setIsNewUnit] = useState(false);
+
   const queryClient = useQueryClient(),
     data = queryClient.getQueryData<ProductInterface>(['productsTable']);
 
@@ -37,20 +41,24 @@ function AddProductModal({ closeModal }: ModalProps) {
     // formState: { isValid, errors }
   } = useForm<AddProductinterface>();
 
-  const onSubmit: SubmitHandler<AddProductinterface> = async (data) => {
-    //TODO: handle POST request
-    console.table(data);
-  };
+  // const addProductMutation = useMutation(insertProducts, {
+  //   onSuccess: (data) => {
+  //     // TODO: handle success
+  //     console.log('insert success');
+  //   },
+  //   onError: (error: unknown) => {
+  //     console.error(error);
+  //   }
+  // });
 
-  // const [priceValue, setPriceValue] = useState('0.00'),
-  //   parse = (val: string) => val.replace(/^\$/, ''),
-  //   format = (val: string) => `₱${val}`;
+  const onSubmit: SubmitHandler<AddProductinterface> = async (data) => {
+    console.log(data);
+  };
 
   const selectOptions = (column: string) => {
     const selections = Array.isArray(data) && data.map((prod) => prod[column]);
     return Array.from(new Set(selections || []));
   };
-
   const MotionButton = motion(Button);
 
   return (
@@ -126,27 +134,53 @@ function AddProductModal({ closeModal }: ModalProps) {
             rules={{ required: true }}
             render={({ field }) => {
               return (
-                <Select
-                  {...field}
-                  onChange={(e) => {
-                    field.onChange(e);
-                    trigger('categoryName');
-                  }}
-                  variant="filled"
-                  size="md"
-                  mb={4}
-                  placeholder="Select Category"
-                  id="categoryName"
-                >
-                  {selectOptions('categoryName').map((category, index) => {
-                    return (
-                      <option key={index} value={category}>
-                        {`${index + 1}. ${category}`}
-                      </option>
-                    );
-                  })}
-                  <option value="newCategory">New Category</option>
-                </Select>
+                <>
+                  {isNewCategory === false && (
+                    <Select
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        trigger('categoryName');
+                        setIsNewCategory(e.target.value === 'newCategory');
+                      }}
+                      variant="filled"
+                      size="md"
+                      mb={4}
+                      placeholder="Select Category"
+                      id="categoryName"
+                    >
+                      {selectOptions('categoryName').map((category, index) => {
+                        return (
+                          <option key={index} value={category}>
+                            {category}
+                          </option>
+                        );
+                      })}
+                      <option value="newCategory">New Category</option>
+                    </Select>
+                  )}
+                  {isNewCategory === true && (
+                    <Flex mb={4} gap={2}>
+                      <Input
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          trigger('categoryName');
+                        }}
+                        defaultValue=""
+                        placeholder="Enter new option"
+                      />
+                      <Button
+                        onClick={() => {
+                          field.onChange('selectCategory');
+                          setIsNewCategory(false);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </Flex>
+                  )}
+                </>
               );
             }}
           />
@@ -158,27 +192,53 @@ function AddProductModal({ closeModal }: ModalProps) {
             rules={{ required: true }}
             render={({ field }) => {
               return (
-                <Select
-                  {...field}
-                  onChange={(e) => {
-                    field.onChange(e);
-                    trigger('unitName');
-                  }}
-                  variant="filled"
-                  size="md"
-                  mb={4}
-                  placeholder="Select Product Unit"
-                  id="unitName"
-                >
-                  {selectOptions('unitName').map((category, index) => {
-                    return (
-                      <option key={index} value={category}>
-                        {`${index + 1}. ${category}`}
-                      </option>
-                    );
-                  })}
-                  <option value="newUnit">New Product Unit</option>
-                </Select>
+                <>
+                  {isNewUnit === false && (
+                    <Select
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        trigger('unitName');
+                        setIsNewUnit(e.target.value === 'newUnit');
+                      }}
+                      variant="filled"
+                      size="md"
+                      mb={4}
+                      placeholder="Select Product Unit"
+                      id="unitName"
+                    >
+                      {selectOptions('unitName').map((category, index) => {
+                        return (
+                          <option key={index} value={category}>
+                            {category}
+                          </option>
+                        );
+                      })}
+                      <option value="newUnit">New Product Unit</option>
+                    </Select>
+                  )}
+                  {isNewUnit === true && (
+                    <Flex mb={4} gap={2}>
+                      <Input
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          trigger('unitName');
+                        }}
+                        defaultValue=""
+                        placeholder="Enter new option"
+                      />
+                      <Button
+                        onClick={() => {
+                          field.onChange('selectUnit');
+                          setIsNewUnit(false);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </Flex>
+                  )}
+                </>
               );
             }}
           />
