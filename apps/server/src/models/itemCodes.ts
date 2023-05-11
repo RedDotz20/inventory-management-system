@@ -4,7 +4,7 @@ const itemCodes: string =
   '  `item_code` VARCHAR(255) NOT NULL,' +
   '  `variant` VARCHAR(255) NOT NULL,' +
   '  `productId` INT NOT NULL,' +
-  '  `price` DECIMAL(10,2) NOT NULL,' +
+  '  `price` DECIMAL(5,2) NOT NULL,' +
   '  `stockQuantity` INT NULL,' +
   '  PRIMARY KEY (`item_code_id`),' +
   '  UNIQUE INDEX `iditemCode_UNIQUE` (`item_code_id` ASC) VISIBLE,' +

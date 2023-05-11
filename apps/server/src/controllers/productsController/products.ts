@@ -6,22 +6,19 @@ async function getProducts(req: Request, res: Response) {
     const query = `
     SELECT 
       p.productId,
-      ROW_NUMBER() OVER () AS rowNumber,
       p.productName,
-      COUNT(ic.item_code) AS inventory,
-      p.brand,
-      pc.categoryName, 
-      pu.unitName
+      COUNT(ic.item_code) AS variants,
+      p.brandName,
+      p.categoryName, 
+      p.unitName
     FROM 
       Item_codes ic
       LEFT JOIN products p ON ic.productId = p.productId
-      LEFT JOIN product_category pc ON p.category_id = pc.category_id
-      LEFT JOIN product_unit pu ON p.unit_id = pu.unit_id
     GROUP BY 
       p.productName,
-      p.brand,
-      pc.categoryName, 
-      pu.unitName;
+      p.brandName,
+      p.categoryName, 
+      p.unitName;
     `;
 
     await connection.execute(query, (error, result) => {

@@ -1,25 +1,22 @@
 import { Flex, Tbody, Td, Tr } from '@chakra-ui/react';
 import { ProductInterface } from '@root/shared/interfaces';
 import { UseQueryResult } from '@tanstack/react-query';
-import { useEffect, useMemo, useState } from 'react';
-
+import { useEffect, useMemo } from 'react';
 import TableError from '../../../../components/ErrorInfo/TableError';
 import TableLoader from '../../../../components/Loader/TableLoader';
-import useSearchProduct from '../SearchProduct/SearchProductStore';
-import useSortProduct from './SortProductStore';
-
 import DeleteProduct from '../DeleteProduct';
 import EditProduct from '../EditProduct';
+import useSearchProduct from '../SearchProduct/SearchProductStore';
+import useSortProduct from './SortProductStore';
 
 type QueryProps = { productsQuery: UseQueryResult<ProductInterface[]> };
 
 function BodyTable({ productsQuery }: QueryProps) {
   const { isLoading, isError, data } = productsQuery;
-  const [products, setProducts] = useState<ProductInterface[]>(data ?? []);
-  const { sortOrder, columnToSort } = useSortProduct();
+  const { products, setProducts, sortOrder, columnToSort } = useSortProduct();
   const { query } = useSearchProduct();
 
-  useEffect(() => setProducts(data ?? []), [data]);
+  useEffect(() => setProducts(data ?? []), [data, setProducts]);
 
   const filteredProducts = useMemo(() => {
     return (
@@ -32,8 +29,8 @@ function BodyTable({ productsQuery }: QueryProps) {
 
   const sortedProducts = useMemo(() => {
     return [...products].sort((a, b) => {
-      const columnA: string | number = a[columnToSort];
-      const columnB: string | number = b[columnToSort];
+      const columnA = a[columnToSort];
+      const columnB = b[columnToSort];
       if (typeof columnA === 'string' && typeof columnB === 'string') {
         return sortOrder
           ? columnA.localeCompare(columnB)
@@ -60,19 +57,19 @@ function BodyTable({ productsQuery }: QueryProps) {
       maxH={productsRow.length > 10 ? '320px' : 'unset'}
       overflowY="scroll"
     >
-      {productsRow().map((prod: ProductInterface) => {
+      {productsRow().map((prod: ProductInterface, index) => {
         return (
           <Tr
-            key={prod.rowNumber}
+            key={prod.productId}
             className="transition duration-200 ease-in-out hover:bg-gray-200"
           >
             <Td width="5%" textAlign="center">
-              {prod.rowNumber}
+              {prod.productId}
             </Td>
             <Td>{prod.productName}</Td>
-            <Td>{prod.inventory === null ? 'None' : prod.inventory}</Td>
+            <Td>{prod.variants === null ? 'None' : prod.variants}</Td>
             <Td maxW="10px" overflowWrap="break-word">
-              {prod.brand}
+              {prod.brandName}
             </Td>
             <Td maxW="10px" overflowWrap="break-word">
               {prod.categoryName}
@@ -90,20 +87,5 @@ function BodyTable({ productsQuery }: QueryProps) {
     </Tbody>
   );
 }
-
-// const RowButton = ({ type, ...rest }: { type: string }) => {
-//   const MotionButton = motion(Button);
-//   return (
-//     <MotionButton
-//       {...rest}
-//       whileTap={{ scale: 0.9 }}
-//       borderRadius="full"
-//       colorScheme={type === 'edit' ? 'orange' : 'red'}
-//       p="0"
-//     >
-//       {type === 'edit' ? <EditIcon /> : <DeleteIcon />}
-//     </MotionButton>
-//   );
-// };
 
 export default BodyTable;

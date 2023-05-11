@@ -32,7 +32,7 @@ export default function Header() {
   const { sortOrder, columnToSort, setSortOrder, setColumnToSort } =
     useSortProduct();
 
-  const handleSortClick = (columnName: string) => {
+  const handleSort = (columnName: string) => {
     if (columnName === columnToSort) {
       setSortOrder((prevSortOrder) => !prevSortOrder);
     } else {
@@ -46,32 +46,32 @@ export default function Header() {
       <Tr>
         <Th
           p={4}
-          onClick={() => handleSortClick('rowNumber')}
+          onClick={() => handleSort('rowNumber')}
           width="5%"
           fontSize="xs"
           userSelect="none"
           textAlign="center"
         >
-          # {getArrowSymbol(columnToSort, 'rowNumber', sortOrder)}
+          Id {getArrowSymbol(columnToSort, 'productId', sortOrder)}
         </Th>
 
-        <THeader onClick={() => handleSortClick('productName')}>
+        <THeader onClick={() => handleSort('productName')}>
           PRODUCT NAME {getArrowSymbol(columnToSort, 'productName', sortOrder)}
         </THeader>
 
-        <THeader onClick={() => handleSortClick('inventory')}>
-          INVENTORY {getArrowSymbol(columnToSort, 'inventory', sortOrder)}
+        <THeader onClick={() => handleSort('variants')}>
+          VARIANTS {getArrowSymbol(columnToSort, 'variants', sortOrder)}
         </THeader>
 
-        <THeader onClick={() => handleSortClick('brand')}>
-          BRAND {getArrowSymbol(columnToSort, 'brand', sortOrder)}
+        <THeader onClick={() => handleSort('brandName')}>
+          BRAND {getArrowSymbol(columnToSort, 'brandName', sortOrder)}
         </THeader>
 
-        <THeader onClick={() => handleSortClick('categoryName')}>
+        <THeader onClick={() => handleSort('categoryName')}>
           CATEGORY {getArrowSymbol(columnToSort, 'categoryName', sortOrder)}
         </THeader>
 
-        <THeader onClick={() => handleSortClick('unitName')}>
+        <THeader onClick={() => handleSort('unitName')}>
           UNIT {getArrowSymbol(columnToSort, 'unitName', sortOrder)}
         </THeader>
 

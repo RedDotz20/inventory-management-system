@@ -1,20 +1,12 @@
 import connection from '../config/connection';
 import itemCodesModel from './itemCodes';
-import productCategoryModel from './productCategory';
 import productsModel from './products';
-import productUnitModel from './productUnit';
 
 import usersModel from './users';
 
 const createTables = async (): Promise<void> => {
   try {
-    const models = [
-      usersModel,
-      productUnitModel,
-      productCategoryModel,
-      productsModel,
-      itemCodesModel
-    ];
+    const models = [usersModel, productsModel, itemCodesModel];
 
     models.forEach(async (model) => {
       await connection.execute(model);
