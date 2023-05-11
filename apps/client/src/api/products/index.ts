@@ -1,4 +1,5 @@
-import { AxiosResponse } from 'axios';
+// import { ProductInterface } from '@root/shared/interfaces';
+// import { AxiosResponse } from 'axios';
 import { axiosInstance } from '../axios';
 
 interface AddProductinterface {
@@ -15,17 +16,12 @@ async function getProducts() {
     .catch((error) => console.error(error));
 }
 
-async function insertProducts(
-  productName: string,
-  brand: string,
-  categoryId: string,
-  unitId: number
-): Promise<AxiosResponse<AddProductinterface>> {
+async function insertProducts(newProducts: AddProductinterface) {
   const response = await axiosInstance.post('/insertproduct', {
-    productName: productName,
-    brand: brand,
-    categoryId: categoryId,
-    unitId: unitId
+    productName: newProducts.productName,
+    brandName: newProducts.brandName,
+    categoryName: newProducts.categoryName,
+    unitName: newProducts.unitName
   });
   return response;
 }

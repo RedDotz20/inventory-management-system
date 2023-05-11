@@ -18,11 +18,11 @@ async function getItemCodes(req: Request, res: Response) {
       LEFT JOIN product_category pc ON p.category_id = pc.category_id
       LEFT JOIN product_unit pu ON p.unit_id = pu.unit_id;`;
 
-    await connection.execute(query, (error, result) => {
+    await connection.execute(query, (error, results) => {
       if (error) throw error;
       res
         .status(201)
-        .json({ message: 'Items Loaded Successfully', product: result });
+        .json({ message: 'Items Loaded Successfully', product: results });
       console.log('Items Loaded Successfully');
     });
   } catch (err) {

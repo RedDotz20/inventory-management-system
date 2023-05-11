@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { RowDataPacket } from 'mysql2';
 import connection from '../../config/connection';
 
 async function getProducts(req: Request, res: Response) {
@@ -38,16 +39,19 @@ async function getProducts(req: Request, res: Response) {
 
 async function insertProducts(req: Request, res: Response) {
   try {
-    const { productName, brand, categoryId, unitId, price } = req.body;
-    const productDetails = [productName, brand, categoryId, unitId, price];
+    const { productName, brandName, categoryName, unitName } = req.body;
+    const productDetails = [productName, brandName, categoryName, unitName];
+    console.log(productDetails);
 
-    const query = `INSERT INTO products (productName, brand, categoryId, unitId)
+    const query = `
+    INSERT INTO products (productName, brandName, categoryName, unitName)
     SELECT ?,?,?,? WHERE NOT EXISTS (SELECT * FROM products WHERE productName = ?)`;
 
     await connection.execute(
       query,
       [...productDetails, productName],
-      (error, rows) => {
+      (error, results: RowDataPacket[]) => {
+        const resultData = JSON.parse(JSON.stringify(results));
         if (error) {
           console.error(error);
           res.status(500).json({
@@ -56,15 +60,15 @@ async function insertProducts(req: Request, res: Response) {
           return;
         }
 
-        if (rows.length >= 1) {
-          res.status(201).json({
+        if (resultData.affectedRows >= 1) {
+          return res.status(201).json({
             message: 'New product inserted',
-            insertedProduct: rows[0]
+            insertedProduct: results[0]
           });
         } else {
           const errorMessage = 'The product already exists';
           console.error(errorMessage);
-          res.status(409).send(errorMessage);
+          return res.status(409).send(errorMessage);
         }
       }
     );

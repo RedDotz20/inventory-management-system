@@ -6,14 +6,13 @@ import {
   FormLabel,
   Heading,
   Input,
-  InputGroup,
-  Select
+  InputGroup
 } from '@chakra-ui/react';
-import { ProductInterface } from '@root/shared/interfaces';
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { KeyboardEvent } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { insertProducts } from '../../../../api/products';
 import Backdrop from '../../../../components/Backdrop';
 import Modal from '../../../../components/Modal';
 
@@ -27,39 +26,40 @@ interface AddProductinterface {
 }
 
 function AddProductModal({ closeModal }: ModalProps) {
-  const [isNewCategory, setIsNewCategory] = useState(false);
-  const [isNewUnit, setIsNewUnit] = useState(false);
-
-  const queryClient = useQueryClient(),
-    data = queryClient.getQueryData<ProductInterface>(['productsTable']);
-
   const {
     control,
     trigger,
-    handleSubmit
-    // TODO: Handle Error Response Messages
-    // formState: { isValid, errors }
+    handleSubmit,
+    formState: { errors }
   } = useForm<AddProductinterface>();
 
-  // const addProductMutation = useMutation(insertProducts, {
-  //   onSuccess: (data) => {
-  //     // TODO: handle success
-  //     console.log('insert success');
-  //   },
-  //   onError: (error: unknown) => {
-  //     console.error(error);
-  //   }
-  // });
+  const queryClient = useQueryClient();
+  const addProductMutation = useMutation(insertProducts, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(['productsTable', insertProducts]);
+      closeModal();
+    },
+    onError: (error: unknown) => {
+      console.error(error);
+    }
+  });
 
   const onSubmit: SubmitHandler<AddProductinterface> = async (data) => {
-    console.log(data);
+    addProductMutation.mutateAsync(data);
   };
 
-  const selectOptions = (column: string) => {
-    const selections = Array.isArray(data) && data.map((prod) => prod[column]);
-    return Array.from(new Set(selections || []));
-  };
   const MotionButton = motion(Button);
+
+  const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    const keyCode = e.which || e.keyCode;
+    const isLetterOrSpace =
+      (keyCode >= 65 && keyCode <= 90) || // uppercase letters
+      (keyCode >= 97 && keyCode <= 122) || // lowercase letters
+      keyCode === 32; // space
+    const isBackspace = keyCode === 8;
+    // prevent special characters and numbers
+    if (!isLetterOrSpace && !isBackspace) e.preventDefault();
+  };
 
   return (
     <Backdrop onClick={closeModal}>
@@ -83,21 +83,30 @@ function AddProductModal({ closeModal }: ModalProps) {
             name="productName"
             defaultValue=""
             control={control}
-            rules={{ required: true }}
+            rules={{ required: true, pattern: /^[a-zA-Z]+$/i }}
             render={({ field }) => {
+              const isRequired = errors.productName?.type === 'required';
               return (
-                <InputGroup size="md" mb={4} className="flex flex-col">
-                  <FormLabel htmlFor="productName">Product Name</FormLabel>
+                <InputGroup size="md" mb={2} className="flex flex-col">
+                  <FormLabel htmlFor="productName">
+                    Product Name
+                    {isRequired && (
+                      <span className="text-red-600 text-md"> *</span>
+                    )}
+                  </FormLabel>
                   <Input
                     {...field}
                     onChangeCapture={(e) => {
                       field.onChange(e);
                       trigger('productName');
                     }}
+                    onKeyDown={onKeyPressHandler}
                     variant="filled"
                     id="productName"
                     type="text"
                   />
+
+                  {}
                 </InputGroup>
               );
             }}
@@ -107,17 +116,24 @@ function AddProductModal({ closeModal }: ModalProps) {
             name="brandName"
             defaultValue=""
             control={control}
-            rules={{ required: true }}
+            rules={{ required: true, pattern: /^[a-zA-Z]+$/i }}
             render={({ field }) => {
+              const isRequired = errors.productName?.type === 'required';
               return (
-                <InputGroup size="md" mb={8} className="flex flex-col">
-                  <FormLabel htmlFor="brandName">Brand Name</FormLabel>
+                <InputGroup size="md" mb={2} className="flex flex-col">
+                  <FormLabel htmlFor="brandName">
+                    Brand Name
+                    {isRequired && (
+                      <span className="text-red-600 text-md"> *</span>
+                    )}
+                  </FormLabel>
                   <Input
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);
                       trigger('brandName');
                     }}
+                    onKeyDown={onKeyPressHandler}
                     variant="filled"
                     id="brandName"
                     type="text"
@@ -131,56 +147,29 @@ function AddProductModal({ closeModal }: ModalProps) {
             name="categoryName"
             defaultValue=""
             control={control}
-            rules={{ required: true }}
+            rules={{ required: true, pattern: /^[a-zA-Z]+$/i }}
             render={({ field }) => {
+              const isRequired = errors.categoryName?.type === 'required';
               return (
-                <>
-                  {isNewCategory === false && (
-                    <Select
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        trigger('categoryName');
-                        setIsNewCategory(e.target.value === 'newCategory');
-                      }}
-                      variant="filled"
-                      size="md"
-                      mb={4}
-                      placeholder="Select Category"
-                      id="categoryName"
-                    >
-                      {selectOptions('categoryName').map((category, index) => {
-                        return (
-                          <option key={index} value={category}>
-                            {category}
-                          </option>
-                        );
-                      })}
-                      <option value="newCategory">New Category</option>
-                    </Select>
-                  )}
-                  {isNewCategory === true && (
-                    <Flex mb={4} gap={2}>
-                      <Input
-                        {...field}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          trigger('categoryName');
-                        }}
-                        defaultValue=""
-                        placeholder="Enter new option"
-                      />
-                      <Button
-                        onClick={() => {
-                          field.onChange('selectCategory');
-                          setIsNewCategory(false);
-                        }}
-                      >
-                        Cancel
-                      </Button>
-                    </Flex>
-                  )}
-                </>
+                <InputGroup size="md" mb={2} className="flex flex-col">
+                  <FormLabel htmlFor="categoryName">
+                    Category Name
+                    {isRequired && (
+                      <span className="text-red-600 text-md"> *</span>
+                    )}
+                  </FormLabel>
+                  <Input
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      trigger('categoryName');
+                    }}
+                    onKeyDown={onKeyPressHandler}
+                    variant="filled"
+                    id="categoryName"
+                    type="text"
+                  />
+                </InputGroup>
               );
             }}
           />
@@ -189,56 +178,29 @@ function AddProductModal({ closeModal }: ModalProps) {
             name="unitName"
             defaultValue=""
             control={control}
-            rules={{ required: true }}
+            rules={{ required: true, pattern: /^[a-zA-Z]+$/i }}
             render={({ field }) => {
+              const isRequired = errors.unitName?.type === 'required';
               return (
-                <>
-                  {isNewUnit === false && (
-                    <Select
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        trigger('unitName');
-                        setIsNewUnit(e.target.value === 'newUnit');
-                      }}
-                      variant="filled"
-                      size="md"
-                      mb={4}
-                      placeholder="Select Product Unit"
-                      id="unitName"
-                    >
-                      {selectOptions('unitName').map((category, index) => {
-                        return (
-                          <option key={index} value={category}>
-                            {category}
-                          </option>
-                        );
-                      })}
-                      <option value="newUnit">New Product Unit</option>
-                    </Select>
-                  )}
-                  {isNewUnit === true && (
-                    <Flex mb={4} gap={2}>
-                      <Input
-                        {...field}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          trigger('unitName');
-                        }}
-                        defaultValue=""
-                        placeholder="Enter new option"
-                      />
-                      <Button
-                        onClick={() => {
-                          field.onChange('selectUnit');
-                          setIsNewUnit(false);
-                        }}
-                      >
-                        Cancel
-                      </Button>
-                    </Flex>
-                  )}
-                </>
+                <InputGroup size="md" mb={2} className="flex flex-col">
+                  <FormLabel htmlFor="unitName">
+                    Unit Name
+                    {isRequired && (
+                      <span className="text-red-600 text-md"> *</span>
+                    )}
+                  </FormLabel>
+                  <Input
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      trigger('unitName');
+                    }}
+                    onKeyDown={onKeyPressHandler}
+                    variant="filled"
+                    id="unitName"
+                    type="text"
+                  />
+                </InputGroup>
               );
             }}
           />
