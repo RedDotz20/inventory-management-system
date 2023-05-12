@@ -5,22 +5,39 @@ import connection from '../../config/connection';
 async function getProducts(req: Request, res: Response) {
   try {
     const query = `
-    SELECT 
-      p.productId,
-      p.productName,
-      COUNT(ic.item_code) AS variants,
-      p.brandName,
-      p.categoryName, 
-      p.unitName
-    FROM 
-      Item_codes ic
-      LEFT JOIN products p ON ic.productId = p.productId
-    GROUP BY 
-      p.productName,
-      p.brandName,
-      p.categoryName, 
-      p.unitName;
+      SELECT 
+        p.productId,
+        p.productName,
+        COUNT(ic.item_code) AS variants,
+        p.brandName,
+        p.categoryName, 
+        p.unitName
+      FROM 
+        products p
+        LEFT OUTER JOIN Item_codes ic ON ic.productId = p.productId
+      GROUP BY 
+        p.productId,
+        p.productName,
+        p.brandName,
+        p.categoryName, 
+        p.unitName;
     `;
+
+    //   SELECT
+    //   p.productId,
+    //   p.productName,
+    //   COUNT(ic.item_code) AS variants,
+    //   p.brandName,
+    //   p.categoryName,
+    //   p.unitName
+    // FROM
+    //   Item_codes ic
+    //   LEFT JOIN products p ON ic.productId = p.productId
+    // GROUP BY
+    //   p.productName,
+    //   p.brandName,
+    //   p.categoryName,
+    //   p.unitName;
 
     await connection.execute(query, (error, result) => {
       if (error) throw error;

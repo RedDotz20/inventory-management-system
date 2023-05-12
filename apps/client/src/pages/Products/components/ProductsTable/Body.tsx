@@ -1,6 +1,5 @@
 import { Flex, Tbody, Td, Tr } from '@chakra-ui/react';
 import { ProductInterface } from '@root/shared/interfaces';
-import { UseQueryResult } from '@tanstack/react-query';
 import { useEffect, useMemo } from 'react';
 import TableError from '../../../../components/ErrorInfo/TableError';
 import TableLoader from '../../../../components/Loader/TableLoader';
@@ -9,10 +8,15 @@ import EditProduct from '../EditProduct';
 import useSearchProduct from '../SearchProduct/SearchProductStore';
 import useSortProduct from './SortProductStore';
 
-type QueryProps = { productsQuery: UseQueryResult<ProductInterface[]> };
+// type QueryProps = { productsQuery: UseQueryResult<ProductInterface[]> };
+interface QueryProps {
+  isLoading: boolean;
+  isError: boolean;
+  data?: ProductInterface[];
+  // handleScroll: (e: React.UIEvent<HTMLDivElement>) => void;
+}
 
-function BodyTable({ productsQuery }: QueryProps) {
-  const { isLoading, isError, data } = productsQuery;
+function BodyTable({ isLoading, isError, data }: QueryProps) {
   const { products, setProducts, sortOrder, columnToSort } = useSortProduct();
   const { query } = useSearchProduct();
 
