@@ -42,7 +42,10 @@ function EditProductModal({ closeModal, prod }: ModalProps) {
 
   const MotionButton = motion(Button);
   return (
-    <Backdrop onClick={closeModal}>
+    <Backdrop
+      onClick={closeModal}
+      className="absolute z-[20] top-0 bg-[#0000000f] left-0 h-screen w-screen flex items-center justify-center"
+    >
       <Modal handleClose={closeModal} className="h-[32rem] w-[25rem]">
         <form
           className="flex flex-col h-full"
@@ -83,7 +86,7 @@ function EditProductModal({ closeModal, prod }: ModalProps) {
             name="brandName"
             control={control}
             rules={{ required: true }}
-            defaultValue={prod.brand}
+            defaultValue={prod.brandName}
             render={({ field }) => {
               return (
                 <InputGroup size="md" mb={8} className="flex flex-col">
@@ -117,7 +120,7 @@ function EditProductModal({ closeModal, prod }: ModalProps) {
                   {selectOptions('categoryName').map((category, index) => {
                     return (
                       <option key={index} value={category}>
-                        {`${index + 1}. ${category}`}
+                        {category}
                       </option>
                     );
                   })}
@@ -145,7 +148,7 @@ function EditProductModal({ closeModal, prod }: ModalProps) {
                   {selectOptions('unitName').map((category, index) => {
                     return (
                       <option key={index} value={category}>
-                        {`${index + 1}. ${category}`}
+                        {category}
                       </option>
                     );
                   })}

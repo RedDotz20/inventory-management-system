@@ -69,7 +69,7 @@ function DeleteProductModal({ closeModal, productId }: ModalProps) {
   return (
     <Backdrop
       onClick={closeModal}
-      style={{ backgroundColor: 'rgba(0,0,0,0.3)' }}
+      className="absolute z-[20] top-0 bg-[#0000000f] left-0 h-screen w-screen flex items-center justify-center"
     >
       <Modal
         handleClose={closeModal}

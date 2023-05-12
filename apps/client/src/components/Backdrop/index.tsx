@@ -4,18 +4,19 @@ import ModalPortal from '../Modal/ModalPortal';
 interface BackdropProps {
   children: React.ReactNode;
   style?: { backgroundColor: string };
+  className: string;
   onClick: () => void;
 }
 
-const Backdrop = ({ children, onClick }: BackdropProps) => {
+const Backdrop = ({ children, onClick, ...rest }: BackdropProps) => {
   return (
     <ModalPortal>
       <motion.div
-        className="absolute z-[20] top-0 bg-[#00000080] left-0 h-screen w-screen flex items-center justify-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClick}
+        {...rest}
       >
         {children}
       </motion.div>
