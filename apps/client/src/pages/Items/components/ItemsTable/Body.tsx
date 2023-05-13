@@ -42,9 +42,8 @@ function BodyTable({ itemsQuery }: QueryProps) {
             <Td>{item.productName}</Td>
             <Td width="5%">{item.variant}</Td>
             <Td>{item.item_code === null ? 'None' : item.item_code}</Td>
-            <Td>{item.brand}</Td>
-            <Td>{item.categoryName}</Td>
-            <Td>{item.unitName}</Td>
+            <Td>{item.brandName}</Td>
+            <Td>{item.price}</Td>
             <Td textAlign="center">
               <Flex justify="center" align="center" gap={1}>
                 <RowButton type="edit" />

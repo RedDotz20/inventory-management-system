@@ -23,22 +23,6 @@ async function getProducts(req: Request, res: Response) {
         p.unitName;
     `;
 
-    //   SELECT
-    //   p.productId,
-    //   p.productName,
-    //   COUNT(ic.item_code) AS variants,
-    //   p.brandName,
-    //   p.categoryName,
-    //   p.unitName
-    // FROM
-    //   Item_codes ic
-    //   LEFT JOIN products p ON ic.productId = p.productId
-    // GROUP BY
-    //   p.productName,
-    //   p.brandName,
-    //   p.categoryName,
-    //   p.unitName;
-
     await connection.execute(query, (error, result) => {
       if (error) throw error;
       res
@@ -71,10 +55,9 @@ async function insertProducts(req: Request, res: Response) {
         const resultData = JSON.parse(JSON.stringify(results));
         if (error) {
           console.error(error);
-          res.status(500).json({
+          return res.status(500).json({
             message: 'An error occurred while inserting the product'
           });
-          return;
         }
 
         if (resultData.affectedRows >= 1) {

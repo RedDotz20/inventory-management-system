@@ -9,14 +9,11 @@ async function getItemCodes(req: Request, res: Response) {
       p.productName,
       ic.variant,
       ic.item_code,
-      p.brand,
-      pc.categoryName, 
-      pu.unitName
+      p.brandName,
+      ic.price
     FROM 
       Item_codes ic
-      LEFT JOIN products p ON ic.productId = p.productId
-      LEFT JOIN product_category pc ON p.category_id = pc.category_id
-      LEFT JOIN product_unit pu ON p.unit_id = pu.unit_id;`;
+      LEFT JOIN products p ON ic.productId = p.productId`;
 
     await connection.execute(query, (error, results) => {
       if (error) throw error;

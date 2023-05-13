@@ -71,12 +71,8 @@ export default function Header() {
           BRAND {getArrowSymbol(columnToSort, 'brand', sortOrder)}
         </THeader>
 
-        <THeader onClick={() => handleSortClick('categoryName')}>
-          CATEGORY {getArrowSymbol(columnToSort, 'categoryName', sortOrder)}
-        </THeader>
-
-        <THeader onClick={() => handleSortClick('unitName')}>
-          UNIT {getArrowSymbol(columnToSort, 'unitName', sortOrder)}
+        <THeader onClick={() => handleSortClick('price')}>
+          PRICE {getArrowSymbol(columnToSort, 'price', sortOrder)}
         </THeader>
 
         <THeader>
