@@ -4,7 +4,7 @@ import connection from '../../config/connection';
 async function getProductListOrder(req: Request, res: Response) {
   try {
     const query = `
-      SELECT p.productName, p.brand,
+      SELECT p.productName, p.brandName,
       GROUP_CONCAT(DISTINCT i.item_code_id ORDER BY i.item_code_id ASC SEPARATOR ', ') AS item_code_ids,
       GROUP_CONCAT(DISTINCT i.item_code ORDER BY i.item_code ASC SEPARATOR ', ') AS item_codes,
       GROUP_CONCAT(DISTINCT i.variant ORDER BY i.variant ASC SEPARATOR ', ') AS variants,
@@ -12,7 +12,7 @@ async function getProductListOrder(req: Request, res: Response) {
       GROUP_CONCAT(DISTINCT i.stockQuantity ORDER BY i.stockQuantity ASC SEPARATOR ', ') AS stockQuantities
       FROM item_codes i
       JOIN products p ON i.productId = p.productId
-      GROUP BY p.productName, p.brand;
+      GROUP BY p.productName, p.brandName;
     `;
 
     await connection.execute(query, (error, result) => {

@@ -32,7 +32,10 @@ function BuyNow({ itemData, selectedVariant, itemQuantity, closeModal }: any) {
   const MotionButton = motion(Button);
 
   return (
-    <Backdrop onClick={closeModal}>
+    <Backdrop
+      onClick={closeModal}
+      className="absolute z-[20] top-0 bg-[#0000009b] left-0 h-screen w-screen flex items-center justify-center"
+    >
       <Modal handleClose={closeModal} className="h-[24rem] w-[25rem]">
         <CloseButton
           size="lg"

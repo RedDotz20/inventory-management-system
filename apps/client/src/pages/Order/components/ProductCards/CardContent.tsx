@@ -43,10 +43,14 @@ function CardContent({ productItem }: any) {
     variants: parseToArray.toStr(productItem.variants)
   };
 
+  const variantPrice =
+    selectedVariant &&
+    parsedData.prices[parsedData.variants.indexOf(selectedVariant)];
+
   const isAvailable = (): boolean => {
     if (!selectedVariant) return false;
     const index = parsedData.variants.indexOf(selectedVariant);
-    return parsedData.stocks[index] > 0;
+    return parsedData.stocks[index] > 0 && variantPrice !== undefined;
   };
 
   return (
@@ -73,14 +77,18 @@ function CardContent({ productItem }: any) {
               Quantity
             </Text>
             <Box display="flex" alignItems="center" width="full">
-              <Text color="green" fontSize="2xl" mr="auto">
+              <Text
+                color="green"
+                fontSize={
+                  selectedVariant ? (!variantPrice ? `lg` : '2xl') : 'lg'
+                }
+                mr="auto"
+              >
                 {selectedVariant
-                  ? `₱${
-                      parsedData.prices[
-                        parsedData.variants.indexOf(selectedVariant)
-                      ]
-                    }`
-                  : '₱0'}
+                  ? !variantPrice
+                    ? `Unavailable`
+                    : `₱${variantPrice}`
+                  : 'Select Variant'}
               </Text>
               <Button
                 isDisabled={quantity <= 1}
