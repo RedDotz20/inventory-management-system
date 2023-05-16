@@ -36,7 +36,7 @@ function AddProductModal({ closeModal }: ModalProps) {
   const queryClient = useQueryClient();
   const addProductMutation = useMutation(insertProducts, {
     onSuccess: (data) => {
-      queryClient.invalidateQueries(['productsTable', insertProducts]);
+      queryClient.invalidateQueries(['productsTable']);
       closeModal();
     },
     onError: (error: unknown) => {
