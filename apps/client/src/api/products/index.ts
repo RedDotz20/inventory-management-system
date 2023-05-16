@@ -2,11 +2,12 @@
 // import { AxiosResponse } from 'axios';
 import { axiosInstance } from '../axios';
 
-interface AddProductinterface {
+interface Productinterface {
   productName: string;
   brandName: string;
   categoryName: string;
   unitName: string;
+  productId?: number;
 }
 
 async function getProducts() {
@@ -16,13 +17,28 @@ async function getProducts() {
     .catch((error) => console.error(error));
 }
 
-async function insertProducts(newProducts: AddProductinterface) {
-  const response = await axiosInstance.post('/insertproduct', {
-    productName: newProducts.productName,
-    brandName: newProducts.brandName,
-    categoryName: newProducts.categoryName,
-    unitName: newProducts.unitName
-  });
+async function insertProducts(newProducts: Productinterface) {
+  const response = await axiosInstance
+    .post('/insertproduct', {
+      productName: newProducts.productName,
+      brandName: newProducts.brandName,
+      categoryName: newProducts.categoryName,
+      unitName: newProducts.unitName
+    })
+    .catch((error) => console.error(error));
+  return response;
+}
+
+async function editProducts(modifyProducts: Productinterface) {
+  const response = await axiosInstance
+    .put('/editproduct', {
+      productName: modifyProducts.productName,
+      brandName: modifyProducts.brandName,
+      categoryName: modifyProducts.categoryName,
+      unitName: modifyProducts.unitName,
+      productId: modifyProducts.productId
+    })
+    .catch((error) => console.error(error));
   return response;
 }
 
@@ -32,4 +48,4 @@ async function deleteProducts(id: number) {
     .catch((err) => console.error(err));
 }
 
-export { getProducts, insertProducts, deleteProducts };
+export { getProducts, insertProducts, editProducts, deleteProducts };

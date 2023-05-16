@@ -3,19 +3,18 @@ import { FormLabel } from '@chakra-ui/form-control';
 import { Input, InputGroup } from '@chakra-ui/input';
 import { Flex, Heading } from '@chakra-ui/layout';
 import { CloseButton } from '@chakra-ui/react';
-import { Select } from '@chakra-ui/select';
-import { ProductInterface } from '@root/shared/interfaces';
-import { useQueryClient } from '@tanstack/react-query';
+// import { ProductInterface } from '@root/shared/interfaces';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Backdrop from '../../../../components/Backdrop';
 import Modal from '../../../../components/Modal';
+import { stringOnlyInput } from '../../../../utils/stringOnlyInput';
 import { EditFieldInterface, InputProps, ModalProps } from './types';
 
-function EditProductModal({ closeModal, prod }: ModalProps) {
-  const queryClient = useQueryClient(),
-    data = queryClient.getQueryData<ProductInterface>(['productsTable']);
+import { editProducts } from '../../../../api/products';
 
+function EditProductModal({ closeModal, prod }: ModalProps) {
   const {
     control,
     trigger,
@@ -24,13 +23,26 @@ function EditProductModal({ closeModal, prod }: ModalProps) {
     // formState: { isValid, errors }
   } = useForm<EditFieldInterface>();
 
-  const selectOptions = (column: string) => {
-    const selections = Array.isArray(data) && data.map((prod) => prod[column]);
-    return Array.from(new Set(selections || []));
-  };
+  const queryClient = useQueryClient();
+  const editProductMutation = useMutation(editProducts, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(['productsTable']);
+      closeModal();
+    },
+    onError: (error: unknown) => {
+      console.log(error);
+    }
+  });
+
+  // const selectOptions = (column: string) => {
+  //   const selections = Array.isArray(data) && data.map((prod) => prod[column]);
+  //   return Array.from(new Set(selections || []));
+  // };
 
   const onSubmit: SubmitHandler<EditFieldInterface> = async (data) => {
-    console.log(data);
+    //? bind productId to data
+    data.productId = prod.productId;
+    editProductMutation.mutateAsync(data);
   };
 
   const handleChange =
@@ -65,7 +77,7 @@ function EditProductModal({ closeModal, prod }: ModalProps) {
           <Controller
             name="productName"
             control={control}
-            rules={{ required: true }}
+            rules={{ required: true, pattern: /^[a-zA-Z]+$/i }}
             defaultValue={prod.productName}
             render={({ field }) => {
               return (
@@ -74,6 +86,7 @@ function EditProductModal({ closeModal, prod }: ModalProps) {
                   <Input
                     {...field}
                     onChange={handleChange(field, trigger)}
+                    onKeyDown={stringOnlyInput}
                     variant="filled"
                     id="productName"
                   />
@@ -85,7 +98,7 @@ function EditProductModal({ closeModal, prod }: ModalProps) {
           <Controller
             name="brandName"
             control={control}
-            rules={{ required: true }}
+            rules={{ required: true, pattern: /^[a-zA-Z]+$/i }}
             defaultValue={prod.brandName}
             render={({ field }) => {
               return (
@@ -94,6 +107,7 @@ function EditProductModal({ closeModal, prod }: ModalProps) {
                   <Input
                     {...field}
                     onChange={handleChange(field, trigger)}
+                    onKeyDown={stringOnlyInput}
                     variant="filled"
                     id="brandName"
                   />
@@ -104,56 +118,62 @@ function EditProductModal({ closeModal, prod }: ModalProps) {
 
           <Controller
             name="categoryName"
-            control={control}
-            rules={{ required: true }}
             defaultValue={prod.categoryName}
+            control={control}
+            rules={{ required: true, pattern: /^[a-zA-Z]+$/i }}
             render={({ field }) => {
+              // const isRequired = errors.categoryName?.type === 'required';
               return (
-                <Select
-                  {...field}
-                  onChange={handleChange(field, trigger)}
-                  variant="filled"
-                  size="md"
-                  mb={4}
-                  placeholder="Select Category"
-                >
-                  {selectOptions('categoryName').map((category, index) => {
-                    return (
-                      <option key={index} value={category}>
-                        {category}
-                      </option>
-                    );
-                  })}
-                  <option value="newCategory">New Category</option>
-                </Select>
+                <InputGroup size="md" mb={2} className="flex flex-col">
+                  <FormLabel htmlFor="categoryName">
+                    Category Name
+                    {/* {isRequired && (
+                      <span className="text-red-600 text-md"> *</span>
+                    )} */}
+                  </FormLabel>
+                  <Input
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      trigger('categoryName');
+                    }}
+                    onKeyDown={stringOnlyInput}
+                    variant="filled"
+                    id="categoryName"
+                    type="text"
+                  />
+                </InputGroup>
               );
             }}
           />
 
           <Controller
             name="unitName"
-            control={control}
-            rules={{ required: true }}
             defaultValue={prod.unitName}
+            control={control}
+            rules={{ required: true, pattern: /^[a-zA-Z]+$/i }}
             render={({ field }) => {
+              // const isRequired = errors.unitName?.type === 'required';
               return (
-                <Select
-                  {...field}
-                  onChange={handleChange(field, trigger)}
-                  variant="filled"
-                  size="md"
-                  mb={4}
-                  placeholder="Select Product Unit"
-                >
-                  {selectOptions('unitName').map((category, index) => {
-                    return (
-                      <option key={index} value={category}>
-                        {category}
-                      </option>
-                    );
-                  })}
-                  <option value="newUnit">New Product Unit</option>
-                </Select>
+                <InputGroup size="md" mb={2} className="flex flex-col">
+                  <FormLabel htmlFor="unitName">
+                    Unit Name
+                    {/* {isRequired && (
+                      <span className="text-red-600 text-md"> *</span>
+                    )} */}
+                  </FormLabel>
+                  <Input
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      trigger('unitName');
+                    }}
+                    onKeyDown={stringOnlyInput}
+                    variant="filled"
+                    id="unitName"
+                    type="text"
+                  />
+                </InputGroup>
               );
             }}
           />

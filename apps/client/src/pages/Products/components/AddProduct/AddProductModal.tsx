@@ -10,9 +10,10 @@ import {
 } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { KeyboardEvent } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { insertProducts } from '../../../../api/products';
+import { stringOnlyInput } from '../../../../utils/stringOnlyInput';
+
 import Backdrop from '../../../../components/Backdrop';
 import Modal from '../../../../components/Modal';
 
@@ -49,17 +50,6 @@ function AddProductModal({ closeModal }: ModalProps) {
   };
 
   const MotionButton = motion(Button);
-
-  const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    const keyCode = e.which || e.keyCode;
-    const isLetterOrSpace =
-      (keyCode >= 65 && keyCode <= 90) || // uppercase letters
-      (keyCode >= 97 && keyCode <= 122) || // lowercase letters
-      keyCode === 32; // space
-    const isBackspace = keyCode === 8;
-    // prevent special characters and numbers
-    if (!isLetterOrSpace && !isBackspace) e.preventDefault();
-  };
 
   return (
     <Backdrop
@@ -103,7 +93,7 @@ function AddProductModal({ closeModal }: ModalProps) {
                       field.onChange(e);
                       trigger('productName');
                     }}
-                    onKeyDown={onKeyPressHandler}
+                    onKeyDown={stringOnlyInput}
                     variant="filled"
                     id="productName"
                     type="text"
@@ -136,7 +126,7 @@ function AddProductModal({ closeModal }: ModalProps) {
                       field.onChange(e);
                       trigger('brandName');
                     }}
-                    onKeyDown={onKeyPressHandler}
+                    onKeyDown={stringOnlyInput}
                     variant="filled"
                     id="brandName"
                     type="text"
@@ -167,7 +157,7 @@ function AddProductModal({ closeModal }: ModalProps) {
                       field.onChange(e);
                       trigger('categoryName');
                     }}
-                    onKeyDown={onKeyPressHandler}
+                    onKeyDown={stringOnlyInput}
                     variant="filled"
                     id="categoryName"
                     type="text"
@@ -198,7 +188,7 @@ function AddProductModal({ closeModal }: ModalProps) {
                       field.onChange(e);
                       trigger('unitName');
                     }}
-                    onKeyDown={onKeyPressHandler}
+                    onKeyDown={stringOnlyInput}
                     variant="filled"
                     id="unitName"
                     type="text"

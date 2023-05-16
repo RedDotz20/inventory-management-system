@@ -3,26 +3,26 @@ import { RowDataPacket } from 'mysql2';
 import connection from '../../config/connection';
 
 async function getProducts(req: Request, res: Response) {
-  try {
-    const query = `
-      SELECT 
-        p.productId,
-        p.productName,
-        COUNT(ic.item_code) AS variants,
-        p.brandName,
-        p.categoryName, 
-        p.unitName
-      FROM 
-        products p
-        LEFT OUTER JOIN Item_codes ic ON ic.productId = p.productId
-      GROUP BY 
-        p.productId,
-        p.productName,
-        p.brandName,
-        p.categoryName, 
-        p.unitName;
-    `;
+  const query = `
+    SELECT 
+      p.productId,
+      p.productName,
+      COUNT(ic.item_code) AS variants,
+      p.brandName,
+      p.categoryName, 
+      p.unitName
+    FROM 
+      products p
+      LEFT OUTER JOIN Item_codes ic ON ic.productId = p.productId
+    GROUP BY 
+      p.productId,
+      p.productName,
+      p.brandName,
+      p.categoryName, 
+      p.unitName;
+  `;
 
+  try {
     await connection.execute(query, (error, result) => {
       if (error) throw error;
       res
@@ -39,15 +39,14 @@ async function getProducts(req: Request, res: Response) {
 }
 
 async function insertProducts(req: Request, res: Response) {
+  const { productName, brandName, categoryName, unitName } = req.body;
+  const productDetails = [productName, brandName, categoryName, unitName];
+
+  const query = `
+  INSERT INTO products (productName, brandName, categoryName, unitName)
+  SELECT ?,?,?,? WHERE NOT EXISTS (SELECT * FROM products WHERE productName = ?)`;
+
   try {
-    const { productName, brandName, categoryName, unitName } = req.body;
-    const productDetails = [productName, brandName, categoryName, unitName];
-    console.log(productDetails);
-
-    const query = `
-    INSERT INTO products (productName, brandName, categoryName, unitName)
-    SELECT ?,?,?,? WHERE NOT EXISTS (SELECT * FROM products WHERE productName = ?)`;
-
     await connection.execute(
       query,
       [...productDetails, productName],
@@ -80,9 +79,38 @@ async function insertProducts(req: Request, res: Response) {
   }
 }
 
-async function deleteProducts(req: Request, res: Response) {
+async function editProducts(req: Request, res: Response) {
+  const data = [
+    req.body.productName,
+    req.body.brandName,
+    req.body.categoryName,
+    req.body.unitName,
+    req.body.productId
+  ];
+
+  const query = `
+    UPDATE products 
+    SET productName=?, brandName=?, categoryName=?, unitName=? 
+    WHERE productId=?
+  `;
+
   try {
-    const query = 'DELETE FROM products WHERE productId=?';
+    await connection.execute(query, [...data], (error) => {
+      if (error) throw error;
+      console.log('product edit successfully');
+      return res.status(201).json({ message: 'product updated successfully' });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'An error occurred while inserting the product'
+    });
+  }
+}
+
+async function deleteProducts(req: Request, res: Response) {
+  const query = 'DELETE FROM products WHERE productId=?';
+  try {
     await connection.execute(query, [req.query.id], (error) => {
       if (error) throw error;
       return res.status(201).json({ message: 'product deleted successfully' });
@@ -98,5 +126,6 @@ async function deleteProducts(req: Request, res: Response) {
 export default {
   getProducts,
   insertProducts,
+  editProducts,
   deleteProducts
 };
