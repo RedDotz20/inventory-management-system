@@ -19,6 +19,9 @@ function DeleteProductContent({ closeModal, productId }: ModalProps) {
       onSuccess: () => {
         queryClient.invalidateQueries(['productsTable']);
         closeModal();
+      },
+      onError: (error: unknown) => {
+        console.error(error);
       }
     }
   );
@@ -53,7 +56,7 @@ function DeleteProductContent({ closeModal, productId }: ModalProps) {
 
         <MotionButton
           width="100%"
-          onClick={() => handleDelete}
+          onClick={() => handleDelete()}
           colorScheme="red"
           whileTap={{ scale: 0.9 }}
           disabled={isLoading}

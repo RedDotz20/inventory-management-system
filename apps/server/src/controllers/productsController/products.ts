@@ -80,7 +80,23 @@ async function insertProducts(req: Request, res: Response) {
   }
 }
 
+async function deleteProducts(req: Request, res: Response) {
+  try {
+    const query = 'DELETE FROM products WHERE productId=?';
+    await connection.execute(query, [req.query.id], (error) => {
+      if (error) throw error;
+      return res.status(201).json({ message: 'product deleted successfully' });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'An error occurred while inserting the product'
+    });
+  }
+}
+
 export default {
   getProducts,
-  insertProducts
+  insertProducts,
+  deleteProducts
 };
