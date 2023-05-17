@@ -6,10 +6,18 @@ interface DeleteModalState {
   closeDeleteModal: () => void;
 }
 
-const useDeleteProductStore = create<DeleteModalState>((set) => ({
-  deleteIsOpen: false,
-  openDeleteModal: () => set({ deleteIsOpen: true }),
-  closeDeleteModal: () => set({ deleteIsOpen: false }),
+interface DeleteIdState {
+  deleteId: number;
+  setDeleteId: (id: number) => void;
+}
+
+export const useDeleteId = create<DeleteIdState>((set) => ({
+  deleteId: 0,
+  setDeleteId: (id) => set({ deleteId: id })
 }));
 
-export default useDeleteProductStore;
+export const useDeleteProductStore = create<DeleteModalState>((set) => ({
+  deleteIsOpen: false,
+  openDeleteModal: () => set({ deleteIsOpen: true }),
+  closeDeleteModal: () => set({ deleteIsOpen: false })
+}));

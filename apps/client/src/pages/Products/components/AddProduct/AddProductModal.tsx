@@ -89,7 +89,7 @@ function AddProductModal({ closeModal }: ModalProps) {
                   </FormLabel>
                   <Input
                     {...field}
-                    onChangeCapture={(e) => {
+                    onChange={(e) => {
                       field.onChange(e);
                       trigger('productName');
                     }}
