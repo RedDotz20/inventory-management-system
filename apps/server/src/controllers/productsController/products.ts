@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
+import asyncHandler from 'express-async-handler';
 import { RowDataPacket } from 'mysql2';
 import connection from '../../config/connection';
 
-async function getProducts(req: Request, res: Response) {
+const getProducts = asyncHandler(async (req: Request, res: Response) => {
   const query = `
     SELECT 
       p.productId,
@@ -22,21 +23,13 @@ async function getProducts(req: Request, res: Response) {
       p.unitName;
   `;
 
-  try {
-    await connection.execute(query, (error, result) => {
-      if (error) throw error;
-      res
-        .status(201)
-        .json({ message: 'Products Loaded Successfully', product: result });
-      console.log('Products Loaded Successfully');
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      message: 'An Error occurred while retrieving Products'
-    });
-  }
-}
+  const successMessage = 'Products Loaded Successfully';
+  await connection.execute(query, (error, result) => {
+    if (error) throw error;
+    res.status(201).json({ message: successMessage, product: result });
+    console.log(successMessage);
+  });
+});
 
 async function insertProducts(req: Request, res: Response) {
   const { productName, brandName, categoryName, unitName } = req.body;
