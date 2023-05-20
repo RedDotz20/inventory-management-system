@@ -1,5 +1,3 @@
-// import { ProductInterface } from '@root/shared/interfaces';
-// import { AxiosResponse } from 'axios';
 import { axiosInstance } from '../axios';
 
 interface Productinterface {
@@ -10,14 +8,14 @@ interface Productinterface {
   productId?: number;
 }
 
-async function getProducts() {
+export async function getProducts() {
   return await axiosInstance
     .get(`/getproducts`)
     .then((response) => response.data.product)
     .catch((error) => console.error(error));
 }
 
-async function insertProducts(newProducts: Productinterface) {
+export async function insertProducts(newProducts: Productinterface) {
   const response = await axiosInstance
     .post('/insertproduct', {
       productName: newProducts.productName,
@@ -29,7 +27,7 @@ async function insertProducts(newProducts: Productinterface) {
   return response;
 }
 
-async function editProducts(modifyProducts: Productinterface) {
+export async function editProducts(modifyProducts: Productinterface) {
   const response = await axiosInstance
     .put('/editproduct', {
       productName: modifyProducts.productName,
@@ -42,10 +40,8 @@ async function editProducts(modifyProducts: Productinterface) {
   return response;
 }
 
-async function deleteProducts(id: number) {
+export async function deleteProducts(id: number) {
   return await axiosInstance
     .delete(`/deleteproduct/?id=${id}`)
     .catch((err) => console.error(err));
 }
-
-export { getProducts, insertProducts, editProducts, deleteProducts };

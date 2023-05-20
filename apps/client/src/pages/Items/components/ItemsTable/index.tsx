@@ -1,7 +1,7 @@
 import { Box, Table, TableContainer } from '@chakra-ui/react';
 import { ItemsInterface } from '@root/shared/interfaces';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import items from '../../../../api/items';
+import { getItems } from '../../../../api/items';
 
 import useSortItem from '../../store/SortItemStore';
 import BodyTable from './Body';
@@ -12,7 +12,7 @@ export default function ItemsTable() {
 
   const itemsQuery = useQuery({
     queryKey: ['itemsTable', sortOrder, columnToSort],
-    queryFn: items.getItems,
+    queryFn: getItems,
     select: (data: ItemsInterface[]) => {
       return [...data].sort((a, b) => {
         const columnA = a[columnToSort];
