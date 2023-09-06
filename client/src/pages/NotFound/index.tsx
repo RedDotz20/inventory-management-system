@@ -11,7 +11,7 @@ function NotFound() {
 
   return (
     <div className="bg-[#333] h-screen w-screen flex flex-col items-center justify-center">
-      <h1 className="text-white text-4xl font-bold mb-4">404 Not Found</h1>
+      <h1 className="mb-4 text-4xl font-bold text-white">404 Not Found</h1>
     </div>
   );
 }

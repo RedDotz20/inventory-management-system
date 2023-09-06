@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
 import {
   Input,
@@ -9,9 +9,12 @@ import {
   Heading,
 } from '@chakra-ui/react';
 
-import IsAuthenticated from '../../utils/IsAuthenticated';
-import StoreLogo from '../../components/StoreLogo';
-import loginInterface from './types';
+import IsAuthenticated from '../../utils/isAuthenticated';
+
+interface loginInterface extends FieldValues {
+  username: string;
+  password: string;
+}
 
 export default function Login() {
   const [showPass, setShowPass] = useState(false);
@@ -39,9 +42,9 @@ export default function Login() {
   };
 
   return (
-    <div className="bg-[#1e1e1e] h-screen grid place-items-center pt-8">
+    <div className="bg-[#1e1e1e] min-h-screen grid place-items-center pt-8 w-full overflow-hidden">
       <form
-        className="bg-[#d9d9d9] flex flex-col my-0 mx-auto p-7 h-[500px] w-80 rounded-xl"
+        className="bg-[#d9d9d9] flex flex-col my-0 mx-auto p-7 h-[25rem] w-80 rounded-xl"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Heading fontSize="2xl" m={4} display="flex" justifyContent="center">

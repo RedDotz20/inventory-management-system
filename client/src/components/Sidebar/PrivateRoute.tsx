@@ -1,8 +1,7 @@
-import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 
-const PrivateRoute = (props: { children: ReactNode }) => {
+const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   const token = localStorage.getItem('token');
   if (token) {
     const decoded: JwtPayload = jwt_decode(token);
@@ -12,7 +11,7 @@ const PrivateRoute = (props: { children: ReactNode }) => {
       localStorage.removeItem('token');
       return <Navigate to="/login" replace={true} />;
     }
-    return <>{props.children}</>;
+    return <>{children}</>;
   }
   return <Navigate to="/login" replace={true} />;
 };

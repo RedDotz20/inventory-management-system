@@ -10,8 +10,8 @@ function LoginMssgBox() {
       if (root instanceof Element) {
         root.render(
           <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="bg-white rounded-lg p-6 animate-fade-in">
-              <h2 className="text-lg font-medium mb-2">Welcome back!</h2>
+            <div className="p-6 bg-white rounded-lg animate-fade-in">
+              <h2 className="mb-2 text-lg font-medium">Welcome back!</h2>
               <p>You have successfully logged in.</p>
             </div>
           </div>

@@ -1,15 +1,16 @@
-import { StrictMode } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
+import ErrorBoundery from './ErrorBoundery';
 
 import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter } from 'react-router-dom';
 
-import 'typeface-roboto';
 import App from './App';
-import './index.css';
 import theme from './theme';
+import 'typeface-roboto';
+import './index.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,19 +22,17 @@ const queryClient = new QueryClient({
   },
 });
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-
-root.render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <ChakraProvider theme={theme}>
-        <BrowserRouter>
-          <App />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </BrowserRouter>
-      </ChakraProvider>
-    </QueryClientProvider>
-  </StrictMode>
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <React.StrictMode>
+    <ErrorBoundery fallback={<h1>Something went wrong</h1>}>
+      <QueryClientProvider client={queryClient}>
+        <ChakraProvider theme={theme}>
+          <BrowserRouter>
+            <App />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </BrowserRouter>
+        </ChakraProvider>
+      </QueryClientProvider>
+    </ErrorBoundery>
+  </React.StrictMode>
 );

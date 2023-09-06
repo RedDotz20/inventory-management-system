@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { AddIcon } from '@chakra-ui/icons';
-import ProductInterface from './type';
 import {
   Stack,
   Button,
@@ -15,6 +14,16 @@ import {
 import SearchBox from '../../components/SearchBox';
 import products from '../../api/products';
 
+interface ProductInterface {
+  productId: number;
+  productName: string;
+  brand: string;
+  categoryName: string;
+  unitName: string;
+  itemCodes: string;
+  price: GLfloat;
+}
+
 export default function Products() {
   const { isLoading, isError, data } = useQuery(['productsTable'], {
     queryFn: products.getProducts,
@@ -24,8 +33,8 @@ export default function Products() {
   if (isError) return <span>An Error has occured</span>;
 
   return (
-    <div className="w-full flex p-8 flex-col">
-      <h1 className="text-3xl mb-8">Products Page</h1>
+    <div className="flex flex-col w-full p-8">
+      <h1 className="mb-8 text-3xl">Products Page</h1>
       <div className="flex flex-col">
         <div className="flex">
           <SearchBox
@@ -37,7 +46,7 @@ export default function Products() {
           <Stack direction="row">
             <Button
               leftIcon={<AddIcon />}
-              className="mt-auto mb-4 mx-4"
+              className="mx-4 mt-auto mb-4"
               colorScheme="orange"
             >
               Add
