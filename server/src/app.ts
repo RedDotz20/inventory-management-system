@@ -28,8 +28,8 @@ app.use(hpp());
 
 //? Routes
 app.use(userAuthRoute);
-app.use(productsRoute);
-app.use(itemCodesRoute);
-app.use(stocksRoute);
+// app.use(productsRoute);
+// app.use(itemCodesRoute);
+// app.use(stocksRoute);
 
 export default app;

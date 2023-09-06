@@ -1,0 +1,38 @@
+{
+  "name": "sad21-ims-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "workspaces": {
+    "packages": [
+      "client",
+      "server"
+    ],
+    "nohoist": [
+      "**"
+    ]
+  },
+  "scripts": {
+    "install:client": "cd client && npm install",
+    "install:server": "cd server && npm install",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "build": "npm run build:client && npm run build:server",
+    "preview": "concurrently \"npm run preview:client\" \"npm run preview:server\"",
+    "prod": "npm run build && npm run preview",
+    "dev:client": "cd client && npm run dev",
+    "build:client": "cd client && npm run build",
+    "preview:client": "cd client && npm run preview",
+    "dev:server": "cd server && npm run start",
+    "build:server": "cd server && npm run build",
+    "preview:server": "cd server && npm run preview",
+    "clean:dist": "rimraf ./server/dist && rimraf ./client/dist",
+    "clean:modules": "rimraf ./node_modules"
+  },
+  "keywords": [],
+  "author": "RedDotz20",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.1"
+  }
+}

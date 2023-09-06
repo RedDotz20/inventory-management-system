@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Input, InputGroup, Button, InputRightElement } from '@chakra-ui/react';
+import {
+  Input,
+  InputGroup,
+  Button,
+  InputRightElement,
+  Heading,
+} from '@chakra-ui/react';
 
 import IsAuthenticated from '../../utils/IsAuthenticated';
 import StoreLogo from '../../components/StoreLogo';
@@ -38,7 +44,10 @@ export default function Login() {
         className="bg-[#d9d9d9] flex flex-col my-0 mx-auto p-7 h-[500px] w-80 rounded-xl"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <StoreLogo />
+        <Heading fontSize="2xl" m={4} display="flex" justifyContent="center">
+          Login Page
+        </Heading>
+
         <InputGroup size="md" className="flex flex-col mb-4">
           <label htmlFor="username" className="font-semibold">
             Username

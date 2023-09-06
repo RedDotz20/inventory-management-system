@@ -10,16 +10,14 @@ const createTables = async (): Promise<void> => {
   try {
     const models = [
       usersModel,
-      productUnitModel,
-      productCategoryModel,
-      productsModel,
-      itemCodesModel,
-      stocksModel,
+      // productUnitModel,
+      // productCategoryModel,
+      // productsModel,
+      // itemCodesModel,
+      // stocksModel,
     ];
 
-    models.forEach(async (model) => {
-      await connection.execute(model);
-    });
+    models.forEach((model) => connection.execute(model));
 
     console.log(`Tables Sucessfully Synced`);
   } catch (err) {

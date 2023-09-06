@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config({ debug: true, path: '../../../../.env' });
+dotenv.config();
 
 const MYSQL = {
   host: process.env.MYSQL_HOST,
